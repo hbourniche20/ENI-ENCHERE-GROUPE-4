@@ -25,19 +25,19 @@ public class Encheres {
 		this.montant_enchere = montant_enchere;
 	}
 
-	public int getNo_enchere() {
+	public int getNoEnchere() {
 		return no_enchere;
 	}
 
-	public void setNo_enchere(int no_enchere) {
+	public void setNoEnchere(int no_enchere) {
 		this.no_enchere = no_enchere;
 	}
 
-	public Date getDate_enchere() {
+	public Date getDateEnchere() {
 		return date_enchere;
 	}
 
-	public void setDate_enchere(Date date_enchere) {
+	public void setDateEnchere(Date date_enchere) {
 		this.date_enchere = date_enchere;
 	}
 

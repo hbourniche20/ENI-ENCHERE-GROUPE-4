@@ -47,11 +47,11 @@ public class Utilisateur {
 	public Utilisateur() {
 	}
 
-	public int getNo_utilisateur() {
+	public int getNoUtilisateur() {
 		return no_utilisateur;
 	}
 
-	public void setNo_utilisateur(int no_utilisateur) {
+	public void setNoUtilisateur(int no_utilisateur) {
 		this.no_utilisateur = no_utilisateur;
 	}
 
@@ -111,11 +111,11 @@ public class Utilisateur {
 		this.ville = ville;
 	}
 
-	public String getMot_de_passe() {
+	public String getMotDePasse() {
 		return mot_de_passe;
 	}
 
-	public void setMot_de_passe(String mot_de_passe) {
+	public void setMotDePasse(String mot_de_passe) {
 		this.mot_de_passe = mot_de_passe;
 	}
 
