@@ -20,11 +20,11 @@ public class Categories {
 		this.libelle = libelle;
 	}
 
-	public int getNo_categorie() {
+	public int getNoCategorie() {
 		return no_categorie;
 	}
 
-	public void setNo_categorie(int no_categorie) {
+	public void setNoCategorie(int no_categorie) {
 		this.no_categorie = no_categorie;
 	}
 

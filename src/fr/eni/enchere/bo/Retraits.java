@@ -26,11 +26,11 @@ public class Retraits {
 		this.ville = ville;
 	}
 
-	public int getNo_retrait() {
+	public int getNoRetrait() {
 		return no_retrait;
 	}
 
-	public void setNo_retrait(int no_retrait) {
+	public void setNoRetrait(int no_retrait) {
 		this.no_retrait = no_retrait;
 	}
 
@@ -42,11 +42,11 @@ public class Retraits {
 		this.rue = rue;
 	}
 
-	public String getCode_postal() {
+	public String getCodePostal() {
 		return code_postal;
 	}
 
-	public void setCode_postal(String code_postal) {
+	public void setCodePostal(String code_postal) {
 		this.code_postal = code_postal;
 	}
 

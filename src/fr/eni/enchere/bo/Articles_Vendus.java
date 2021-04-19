@@ -38,19 +38,19 @@ public class Articles_Vendus {
 		this.prix_vente = prix_vente;
 	}
 
-	public int getNo_article() {
+	public int getNoArticle() {
 		return no_article;
 	}
 
-	public void setNo_article(int no_article) {
+	public void setNoArticle(int no_article) {
 		this.no_article = no_article;
 	}
 
-	public String getNom_article() {
+	public String getNomArticle() {
 		return nom_article;
 	}
 
-	public void setNom_article(String nom_article) {
+	public void setNomArticle(String nom_article) {
 		this.nom_article = nom_article;
 	}
 
@@ -62,35 +62,35 @@ public class Articles_Vendus {
 		this.description = description;
 	}
 
-	public Date getDate_debut_encheres() {
+	public Date getDateDebutEncheres() {
 		return date_debut_encheres;
 	}
 
-	public void setDate_debut_encheres(Date date_debut_encheres) {
+	public void setDateDebutEncheres(Date date_debut_encheres) {
 		this.date_debut_encheres = date_debut_encheres;
 	}
 
-	public Date getDate_fin_encheres() {
+	public Date getDateFinEncheres() {
 		return date_fin_encheres;
 	}
 
-	public void setDate_fin_encheres(Date date_fin_encheres) {
+	public void setDateFinEncheres(Date date_fin_encheres) {
 		this.date_fin_encheres = date_fin_encheres;
 	}
 
-	public int getPrix_initial() {
+	public int getPrixInitial() {
 		return prix_initial;
 	}
 
-	public void setPrix_initial(int prix_initial) {
+	public void setPrixInitial(int prix_initial) {
 		this.prix_initial = prix_initial;
 	}
 
-	public int getPrix_vente() {
+	public int getPrixVente() {
 		return prix_vente;
 	}
 
-	public void setPrix_vente(int prix_vente) {
+	public void setPrixVente(int prix_vente) {
 		this.prix_vente = prix_vente;
 	}
 	
