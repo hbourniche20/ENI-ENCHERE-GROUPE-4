@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public class Enchere {
 	
-	private int noEnchere;
 	private LocalDate dateEnchere;
 	private int montantEnchere;
 	private Utilisateur encherisseur;
@@ -22,22 +21,7 @@ public class Enchere {
 		this.article = article;
 	}
 
-	public Enchere(int noEnchere, LocalDate dateEnchere, int montantEnchere, Utilisateur encherisseur, ArticleVendu article) {
-		this.noEnchere = noEnchere;
-		this.dateEnchere = dateEnchere;
-		this.montantEnchere = montantEnchere;
-		this.encherisseur = encherisseur;
-		this.article = article;
-	}
-
 	
-	public int getNoEnchere() {
-		return noEnchere;
-	}
-	public void setNoEnchere(int noEnchere) {
-		this.noEnchere = noEnchere;
-	}
-
 	public LocalDate getDateEnchere() {
 		return dateEnchere;
 	}
