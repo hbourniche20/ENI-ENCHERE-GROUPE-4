@@ -11,5 +11,7 @@ public class DaoFactory {
 		return new ConnexionDaoJdbcImpl();
 	}
 
-
+	public static UtilisateurDao getUtilisateurDao() {
+		return new UtilisateurDao();
+	}
 }
