@@ -6,5 +6,10 @@ public class DaoFactory {
 		return new ListeEncheresDao();
 	}
 	
-	
+
+	public static ConnexionDao getConnexionDao() {
+		return new ConnexionDaoJdbcImpl();
+	}
+
+
 }
