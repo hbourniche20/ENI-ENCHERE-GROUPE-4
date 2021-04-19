@@ -10,12 +10,13 @@ public class Utilisateur {
 	private String telephone;
 	private String rue;
 	private String ville;
+	private String code_postal;
 	private String mot_de_passe;
 	private int credit;
 	private boolean administrateur;
 	
 	public Utilisateur(int no_utilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String ville, String mot_de_passe, int credit, boolean administrateur) {
+			String rue, String ville,String code_postal, String mot_de_passe, int credit, boolean administrateur) {
 		
 		this.no_utilisateur = no_utilisateur;
 		this.pseudo = pseudo;
@@ -25,13 +26,14 @@ public class Utilisateur {
 		this.telephone = telephone;
 		this.rue = rue;
 		this.ville = ville;
+		this.code_postal = code_postal;
 		this.mot_de_passe = mot_de_passe;
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String ville, String mot_de_passe, int credit, boolean administrateur) {
+			String ville,String code_postal, String mot_de_passe, int credit, boolean administrateur) {
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -39,9 +41,24 @@ public class Utilisateur {
 		this.telephone = telephone;
 		this.rue = rue;
 		this.ville = ville;
+		this.code_postal = code_postal;
 		this.mot_de_passe = mot_de_passe;
 		this.credit = credit;
 		this.administrateur = administrateur;
+	}
+	
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			String ville,String code_postal, String mot_de_passe) {
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.rue = rue;
+		this.ville = ville;
+		this.code_postal = code_postal;
+		this.mot_de_passe = mot_de_passe;
+		
 	}
 
 	public Utilisateur() {
@@ -133,6 +150,14 @@ public class Utilisateur {
 
 	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
+	}
+
+	public String getCode_postal() {
+		return code_postal;
+	}
+
+	public void setCode_postal(String code_postal) {
+		this.code_postal = code_postal;
 	}
 	
 	
