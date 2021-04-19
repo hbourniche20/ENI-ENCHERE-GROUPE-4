@@ -13,6 +13,7 @@ public class ArticlesVendus {
 	private int prixVente;
 	
 	public ArticlesVendus() {
+		
 	}
 
 	public ArticlesVendus(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
