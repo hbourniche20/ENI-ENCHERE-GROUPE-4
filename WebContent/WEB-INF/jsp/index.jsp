@@ -44,20 +44,44 @@
 	    				<c:when test="${ not empty sessionScope.user }">
 							<div class="row">
 								<div class="col-6">
-									<div class="form-check">
+									<div class="form-check my-2">
 									  	<input class="form-check-input" type="radio" name="encheres" id="achats" checked>
 									  	<label class="form-check-label" for="achats">
 									    	Achats
 									  	</label>
-									</div>
+									 </div>
+									 <div class="custom-control custom-checkbox my-2 ml-3">
+  										<input type="checkbox" class="custom-control-input" id="encheresOuvertes">
+  										<label class="custom-control-label" for="encheresOuvertes">Enchères ouvertes</label>
+									 </div>
+									 <div class="custom-control custom-checkbox my-2 ml-3">
+  										<input type="checkbox" class="custom-control-input" id="mesEncheres">
+  										<label class="custom-control-label" for="mesEncheres">Mes enchères</label>
+									 </div>
+									 <div class="custom-control custom-checkbox my-2 ml-3">
+  										<input type="checkbox" class="custom-control-input" id="mesEncheresRemportees">
+  										<label class="custom-control-label" for="mesEncheresRemportees">Mes enchères remportées</label>
+									 </div>
 								</div>
 						   		<div class="col-6">
-									<div class="form-check">
+									<div class="form-check my-2">
 									  	<input class="form-check-input" type="radio" name="encheres" id="ventes">
 									  	<label class="form-check-label" for="ventes">
-									    	Ventes
+									    	Mes ventes
 									  	</label>
 									</div>
+									<div class="custom-control custom-checkbox my-2 ml-3">
+  										<input type="checkbox" class="custom-control-input" id="ventesEnCours">
+  										<label class="custom-control-label" for="ventesEnCours">Ventes en cours</label>
+									 </div>
+									 <div class="custom-control custom-checkbox my-2 ml-3">
+  										<input type="checkbox" class="custom-control-input" id="ventesNonDebutees">
+  										<label class="custom-control-label" for="ventesNonDebutees">Ventes non débutées</label>
+									 </div>
+									 <div class="custom-control custom-checkbox my-2 ml-3">
+  										<input type="checkbox" class="custom-control-input" id="ventesTerminees">
+  										<label class="custom-control-label" for="ventesTerminees">Ventes terminées</label>
+									 </div>
 								</div>
 							</div>
 	    				</c:when>
