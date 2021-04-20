@@ -19,7 +19,7 @@
 
 	<div class="container pt-5">
 
-		<c:if test="${ not empty errors }">
+		<c:if test="${ not empty error }">
 			<div class="alert alert-danger text-center pt-5" role="alert">
 					${ error } 
 			</div>
