@@ -115,6 +115,6 @@
 		</div>
 	
 	</div>
-	
+	<jsp:include page="filtres.jsp"></jsp:include>
 </body>
 </html>
