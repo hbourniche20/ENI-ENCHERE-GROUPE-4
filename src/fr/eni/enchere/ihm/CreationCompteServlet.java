@@ -45,8 +45,10 @@ public class CreationCompteServlet extends HttpServlet {
 		String ville = request.getParameter("ville");
 		String motdepasse = request.getParameter("motdepasse");
 		String confirmationmdp = request.getParameter("confirmationmdp");
-		
-		if (confirmationmdp == motdepasse) {
+		System.out.println(motdepasse);
+		System.out.println(confirmationmdp);
+
+		if (confirmationmdp.equals(motdepasse) ) {
 			
 			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, ville, codepostal, motdepasse);
 			
@@ -58,7 +60,7 @@ public class CreationCompteServlet extends HttpServlet {
 				} catch (Exception e){
 					e.printStackTrace();
 				}
-				response.sendRedirect("");
+				response.sendRedirect("index");
 					
 				}
 				

@@ -8,7 +8,7 @@ import fr.eni.enchere.bo.Utilisateur;
 
 public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
-	private final String INSERT = "INSERT INTO UTILISATEUR(PSEUDO,NOM,PRENOM,EMAIL,TELEPHONE,RUE,CODE_POSTAL,VILLE,MOT_DE_PASSE) VALUES (?,?,?,?,?,?,?,?,?)";
+	private final String INSERT = "INSERT INTO UTILISATEURS(PSEUDO,NOM,PRENOM,EMAIL,TELEPHONE,RUE,CODE_POSTAL,VILLE,MOT_DE_PASSE,CREDIT,ADMINISTRATEUR) VALUES (?,?,?,?,?,?,?,?,?,0,FALSE)";
 	@Override
 	public void addUtilisateur(Utilisateur u) {
 		// TODO Auto-generated method stub

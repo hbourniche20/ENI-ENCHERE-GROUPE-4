@@ -13,7 +13,7 @@
 <body>
 	<h2 style = "text-align:center"> Mon profil </h2>
 	
-	<form action ="index.jsp" method="POST">
+	<form action ="CreationCompteServlet" method="POST">
 	
 	<table class="table table-striped">
     <tbody>
