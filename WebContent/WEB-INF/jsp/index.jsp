@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-		<jsp:include page="head.jsp"></jsp:include>
+	<jsp:include page="head.jsp"></jsp:include>
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
@@ -86,9 +86,7 @@
 				</div>
 			</div>
 		</form>
-		
 		<div class="card-columns my-3">
-		
 			<c:forEach var="article" items="${ articles }" begin="0">
 				<div class="card">
 					<div class="card-body">
@@ -103,11 +101,10 @@
 							    <p class="card-text">Vendeur : <a href="#" class="font-weight-bold">${ article.getVendeur().getPseudo() }</a></p>
 							  </div>
 						</div>
-					  </div>
+					</div>
 				</div>	
 			</c:forEach>
 		</div>
-	
 	</div>
 	<jsp:include page="filtres.jsp"></jsp:include>
 </body>
