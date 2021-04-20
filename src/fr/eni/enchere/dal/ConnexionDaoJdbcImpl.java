@@ -10,7 +10,7 @@ import fr.eni.enchere.exception.ConnexionException;
 
 public class ConnexionDaoJdbcImpl implements ConnexionDao {
 
-	private static final String GET_USER = "SELECT (no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mmot_de_passe, credit, administrateur) FROM utilisateurs WHERE (email = ? OR pseudo = ?) AND mot_de_passe = ?";
+	private static final String GET_USER = "SELECT (no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) FROM utilisateurs WHERE (email = ? OR pseudo = ?) AND mot_de_passe = ?";
 	@Override
 	public Utilisateur getSession(String id, String password) throws ConnexionException {
 		Utilisateur user = null;
@@ -28,12 +28,13 @@ public class ConnexionDaoJdbcImpl implements ConnexionDao {
 				String email = rs.getString(5);
 				String telephone = rs.getString(6);
 				String rue = rs.getString(7);
-				String ville = rs.getString(8);
-				String motDePasse = rs.getString(9);
-				int credit = rs.getInt(10);
-				boolean administrateur = rs.getBoolean(11);
+				String codePostal = rs.getString(8);
+				String ville = rs.getString(9);
+				String motDePasse = rs.getString(10);
+				int credit = rs.getInt(11);
+				boolean administrateur = rs.getBoolean(12);
 				
-				user = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, ville, motDePasse, credit, administrateur);
+				user = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur);
 			} else {
 				throw new ConnexionException();
 			}

@@ -9,7 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="">S'inscrire - Se connecter</a>
+	<a href="/ConnexionServlet">Se connecter</a>
+	<a href="">S'inscrire</a>
 	<h1>Liste des enchères</h1>
 	<h2>Filtres : </h2>
 	<input type="text" name="article"/>

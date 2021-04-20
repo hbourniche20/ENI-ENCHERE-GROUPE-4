@@ -32,7 +32,7 @@ public class ConnexionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/fr/eni/enchere/connexion/connexion.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 		rd.forward(request, response);
 	}
 
@@ -50,6 +50,8 @@ public class ConnexionServlet extends HttpServlet {
 			// TODO PUT USER IN THE LOCAL STORAGE
 		} catch (ConnexionException exception) {
 			request.setAttribute("error", exception.getMessage());
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
+			rd.forward(request, response);
 		}
 		
 		// TODO REDIRECT TO MAIN SCREEN
