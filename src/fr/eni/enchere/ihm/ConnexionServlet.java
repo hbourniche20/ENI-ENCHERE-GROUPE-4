@@ -47,14 +47,13 @@ public class ConnexionServlet extends HttpServlet {
 		Utilisateur user = null;
 		try {
 			user = manager.authentification(email, password);
-			// TODO PUT USER IN THE LOCAL STORAGE
+			request.getSession().setAttribute("user", user); // add to session
 		} catch (ConnexionException exception) {
 			request.setAttribute("error", exception.getMessage());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			rd.forward(request, response);
 		}
-		
-		// TODO REDIRECT TO MAIN SCREEN
+		response.sendRedirect("index");
 	}
 
 }

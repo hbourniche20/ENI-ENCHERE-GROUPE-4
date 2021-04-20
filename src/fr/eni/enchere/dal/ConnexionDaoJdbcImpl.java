@@ -10,14 +10,15 @@ import fr.eni.enchere.exception.ConnexionException;
 
 public class ConnexionDaoJdbcImpl implements ConnexionDao {
 
-	private static final String GET_USER = "SELECT (no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) FROM utilisateurs WHERE (email = ? OR pseudo = ?) AND mot_de_passe = ?";
+	private static final String GET_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE (email = ? OR pseudo = ?) AND mot_de_passe = ?";
 	@Override
 	public Utilisateur getSession(String id, String password) throws ConnexionException {
 		Utilisateur user = null;
 		try(Connection  con = ConnectionProvider.getConnection()) {
 			PreparedStatement ps = con.prepareStatement(GET_USER);
 			ps.setString(1, id);
-			ps.setString(2, password);
+			ps.setString(2, id);
+			ps.setString(3, password);
 			ResultSet rs = ps.executeQuery();
 			
 			if (rs.next()) {
