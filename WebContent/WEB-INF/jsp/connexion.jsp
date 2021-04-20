@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<h1>Connection</h1>
-		<c:if test="${ not empty errors }">
+		<c:if test="${ not empty error }">
 			<div class="alert alert-danger text-center" role="alert">
 					${ error } 
 			</div>
