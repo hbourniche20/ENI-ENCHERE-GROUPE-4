@@ -16,11 +16,11 @@ import fr.eni.enchere.bo.Utilisateur;
  * Servlet implementation class CreationCompteServlet
  */
 @WebServlet("/CreationCompteServlet")
-public class creationCompteServlet extends HttpServlet {
+public class CreationCompteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
   
-    public creationCompteServlet() {
+    public CreationCompteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

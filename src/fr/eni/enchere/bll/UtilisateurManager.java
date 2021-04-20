@@ -34,7 +34,7 @@ public class UtilisateurManager {
 			throw new Exception("La rue est obligatoire");
 		}
 		
-		if(u.getCode_postal() == null) {
+		if(u.getCodePostal() == null) {
 			throw new Exception("Le code postal est obligatoire");
 		}
 		

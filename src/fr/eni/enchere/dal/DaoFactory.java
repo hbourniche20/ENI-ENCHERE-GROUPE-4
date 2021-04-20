@@ -3,7 +3,7 @@ package fr.eni.enchere.dal;
 public class DaoFactory {
 	
 	public static ListeEncheresDao getListeEncheresDao() {
-		return new ListeEncheresDao();
+		return new ListeEncheresDaoJdbcImpl();
 	}
 	
 
@@ -12,6 +12,6 @@ public class DaoFactory {
 	}
 
 	public static UtilisateurDao getUtilisateurDao() {
-		return new UtilisateurDao();
+		return new UtilisateurDaoJdbcImpl();
 	}
 }
