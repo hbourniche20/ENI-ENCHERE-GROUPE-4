@@ -12,7 +12,6 @@
 <body>
 
 	<jsp:include page="header.jsp"></jsp:include>
-
 	<h1>Liste des enchères</h1>
 	<h2>Filtres : </h2>
 	<input type="text" name="article"/>

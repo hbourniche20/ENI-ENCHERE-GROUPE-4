@@ -52,6 +52,8 @@ public class UtilisateurManager {
 			throw new Exception("Le crédit doit être supérieur à 0");
 		}
 		
+		
+		 dao.addUtilisateur(u);
 
 		
 		
