@@ -53,7 +53,7 @@ public class ConnexionServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			rd.forward(request, response);
 		}
-		response.sendRedirect("index");
+		response.sendRedirect(request.getContextPath());
 	}
 
 }
