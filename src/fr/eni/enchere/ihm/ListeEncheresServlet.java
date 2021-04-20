@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.ListeEncheresManager;
+import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 
 /**
@@ -29,8 +30,10 @@ public class ListeEncheresServlet extends HttpServlet {
 		try {
 
 			List<Categorie> listeCategories = manager.recupererListeCategories();
-			
+			List<ArticleVendu> listeArticles = manager.recupererListeArticles();
+	
 			request.setAttribute("categories", listeCategories);
+			request.setAttribute("articles", listeArticles);
 		} catch (Exception e) {
 			//request.setAttribute("error", e.getMessage());
 		}
@@ -44,8 +47,31 @@ public class ListeEncheresServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		ListeEncheresManager manager = new ListeEncheresManager();
+		String article = null;
+		Integer noCategorie = 0;
+		
+		try {
+			article = request.getParameter("article");
+			if(!request.getParameter("article").equals("")) {
+				article = request.getParameter("article");
+			}
+			if(request.getParameter("noCategorie") != "") {
+				noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
+			} 
+			
+			List<Categorie> listeCategories = manager.recupererListeCategories();
+
+			List<ArticleVendu> listeArticles = manager.recupererListeArticlesAvecFiltres(article, noCategorie);
+	
+			request.setAttribute("categories", listeCategories);
+			request.setAttribute("articles", listeArticles);
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			System.out.println(e);
+			//request.setAttribute("error", e.getMessage());
+		}
 	}
 
 }
