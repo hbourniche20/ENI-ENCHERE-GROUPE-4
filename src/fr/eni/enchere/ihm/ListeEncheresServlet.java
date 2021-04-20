@@ -56,10 +56,16 @@ public class ListeEncheresServlet extends HttpServlet {
 			if(!request.getParameter("article").equals("")) {
 				article = request.getParameter("article");
 			}
-			if(request.getParameter("noCategorie") != "") {
-				noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
+			if(!request.getParameter("noCategorie").equals("")) {
+				try {
+					noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
+				} catch(NumberFormatException e) {
+					noCategorie = 0;
+				}
 			} 
-			
+			System.out.println(article);
+			System.out.println(noCategorie);
+
 			List<Categorie> listeCategories = manager.recupererListeCategories();
 
 			List<ArticleVendu> listeArticles = manager.recupererListeArticlesAvecFiltres(article, noCategorie);
