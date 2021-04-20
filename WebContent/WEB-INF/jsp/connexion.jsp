@@ -15,7 +15,7 @@
 					${ error } 
 			</div>
 		</c:if>
-		<form action="connexion" method="post">
+		<form action="ConnexionServlet" method="post">
 			<input type="text" name="id" placeholder="Entrez votre identifiant">
 			<input type="password" name="password" placeholder="Entre votre mot de passe">
 			<input type="submit" value="Se connecter">

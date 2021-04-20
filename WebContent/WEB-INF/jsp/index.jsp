@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-   
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="/ConnexionServlet">Se connecter</a>
-	<a href="">S'inscrire</a>
+
+	<jsp:include page="header.jsp"></jsp:include>
 	<h1>Liste des enchères</h1>
 	<form method="POST">
 		<h2>Filtres : </h2>
