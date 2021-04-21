@@ -7,6 +7,6 @@ public class ConnexionException extends Exception {
 	}
 	
 	public ConnexionException() {
-		this("Identifiant ou mot de passe incorrecte.");
+		this("Identifiant ou mot de passe incorrect.");
 	}
 }

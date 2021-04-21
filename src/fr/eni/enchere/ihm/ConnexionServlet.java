@@ -48,12 +48,13 @@ public class ConnexionServlet extends HttpServlet {
 		try {
 			user = manager.authentification(email, password);
 			request.getSession().setAttribute("user", user); // add to session
+			response.sendRedirect(request.getContextPath());
 		} catch (ConnexionException exception) {
 			request.setAttribute("error", exception.getMessage());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 			rd.forward(request, response);
 		}
-		response.sendRedirect(request.getContextPath());
+		
 	}
 
 }
