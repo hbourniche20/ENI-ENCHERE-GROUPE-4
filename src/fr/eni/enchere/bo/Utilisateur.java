@@ -29,6 +29,7 @@ public class Utilisateur {
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, 
 			String motDePasse) {
+		this();
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -42,37 +43,17 @@ public class Utilisateur {
 	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, 
 			String motDePasse, int credit, boolean administrateur) {
-		this.pseudo = pseudo;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.telephone = telephone;
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.motDePasse = motDePasse;
+		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
 	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, 
 			String ville, String motDePasse, int credit, boolean administrateur) {
+		this(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur);
 		this.noUtilisateur = noUtilisateur;
-		this.pseudo = pseudo;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.telephone = telephone;
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.motDePasse = motDePasse;
-		this.credit = credit;
-		this.administrateur = administrateur;
 	}
-	
 
-	
 	public int getNoUtilisateur() {
 		return noUtilisateur;
 	}
@@ -184,4 +165,13 @@ public class Utilisateur {
 	public void setEncheres(List<Enchere> encheres) {
 		this.encheres = encheres;
 	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
+				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal="
+				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
+				+ ", administrateur=" + administrateur + ", articles=" + articles + ", encheres=" + encheres + "]";
+	}
+
 }

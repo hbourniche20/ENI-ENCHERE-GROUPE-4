@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.exception.EmailNotUniqueException;
+import fr.eni.enchere.exception.PseudoNotUniqueException;
+import fr.eni.enchere.exception.WrongInputException;
 
 /**
  * Servlet implementation class CreationCompteServlet
@@ -18,16 +21,8 @@ import fr.eni.enchere.bo.Utilisateur;
 @WebServlet("/CreationCompteServlet")
 public class CreationCompteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-  
-    public CreationCompteServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		RequestDispatcher rd =request.getRequestDispatcher("WEB-INF/jsp/creationCompte.jsp");
 		rd.forward(request, response);
 	}
@@ -36,40 +31,53 @@ public class CreationCompteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String pseudo = request.getParameter("pseudo");
+		request.setAttribute("pseudo", pseudo);
 		String nom = request.getParameter("nom");
+		request.setAttribute("nom", nom);
 		String prenom = request.getParameter("prenom");
+		request.setAttribute("prenom", prenom);
 		String email = request.getParameter("email");
+		request.setAttribute("email", email);
 		String telephone = request.getParameter("telephone");
+		request.setAttribute("telephone", telephone);
 		String rue = request.getParameter("rue");
+		request.setAttribute("rue", rue);
 		String codepostal = request.getParameter("codepostal");
+		request.setAttribute("codepostal", codepostal);
 		String ville = request.getParameter("ville");
+		request.setAttribute("ville", ville);
 		String motdepasse = request.getParameter("motdepasse");
 		String confirmationmdp = request.getParameter("confirmationmdp");
-		System.out.println(motdepasse);
-		System.out.println(confirmationmdp);
+
 
 		if (confirmationmdp.equals(motdepasse) ) {
 			
 			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, ville, codepostal, motdepasse);
 			
 			UtilisateurManager manager = new UtilisateurManager();
+			try {
+				manager.enregistrer(u);
+			} catch (EmailNotUniqueException e){
+				this.throwException(request, response, e.getMessage());
+			} catch (PseudoNotUniqueException e) {
+				this.throwException(request, response, e.getMessage());
+			} catch (WrongInputException e) {
+				this.throwException(request, response, e.getMessage());
+			}
 			
-				{
-				try {
-					manager.enregistrer(u);
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-				response.sendRedirect("index");
-					
-				}
-				
+			response.sendRedirect("index");
 		}
 		else {
 			System.out.println("La confirmation du mot de passe doit être identique au mot de passe");
 		}
 		
 		
+	}
+	
+	private void throwException(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
+		request.setAttribute("error", message);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
+		rd.forward(request, response);
 	}
 		
 }

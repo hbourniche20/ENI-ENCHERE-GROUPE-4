@@ -17,7 +17,7 @@
 		       <a class="nav-link" href="AjoutArticleVenduServlet">Vendre un article</a>
 		    </li>
 		    <li class="nav-item active">
-		       <a class="nav-link" href="#">Mon profil</a>
+		       <a class="nav-link" href="ProfileServlet?pseudo=${ sessionScope.user.getPseudo()}">Mon profil</a>
 		    </li>
 		    <li class="nav-item active dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

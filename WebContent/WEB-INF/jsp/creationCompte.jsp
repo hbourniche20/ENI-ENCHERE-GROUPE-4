@@ -12,32 +12,34 @@
 
 	<div class="container pt-5">
 		<h1 class="text-center my-4">Mon profil</h1>
-		
+
+		<jsp:include page="error.jsp"></jsp:include>
+
 		<form action ="${pageContext.request.contextPath }/CreationCompteServlet" method="POST">
 			<div class="row">
 				<div class="col">
 					<div class="form-group row">
 					   	<label for="pseudo" class="col-sm-3 col-form-label">Pseudo</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="pseudo" class="form-control" id="pseudo">
+					      	<input type="text" name="pseudo" class="form-control" id="pseudo" value="${pseudo}">
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="prenom" class="col-sm-3 col-form-label">Prénom</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="prenom" class="form-control" id="prenom">
+					      	<input type="text" name="prenom" class="form-control" id="prenom" value="${prenom}">
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="telephone" class="col-sm-3 col-form-label">Téléphone</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="telephone" class="form-control" id="telephone">
+					      	<input type="text" name="telephone" class="form-control" id="telephone" value="${telephone}">
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="codepostal" class="col-sm-3 col-form-label">Code Postal</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="codepostal" class="form-control" id="codepostal">
+					      	<input type="text" name="codepostal" class="form-control" id="codepostal" value="${codepostal}">
 					   	</div>
 					</div>
 					<div class="form-group row">
@@ -51,25 +53,25 @@
 					<div class="form-group row">
 					   	<label for="nom" class="col-sm-3 col-form-label">Nom</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="nom" class="form-control" id="nom">
+					      	<input type="text" name="nom" class="form-control" id="nom" value="${nom}">
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="email" class="col-sm-3 col-form-label">Email</label>
 					   	<div class="col-sm-9">
-					      	<input type="email" name="email" class="form-control" id="email">
+					      	<input type="email" name="email" class="form-control" id="email" value="${email}">
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="rue" class="col-sm-3 col-form-label">Rue</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="rue" class="form-control" id="rue">
+					      	<input type="text" name="rue" class="form-control" id="rue" value="${rue}">
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="ville" class="col-sm-3 col-form-label">Ville</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="ville" class="form-control" id="ville">
+					      	<input type="text" name="ville" class="form-control" id="ville" value="${ville}">
 					   	</div>
 					</div>
 					<div class="form-group row">

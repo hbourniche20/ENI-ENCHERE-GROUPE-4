@@ -13,11 +13,8 @@
 
 	<div class="container pt-5">
 
-		<c:if test="${ not empty error }">
-			<div class="alert alert-danger text-center my-5" role="alert">
-					${ error } 
-			</div>
-		</c:if>
+	<jsp:include page="error.jsp"></jsp:include>
+
 		<div class="row justify-content-md-center pt-2">
 			<form action="ConnexionServlet" method="post" class="col-6 pt-5" >
 				<div class="form-group row">
