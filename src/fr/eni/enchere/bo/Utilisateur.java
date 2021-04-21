@@ -1,5 +1,8 @@
 package fr.eni.enchere.bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utilisateur {
 	
 	private int noUtilisateur;
@@ -14,14 +17,15 @@ public class Utilisateur {
 	private String motDePasse;
 	private int credit = 0;
 	private boolean administrateur;
+	private List<ArticleVendu> articles;
+	private List<Enchere> encheres;
 	
-
-
-
+	
+	
 	public Utilisateur() {
-		
+		this.articles = new ArrayList<>();
+		this.encheres = new ArrayList<>();
 	}
-	
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, 
 			String motDePasse) {
@@ -34,7 +38,6 @@ public class Utilisateur {
 		this.codePostal = codePostal;
 		this.ville = ville;
 		this.motDePasse = motDePasse;
-	
 	}
 	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, 
@@ -69,9 +72,11 @@ public class Utilisateur {
 	}
 	
 
+	
 	public int getNoUtilisateur() {
 		return noUtilisateur;
 	}
+	
 	public void setNoUtilisateur(int noUtilisateur) {
 		this.noUtilisateur = noUtilisateur;
 	}
@@ -79,6 +84,7 @@ public class Utilisateur {
 	public String getPseudo() {
 		return pseudo;
 	}
+	
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
@@ -86,6 +92,7 @@ public class Utilisateur {
 	public String getNom() {
 		return nom;
 	}
+	
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -93,6 +100,7 @@ public class Utilisateur {
 	public String getPrenom() {
 		return prenom;
 	}
+	
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
@@ -100,6 +108,7 @@ public class Utilisateur {
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -107,6 +116,7 @@ public class Utilisateur {
 	public String getTelephone() {
 		return telephone;
 	}
+	
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
@@ -114,6 +124,7 @@ public class Utilisateur {
 	public String getRue() {
 		return rue;
 	}
+	
 	public void setRue(String rue) {
 		this.rue = rue;
 	}
@@ -121,6 +132,7 @@ public class Utilisateur {
 	public String getCodePostal() {
 		return codePostal;
 	}
+	
 	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
@@ -128,6 +140,7 @@ public class Utilisateur {
 	public String getVille() {
 		return ville;
 	}
+	
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
@@ -135,6 +148,7 @@ public class Utilisateur {
 	public String getMotDePasse() {
 		return motDePasse;
 	}
+	
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
 	}
@@ -142,6 +156,7 @@ public class Utilisateur {
 	public int getCredit() {
 		return credit;
 	}
+	
 	public void setCredit(int credit) {
 		this.credit = credit;
 	}
@@ -149,9 +164,24 @@ public class Utilisateur {
 	public boolean isAdministrateur() {
 		return administrateur;
 	}
+	
 	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
 	}
 
+	public List<ArticleVendu> getArticles() {
+		return articles;
+	}
+	
+	public void setArticles(List<ArticleVendu> articles) {
+		this.articles = articles;
+	}
 
+	public List<Enchere> getEncheres() {
+		return encheres;
+	}
+
+	public void setEncheres(List<Enchere> encheres) {
+		this.encheres = encheres;
+	}
 }

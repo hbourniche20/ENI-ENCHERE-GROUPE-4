@@ -6,6 +6,7 @@ public class Retrait {
 	private String ville;
 	
 	
+	
 	public Retrait() {
 		
 	}
@@ -17,9 +18,11 @@ public class Retrait {
 	}
 
 	
+	
 	public String getRue() {
 		return rue;
 	}
+	
 	public void setRue(String rue) {
 		this.rue = rue;
 	}
@@ -27,6 +30,7 @@ public class Retrait {
 	public String getCodePostal() {
 		return codePostal;
 	}
+	
 	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
@@ -34,9 +38,9 @@ public class Retrait {
 	public String getVille() {
 		return ville;
 	}
+	
 	public void setVille(String ville) {
 		this.ville = ville;
 	}
 	
-
 }

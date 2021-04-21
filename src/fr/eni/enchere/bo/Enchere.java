@@ -10,6 +10,7 @@ public class Enchere {
 	private ArticleVendu article;
 	
 	
+	
 	public Enchere() {
 		
 	}
@@ -22,9 +23,11 @@ public class Enchere {
 	}
 
 	
+	
 	public LocalDate getDateEnchere() {
 		return dateEnchere;
 	}
+	
 	public void setDateEnchere(LocalDate dateEnchere) {
 		this.dateEnchere = dateEnchere;
 	}
@@ -32,6 +35,7 @@ public class Enchere {
 	public int getMontantEnchere() {
 		return montantEnchere;
 	}
+	
 	public void setMontantEnchere(int montantEnchere) {
 		this.montantEnchere = montantEnchere;
 	}
@@ -39,6 +43,7 @@ public class Enchere {
 	public Utilisateur getEncherisseur() {
 		return encherisseur;
 	}
+	
 	public void setEncherisseur(Utilisateur encherisseur) {
 		this.encherisseur = encherisseur;
 	}
@@ -46,6 +51,7 @@ public class Enchere {
 	public ArticleVendu getArticle() {
 		return article;
 	}
+	
 	public void setArticle(ArticleVendu article) {
 		this.article = article;
 	}

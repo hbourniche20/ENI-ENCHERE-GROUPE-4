@@ -1,6 +1,8 @@
 package fr.eni.enchere.bo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticleVendu {
 	private int noArticle;
@@ -14,10 +16,13 @@ public class ArticleVendu {
 	private Categorie categorieArticle;
 	private Retrait lieuRetrait;
 	private Utilisateur vendeur;
+	private List<Enchere> encheres;
+	
 	
 	
 	public ArticleVendu() {
 		this.etatVente = false;
+		this.encheres = new ArrayList<>();
 	}
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,int miseAPrix, int prixVente, boolean etatVente, 
@@ -51,9 +56,11 @@ public class ArticleVendu {
 	}
 
 	
+	
 	public int getNoArticle() {
 		return noArticle;
 	}
+	
 	public void setNoArticle(int noArticle) {
 		this.noArticle = noArticle;
 	}
@@ -61,6 +68,7 @@ public class ArticleVendu {
 	public String getNomArticle() {
 		return nomArticle;
 	}
+	
 	public void setNomArticle(String nomArticle) {
 		this.nomArticle = nomArticle;
 	}
@@ -68,6 +76,7 @@ public class ArticleVendu {
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -75,6 +84,7 @@ public class ArticleVendu {
 	public LocalDate getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
+	
 	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
@@ -82,6 +92,7 @@ public class ArticleVendu {
 	public LocalDate getDateFinEncheres() {
 		return dateFinEncheres;
 	}
+	
 	public void setDateFinEncheres(LocalDate dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
@@ -89,6 +100,7 @@ public class ArticleVendu {
 	public int getMiseAPrix() {
 		return miseAPrix;
 	}
+	
 	public void setMiseAPrix(int miseAPrix) {
 		this.miseAPrix = miseAPrix;
 	}
@@ -96,6 +108,7 @@ public class ArticleVendu {
 	public int getPrixVente() {
 		return prixVente;
 	}
+	
 	public void setPrixVente(int prixVente) {
 		this.prixVente = prixVente;
 	}
@@ -103,6 +116,7 @@ public class ArticleVendu {
 	public boolean isEtatVente() {
 		return etatVente;
 	}
+	
 	public void setEtatVente(boolean etatVente) {
 		this.etatVente = etatVente;
 	}
@@ -110,6 +124,7 @@ public class ArticleVendu {
 	public Categorie getCategorieArticle() {
 		return categorieArticle;
 	}
+	
 	public void setCategorieArticle(Categorie categorieArticle) {
 		this.categorieArticle = categorieArticle;
 	}
@@ -117,6 +132,7 @@ public class ArticleVendu {
 	public Retrait getLieuRetrait() {
 		return lieuRetrait;
 	}
+	
 	public void setLieuRetrait(Retrait lieuRetrait) {
 		this.lieuRetrait = lieuRetrait;
 	}
@@ -124,8 +140,17 @@ public class ArticleVendu {
 	public Utilisateur getVendeur() {
 		return vendeur;
 	}
+	
 	public void setVendeur(Utilisateur vendeur) {
 		this.vendeur = vendeur;
+	}
+
+	public List<Enchere> getEncheres() {
+		return encheres;
+	}
+
+	public void setEncheres(List<Enchere> encheres) {
+		this.encheres = encheres;
 	}
 	
 }
