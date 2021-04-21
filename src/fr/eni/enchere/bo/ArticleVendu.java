@@ -38,6 +38,14 @@ public class ArticleVendu {
 		this.lieuRetrait = lieuRetrait;
 		this.vendeur = vendeur;
 	}
+	
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,int miseAPrix)  {
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+	}
 
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres, int miseAPrix, int prixVente, boolean etatVente, 
 			Categorie categorieArticle, Retrait lieuRetrait, Utilisateur vendeur) {

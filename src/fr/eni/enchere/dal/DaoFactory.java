@@ -14,4 +14,8 @@ public class DaoFactory {
 	public static UtilisateurDao getUtilisateurDao() {
 		return new UtilisateurDaoJdbcImpl();
 	}
+	
+	public static ArticleVenduDao getArticleVenduDao() {
+		return new ArticleVenduDaoJdbcImpl();
+	}
 }
