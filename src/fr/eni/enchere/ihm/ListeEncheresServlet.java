@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.enchere.bll.EncheresManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.bo.Utilisateur;
 
 /**
  * Servlet implementation class ListeEncheresServlet
@@ -48,14 +49,21 @@ public class ListeEncheresServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EncheresManager manager = new EncheresManager();
-		String article = null;
+		String nomArticle = null;
+		String encheresOuvertes = null;
+		String mesEncheres = null;
+		String mesEncheresRemportees = null;
+		String ventesEnCours = null;
+		String ventesNonDebutees = null;
+		String ventesTerminees = null;
 		Integer noCategorie = 0;
+		List<ArticleVendu> listeArticles = null;
+		List<Categorie> listeCategories = null;
+		
 		
 		try {
-			article = request.getParameter("article");
-			if(!request.getParameter("article").equals("")) {
-				article = request.getParameter("article");
-			}
+			nomArticle = request.getParameter("article");
+			
 			if(!request.getParameter("noCategorie").equals("")) {
 				try {
 					noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
@@ -64,10 +72,21 @@ public class ListeEncheresServlet extends HttpServlet {
 				}
 			} 
 
-			List<Categorie> listeCategories = manager.recupererListeCategories();
+			listeCategories = manager.recupererListeCategories();
 
-			List<ArticleVendu> listeArticles = manager.recupererListeArticlesAvecFiltres(article, noCategorie);
-	
+			if(request.getSession().getAttribute("user") != null) {
+				encheresOuvertes = request.getParameter("encheresOuvertes");
+				mesEncheres = request.getParameter("mesEncheres");
+				mesEncheresRemportees = request.getParameter("mesEncheresRemportees");
+				ventesEnCours = request.getParameter("ventesEnCours");
+				ventesNonDebutees =  request.getParameter("ventesNonDebutees");
+				ventesTerminees = request.getParameter("ventesTerminees");
+				Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+				listeArticles = manager.recupererListeArticlesAvecFiltresAdditionnels(utilisateur, nomArticle, noCategorie, encheresOuvertes, mesEncheres, mesEncheresRemportees, ventesEnCours, ventesNonDebutees, ventesTerminees);
+			} else {
+				listeArticles = manager.recupererListeArticlesAvecFiltres(nomArticle, noCategorie);
+			}
+			
 			request.setAttribute("categories", listeCategories);
 			request.setAttribute("articles", listeArticles);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
