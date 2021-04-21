@@ -7,15 +7,15 @@ import java.util.List;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.dal.DaoFactory;
-import fr.eni.enchere.dal.ListeEncheresDao;
+import fr.eni.enchere.dal.EncheresDao;
 
-public class ListeEncheresManager {
+public class EncheresManager {
 	
-	private ListeEncheresDao dao;
+	private EncheresDao dao;
 	
 	
-	public ListeEncheresManager() {
-		dao = DaoFactory.getListeEncheresDao();
+	public EncheresManager() {
+		dao = DaoFactory.getEncheresDao();
 	}
 	
 	public List<Categorie> recupererListeCategories() throws Exception {

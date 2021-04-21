@@ -14,7 +14,7 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Utilisateur;
 
-public class ListeEncheresDaoJdbcImpl implements ListeEncheresDao {
+public class EncheresDaoJdbcImpl implements EncheresDao {
 
 	private final String SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
 	private final String SELECT_ALL_ARTICLES = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur WHERE date_fin_encheres >= ? ";
@@ -32,9 +32,9 @@ public class ListeEncheresDaoJdbcImpl implements ListeEncheresDao {
 
 			while(rs.next()) {
 				Categorie c = new Categorie();
-
 				c.setNoCategorie(rs.getInt(1));
 				c.setLibelle(rs.getString(2));
+				
 				listeCategories.add(c);
 			}
 			rs.close();

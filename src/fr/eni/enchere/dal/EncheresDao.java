@@ -6,7 +6,7 @@ import java.util.List;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 
-public interface ListeEncheresDao {
+public interface EncheresDao {
 	
 	List<Categorie> selectAllCategories() throws Exception;
 

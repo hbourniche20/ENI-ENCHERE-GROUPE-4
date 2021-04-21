@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.eni.enchere.bll.ListeEncheresManager;
+import fr.eni.enchere.bll.EncheresManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 
@@ -25,7 +25,7 @@ public class ListeEncheresServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ListeEncheresManager manager = new ListeEncheresManager();
+		EncheresManager manager = new EncheresManager();
 		
 		try {
 
@@ -47,7 +47,7 @@ public class ListeEncheresServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ListeEncheresManager manager = new ListeEncheresManager();
+		EncheresManager manager = new EncheresManager();
 		String article = null;
 		Integer noCategorie = 0;
 		
@@ -63,8 +63,6 @@ public class ListeEncheresServlet extends HttpServlet {
 					noCategorie = 0;
 				}
 			} 
-			System.out.println(article);
-			System.out.println(noCategorie);
 
 			List<Categorie> listeCategories = manager.recupererListeCategories();
 
