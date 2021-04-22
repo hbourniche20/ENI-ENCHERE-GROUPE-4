@@ -36,9 +36,8 @@ public class ListeEncheresServlet extends HttpServlet {
 			request.setAttribute("categories", listeCategories);
 			request.setAttribute("articles", listeArticles);
 		} catch (Exception e) {
-			//request.setAttribute("error", e.getMessage());
+			request.setAttribute("error", e.getMessage());
 		}
-		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		rd.forward(request, response);
@@ -68,19 +67,26 @@ public class ListeEncheresServlet extends HttpServlet {
 				try {
 					noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
 				} catch(NumberFormatException e) {
-					noCategorie = 0;
+					throw new Exception("Numéro catégorie inconnu");
 				}
 			} 
 
 			listeCategories = manager.recupererListeCategories();
 
 			if(request.getSession().getAttribute("user") != null) {
-				encheresOuvertes = request.getParameter("encheresOuvertes");
-				mesEncheres = request.getParameter("mesEncheres");
-				mesEncheresRemportees = request.getParameter("mesEncheresRemportees");
-				ventesEnCours = request.getParameter("ventesEnCours");
-				ventesNonDebutees =  request.getParameter("ventesNonDebutees");
-				ventesTerminees = request.getParameter("ventesTerminees");
+				if(request.getParameter("encheres").equals("achats")) {
+					encheresOuvertes = request.getParameter("encheresOuvertes");
+					mesEncheres = request.getParameter("mesEncheres");
+					mesEncheresRemportees = request.getParameter("mesEncheresRemportees");
+					
+				} else if(request.getParameter("encheres").equals("ventes")) {
+					ventesEnCours = request.getParameter("ventesEnCours");
+					ventesNonDebutees =  request.getParameter("ventesNonDebutees");
+					ventesTerminees = request.getParameter("ventesTerminees");
+				} else {
+					throw new Exception("Filtre 'Achats / Ventes' inconnu");
+				}
+				
 				Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 				listeArticles = manager.recupererListeArticlesAvecFiltresAdditionnels(utilisateur, nomArticle, noCategorie, encheresOuvertes, mesEncheres, mesEncheresRemportees, ventesEnCours, ventesNonDebutees, ventesTerminees);
 			} else {
@@ -89,12 +95,13 @@ public class ListeEncheresServlet extends HttpServlet {
 			
 			request.setAttribute("categories", listeCategories);
 			request.setAttribute("articles", listeArticles);
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
-			rd.forward(request, response);
+			
 		} catch (Exception e) {
-			System.out.println(e);
-			//request.setAttribute("error", e.getMessage());
+			request.setAttribute("error", e.getMessage());
 		}
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+		rd.forward(request, response);
 	}
 
 }

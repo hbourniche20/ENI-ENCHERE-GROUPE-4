@@ -13,6 +13,7 @@
 
 	<div class="container pt-5">
 		<h3 class="text-center my-4">Liste des enchères</h3>
+		<jsp:include page="error.jsp"></jsp:include>
 		<h5 class="text-danger my-3">Filtres : </h5>
 		
 		<form method="POST">
@@ -40,7 +41,7 @@
 							<div class="row align-items-center">
 								<div class="col-lg-6 col-sm">
 									<div class="form-check my-2">
-									  	<input class="form-check-input" type="radio" name="encheres" id="achats" checked>
+									  	<input class="form-check-input" type="radio" name="encheres" value="achats" id="achats" checked>
 									  	<label class="form-check-label" for="achats">
 									    	Achats
 									  	</label>
@@ -60,7 +61,7 @@
 								</div>
 						   		<div class="col-lg-6 col-sm">
 									<div class="form-check my-2">
-									  	<input class="form-check-input" type="radio" name="encheres" id="ventes">
+									  	<input class="form-check-input" type="radio" name="encheres" value="ventes" id="ventes">
 									  	<label class="form-check-label" for="ventes">
 									    	Mes ventes
 									  	</label>
@@ -93,10 +94,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="row">
-								<div class="col-3 bg-secondary">
-							  	
-							  	</div>
-								<div class="col-9">
+								<div class="col">
 								  	<h6 class="card-title"><a href="#" class="text-dark">${ article.getNomArticle() }</a></h6>
 								    <p class="card-text text-left mb-0">Prix : ${ article.getPrixVente() } points</p>
 								    <fmt:parseDate  value="${ article.getDateFinEncheres() }"  type="date" pattern="yyyy-MM-dd" var="parsedDate" />
