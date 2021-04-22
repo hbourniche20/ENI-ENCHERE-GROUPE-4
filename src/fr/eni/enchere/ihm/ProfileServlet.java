@@ -36,4 +36,24 @@ public class ProfileServlet extends HttpServlet {
 		rd.forward(request, response);
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+		
+		
+		String nom = request.getParameter("nom");
+		String prenom = request.getParameter("prenom");
+		String telephone = request.getParameter("telephone");
+		String rue = request.getParameter("rue");
+		String codePostal = request.getParameter("codepostal");
+		String ville = request.getParameter("ville");
+		
+		utilisateur.setNom(nom);
+		utilisateur.setPrenom(prenom);
+		utilisateur.setTelephone(telephone);
+		utilisateur.setRue(rue);
+		utilisateur.setCodePostal(codePostal);
+		utilisateur.setVille(ville);
+		
+
+	}
 }

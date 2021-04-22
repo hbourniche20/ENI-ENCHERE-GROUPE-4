@@ -11,4 +11,6 @@ public interface UtilisateurDao {
 	void addUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException;
 	
 	Utilisateur getUtilisateur(String pseudo) throws UtilisateurNotFoundException;
+	
+	void updateUtilisateur(Utilisateur u) throws UtilisateurNotFoundException;
 }
