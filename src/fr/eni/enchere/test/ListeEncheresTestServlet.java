@@ -29,13 +29,13 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		testGetCategories();
 		testGetAuctions();
 		testGetAuctionsWithFiltersSuccess();
-		testGetAuctionsWithFiltersError();
+		testGetAuctionsWithFiltersFail();
 		testGetAuctionsWithAdditionnalFiltersSuccess();
-		testGetAuctionsWithAdditionnalFiltersError();
+		testGetAuctionsWithAdditionnalFiltersFail();
     	printLastMessage(response);
 	}
 
-	private void testGetAuctionsWithAdditionnalFiltersError() {
+	private void testGetAuctionsWithAdditionnalFiltersFail() {
 		printNewTest("Récupération des enchères en cours avec filtres additionnels");
 		List<ArticleVendu> articles = null;
 		String nomArticle = "Veste";
@@ -54,15 +54,14 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		
 			articles = manager.recupererListeArticlesAvecFiltresAdditionnels(user, nomArticle, noCategorie, encheresOuvertes, mesEncheres, mesEncheresRemportees, ventesEnCours, ventesNonDebutees, ventesTerminees);
 		} catch (EncheresException e) {
-			printTestFail(e.getMessage());
+			System.out.println(e.getMessage());
+		} catch(NumberFormatException e) {
+			System.out.println("Test réussi: Le numéro catégorie doît être un nombre entier.");
 		}
 		
-		if(articles == null) {
-			printTestFail("Articles null");
-		} else {
-			System.out.println("Test réussi: Les articles des enchères en cours avec filtres additionnels ont été récupérés.");
+		if(articles != null) {
+			printTestFail("Impossible de récupérer des articles si le numéro catégorie n'est pas un entier");		
 		}
-		
 	}
 
 	private void testGetAuctionsWithAdditionnalFiltersSuccess() {
@@ -94,7 +93,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		
 	}
 
-	private void testGetAuctionsWithFiltersError() {
+	private void testGetAuctionsWithFiltersFail() {
 		printNewTest("Récupération des enchères en cours avec filtres");
 		List<ArticleVendu> articles = null;
 		String nomArticle = "Veste";
@@ -105,13 +104,13 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		
 			articles = manager.recupererListeArticlesAvecFiltres(nomArticle, noCategorie);
 		} catch (EncheresException e) {
-			printTestFail(e.getMessage());
+			System.out.println(e.getMessage());
+		} catch(NumberFormatException e) {
+			System.out.println("Test réussi: Le numéro catégorie doît être un nombre entier.");
 		}
 		
-		if(articles == null) {
-			printTestFail("Articles null");
-		} else {
-			System.out.println("Test réussi: Les articles des enchères en cours avec filtres ont été récupérés.");
+		if(articles != null) {
+			printTestFail("Impossible de récupérer des articles si le numéro catégorie n'est pas un entier");		
 		}
 	}
 
