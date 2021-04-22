@@ -11,13 +11,13 @@
 	<jsp:include page="header.jsp"></jsp:include>
 
 	<div class="container pt-5">
-		<h1 class="text-center my-4">Mon profil</h1>
+		<h3 class="text-center my-4">Créer un compte</h3>
 
 		<jsp:include page="error.jsp"></jsp:include>
 
 		<form action ="${pageContext.request.contextPath }/CreationCompteServlet" method="POST">
 			<div class="row">
-				<div class="col">
+				<div class="col-lg col-sm">
 					<div class="form-group row">
 					   	<label for="pseudo" class="col-sm-3 col-form-label">Pseudo</label>
 					   	<div class="col-sm-9">
@@ -49,7 +49,7 @@
 					   	</div>
 					</div>
 				</div>
-				<div class="col">
+				<div class="col-lg col-sm">
 					<div class="form-group row">
 					   	<label for="nom" class="col-sm-3 col-form-label">Nom</label>
 					   	<div class="col-sm-9">
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="text-center">
+			<div class="text-center mb-3">
 				<button class="btn btn-danger m-1">Créer</button>		
 				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler</a>		
 			</div>

@@ -19,6 +19,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	private final String SELECT_PSEUDO = "SELECT PSEUDO FROM UTILISATEURS WHERE PSEUDO =?";
 	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =?";
 	private final String GET_USER = "SELECT nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
+	private final String UPDATE_USER = "UPDATE utilisateurs SET nom = ?, prenom = ?, telephone = ? , rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?";
 	
 	public boolean verifPseudo(String pseudo) {
 		 boolean isOk = true;
@@ -123,6 +124,11 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			s.printStackTrace();
 		}
 		return user;
+	}
+
+	@Override
+	public void updateUtilisateur(Utilisateur u) throws UtilisateurNotFoundException {
+		// TODO Auto-generated method stub
 	}
 	
 	

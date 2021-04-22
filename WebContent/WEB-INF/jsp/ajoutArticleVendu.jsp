@@ -11,7 +11,7 @@
 	<jsp:include page="header.jsp"></jsp:include>
 	<jsp:include page="error.jsp"></jsp:include>
 	<div class="container pt-5">
-		<h1 class="text-center my-4">Vendre un article</h1>
+		<h3 class="text-center my-4">Vendre un article</h3>
 		
 		<form action ="${pageContext.request.contextPath }/AjoutArticleVenduServlet" method="POST">
 			<div class="row">

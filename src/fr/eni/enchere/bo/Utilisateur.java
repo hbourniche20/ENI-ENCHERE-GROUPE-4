@@ -3,6 +3,8 @@ package fr.eni.enchere.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.enchere.exception.WrongInputException;
+
 public class Utilisateur {
 	
 	private int noUtilisateur;
@@ -19,8 +21,7 @@ public class Utilisateur {
 	private boolean administrateur;
 	private List<ArticleVendu> articles;
 	private List<Enchere> encheres;
-	
-	
+
 	
 	public Utilisateur() {
 		this.articles = new ArrayList<>();
@@ -164,6 +165,48 @@ public class Utilisateur {
 
 	public void setEncheres(List<Enchere> encheres) {
 		this.encheres = encheres;
+	}
+
+	public boolean hasValidInformations() throws WrongInputException {
+		if(this.pseudo.equals("")) {
+			throw new WrongInputException("Le pseudo est obligatoire");
+		}
+		
+		if(this.nom.equals("")) {
+			throw new WrongInputException("Le nom est obligatoire");
+		}
+		
+		if(this.prenom.equals("")) {
+			throw new WrongInputException("Le prenom est obligatoire");
+		}
+		
+		if(this.email.equals("")) {
+			throw new WrongInputException("L'email est obligatoire");
+		}
+		
+		if(this.rue.equals("")) {
+			throw new WrongInputException("La rue est obligatoire");
+		}
+		
+		if(this.codePostal.equals("")) {
+			throw new WrongInputException("Le code postal est obligatoire");
+		}
+		
+		if(this.ville.equals("")) {
+			throw new WrongInputException("La ville est obligatoire");
+		} 
+		
+		
+		if(this.motDePasse.equals("")) {
+			throw new WrongInputException("Le mot de passe est obligatoire");
+		}
+		
+
+		if(this.credit < 0) {
+			throw new WrongInputException("Le crédit doit être supérieur à 0");
+		}
+		
+		return true;
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class ProfileTestServlet extends TestServlet {
 	}
 	
 	private static void test2GetUserFail() {
-		printNewTest("Recuperer le profil d'un utilisateur existant");
+		printNewTest("Recuperer le profil d'un utilisateur non-existant");
 		try {
 			manager.recuperer("NightSunrise");
 		} catch (UtilisateurNotFoundException e) {
