@@ -15,13 +15,11 @@ import fr.eni.enchere.exception.ConnexionException;
  * Servlet implementation class ConnexionTestServlet
  */
 @WebServlet("/servlet/fr.eni.enchere.test.ConnexionTestServlet")
-public class ConnexionTestServlet extends HttpServlet {
+public class ConnexionTestServlet extends TestServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static int index = 0;
 	private static ConnexionManager manager;
 	
-	private static String finalMessage = "";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,18 +27,13 @@ public class ConnexionTestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		manager = new ConnexionManager();
-		System.out.println("Vérifiez bien d'avoir initialisé la base de données avec le jeu de donnée mis à disposition dans le projet");
-		
+		printFirstMessage();		
 		test1EmailSuccess();
 		test2PseudoSuccess();
 		test3EmailFail();
 		test4PseudoFail();
 		test5PasswordFail();
-		if(finalMessage.equals("")) {
-			finalMessage = "Les " + index + " tests sont passés.";
-		}
-		
-		response.getWriter().append(finalMessage);
+		printLastMessage(response);
 	}
 	
 	private static void test1EmailSuccess() {
@@ -107,14 +100,5 @@ public class ConnexionTestServlet extends HttpServlet {
 		}
 		printTestFail("Mot de passe azertyuio pour le compte dupond.jean@gmail.com existant");
 	}
-	
-	private static void printNewTest(String testName) {
-		System.out.println("===================================");
-		System.out.println("TEST " + ((index++) + 1) + " : " + testName);
-	}
-	
-	private static void printTestFail(String message) {
-		System.out.println("Test raté: " + message);
-		finalMessage += "\ntest numéro " + index + " raté.\n";
-	}
+
 }

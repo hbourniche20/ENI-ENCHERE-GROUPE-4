@@ -11,7 +11,7 @@
 	<jsp:include page="header.jsp"></jsp:include>
 		<div style="margin-top:100px; padding:3%; text-align:center;">
 			<c:choose>
-				<c:when test="${ not empty sessionScope.user && user.getPseudo() != sessionScope.user.getPseudo() }">
+				<c:when test="${ (not empty sessionScope.user && user.getPseudo() != sessionScope.user.getPseudo()) || empty sessionScope.user }">
 					<div>Pseudo : ${ user.getPseudo() }</div>
 					<div>Nom : ${ user.getNom() }</div>
 					<div>Prenom : ${ user.getPrenom() }</div>
