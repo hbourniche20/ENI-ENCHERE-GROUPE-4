@@ -21,12 +21,6 @@ public class UtilisateurManager {
 			dao.addUtilisateur(utilisateur);
 		}
 	}
-
-	public void modifier(Utilisateur utilisateur) throws UtilisateurNotFoundException, WrongInputException {
-		if(utilisateur.hasValidInformations()) {
-			dao.updateUtilisateur(utilisateur);
-		}
-	}
 	
 	public Utilisateur recuperer(String pseudo) throws UtilisateurNotFoundException {
 		return this.dao.getUtilisateur(pseudo);

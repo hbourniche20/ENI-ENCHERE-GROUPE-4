@@ -16,18 +16,19 @@ import fr.eni.enchere.exception.UtilisateurNotFoundException;
 public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 
 	private final String INSERT = "INSERT INTO UTILISATEURS(PSEUDO,NOM,PRENOM,EMAIL,TELEPHONE,RUE,CODE_POSTAL,VILLE,MOT_DE_PASSE,CREDIT,ADMINISTRATEUR) VALUES (?,?,?,?,?,?,?,?,?,0,FALSE)";
-	private final String SELECT_PSEUDO = "SELECT PSEUDO FROM UTILISATEURS WHERE PSEUDO =?";
-	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =?";
+	private final String SELECT_PSEUDO = "SELECT PSEUDO FROM UTILISATEURS WHERE PSEUDO =? AND NO_UTILISATEUR != ?";
+	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =? AND NO_UTILISATEUR != ?";
 	private final String GET_USER = "SELECT nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
-	private final String UPDATE_USER = "UPDATE utilisateurs SET nom = ?, prenom = ?, telephone = ? , rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?";
+	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo= ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?";
 	
-	public boolean verifPseudo(String pseudo) {
-		 boolean isOk = true;
+	public boolean verifPseudo(String pseudo, int idUser) {
+		boolean isOk = true;
 		
 		try(Connection c = ConnectionProvider.getConnection()){
 			PreparedStatement pstt = c.prepareStatement(SELECT_PSEUDO);
 			
 			pstt.setString(1, pseudo);
+			pstt.setInt(2, idUser);
 			ResultSet rs = pstt.executeQuery();
 			
 			if(rs.next()) {
@@ -41,7 +42,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 		return isOk;
 	}
 	
-	public boolean verifEmail(String mail) {
+	public boolean verifEmail(String mail, int idUser) {
 		
 		boolean isOk = true;
 		
@@ -49,6 +50,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			PreparedStatement pstt = c.prepareStatement(SELECT_MAIL);
 			
 			pstt.setString(1, mail);
+			pstt.setInt(2, idUser);
 			ResultSet rs = pstt.executeQuery();
 			
 			if(rs.next()) {
@@ -65,17 +67,19 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	@Override
 	public void addUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException {
 		
-		if(!verifPseudo(u.getPseudo()))  {
+		if(!verifPseudo(u.getPseudo(), u.getNoUtilisateur()))  {
 			throw new PseudoNotUniqueException();
 		}
 		
-		if(!verifPseudo(u.getEmail())) {
+		if(!verifPseudo(u.getEmail(), u.getNoUtilisateur())) {
 			throw new EmailNotUniqueException();
 		}
 		try(Connection c = ConnectionProvider.getConnection()){
-			
-			PreparedStatement pstt = c.prepareStatement(INSERT);
-			
+			String request = INSERT;
+			if(u.getNoUtilisateur() != 0) {
+				request = UPDATE_USER;
+			}
+			PreparedStatement pstt = c.prepareStatement(request);
 			pstt.setString(1, u.getPseudo());
 			pstt.setString(2, u.getNom());
 			pstt.setString(3, u.getPrenom());
@@ -85,11 +89,10 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			pstt.setString(7, u.getCodePostal());
 			pstt.setString(8, u.getVille());
 			pstt.setString(9, u.getMotDePasse());
-			
-			pstt.executeUpdate();
-			pstt.close();
-			
-			
+			if(u.getNoUtilisateur() != 0) {
+				pstt.setInt(10, u.getNoUtilisateur());
+			}
+			pstt.executeUpdate();			
 		}	catch(SQLException s) {
 			s.printStackTrace();
 		}
@@ -125,12 +128,5 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 		}
 		return user;
 	}
-
-	@Override
-	public void updateUtilisateur(Utilisateur u) throws UtilisateurNotFoundException {
-		// TODO Auto-generated method stub
-	}
-	
-	
 
 }
