@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     
 <!DOCTYPE html>
 <html>
@@ -9,21 +9,71 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
-		<div style="margin-top:100px; padding:3%; text-align:center;">
-			<c:choose>
-				<c:when test="${ (not empty sessionScope.user && user.getPseudo() != sessionScope.user.getPseudo()) || empty sessionScope.user }">
-					<div>Pseudo : ${ user.getPseudo() }</div>
-					<div>Nom : ${ user.getNom() }</div>
-					<div>Prenom : ${ user.getPrenom() }</div>
-					<div>email : ${ user.getEmail() }</div>
-					<div>Code Postal : ${ user.getCodePostal() }</div>
-					<div>Ville : ${ user.getVille() }</div>
-				</c:when>
-				<c:otherwise>
-					<jsp:include page="updateProfile.jsp"></jsp:include>
-				</c:otherwise>
-			</c:choose>
-			
+	<div class="container py-5">
+		<c:choose>
+			<c:when test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+				<h3 class="text-center my-4">Mon profil</h3>
+			</c:when>
+			<c:otherwise>
+				<h3 class="text-center my-4">Profil de l'utilisateur</h3>
+			</c:otherwise>
+		</c:choose>
+		<div class="row justify-content-md-center">
+			<div class="col-lg-6 col-sm">
+				<div class="form-group row">
+					<label for="pseudo" class="col-sm-3 col-form-label">Pseudo :</label>
+					<div class="col-sm-9">
+						<input type="text" name="pseudo" class="form-control" id="pseudo" value="${ user.getPseudo() }" readonly>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="nom" class="col-sm-3 col-form-label">Nom :</label>
+					<div class="col-sm-9">
+						<input type="text" name="nom" class="form-control" id="nom" value="${ user.getNom() }" readonly>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="prenom" class="col-sm-3 col-form-label">Prénom :</label>
+					<div class="col-sm-9">
+						<input type="text" name="prenom" class="form-control" id="prenom" value="${ user.getPrenom() }" readonly>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="telephone" class="col-sm-3 col-form-label">Email :</label>
+					<div class="col-sm-9">
+						<input type="text" name="telephone" class="form-control" id="telephone" value="${ user.getEmail() }"readonly>
+					</div>
+				</div>
+				<c:choose>
+					<c:when test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+						<div class="form-group row">
+							<label for="telephone" class="col-sm-3 col-form-label">Téléphone :</label>
+							<div class="col-sm-9">
+								<input type="text" name="telephone" class="form-control" id="telephone" value="${ user.getTelephone() }" readonly>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="codePostal" class="col-sm-3 col-form-label">Rue :</label>
+							<div class="col-sm-9">
+								<input type="text" name="codePostal" class="form-control" id="codePostal" value="${ user.getRue() }" readonly>
+							</div>
+						</div>
+					</c:when>
+				</c:choose>
+				<div class="form-group row">
+					<label for="codePostal" class="col-sm-3 col-form-label">Code Postal :</label>
+					<div class="col-sm-9">
+						<input type="text" name="codePostal" class="form-control" id="codePostal" value="${ user.getCodePostal() }" readonly>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="ville" class="col-sm-3 col-form-label">Ville :</label>
+					<div class="col-sm-9">
+						<input type="text" name="ville" class="form-control" id="Ville" value="${ user.getVille() }" readonly>
+					</div>
+				</div>
+			</div>
 		</div>
+	</div>
 </body>
 </html>

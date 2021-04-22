@@ -2,6 +2,8 @@ package fr.eni.enchere.bll;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import fr.eni.enchere.bo.ArticleVendu;
@@ -74,11 +76,56 @@ public class EncheresManager {
 		}
 		
 		
-		// Suppression des doublons
+		if(listeArticles.size() > 0) {
+			// Suppression des doublons
+			listeArticles = removeArticlesDuplications(listeArticles);
 		
-		// Tri par ordre croissant du nom de l'article
+			// Tri par ordre croissant du nom de l'article
+			listeArticles.sort(Comparator.comparing(ArticleVendu::getDateFinEncheres));
+		}
+		return listeArticles;
+	}
+
+
+	private List<ArticleVendu> removeArticlesDuplications(List<ArticleVendu> listeArticles) {
+
+		for(int i = 0; i < listeArticles.size(); i++) {
+			ArticleVendu article = listeArticles.get(i);
+			for(int j = 0; j < listeArticles.size(); j++) {
+				if(listeArticles.get(j).getNoArticle() == article.getNoArticle() && i != j) {
+					listeArticles.remove(j);
+				}
+			}
+		}
 		
 		return listeArticles;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

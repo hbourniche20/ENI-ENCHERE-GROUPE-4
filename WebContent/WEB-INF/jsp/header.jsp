@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-5 fixed-top">
-  <a class="navbar-brand" href="${ pageContext.request.contextPath }">ENI - Enchères</a>
+  <a class="navbar-brand text-light" href="index">ENI - Enchères</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,7 +11,7 @@
       <c:choose>
 	    <c:when test="${ not empty sessionScope.user }">
 	    	<li class="nav-item active">
-		       <a class="nav-link" href="#">Enchères</a>
+		       <a class="nav-link" href="${ pageContext.request.contextPath }">Enchères</a>
 		    </li>
 		    <li class="nav-item active">
 		       <a class="nav-link" href="AjoutArticleVenduServlet">Vendre un article</a>
