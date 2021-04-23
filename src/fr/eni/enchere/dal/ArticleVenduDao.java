@@ -13,7 +13,7 @@ public interface ArticleVenduDao {
 
 	List<Categorie> selectAllCategories() throws Exception;
 	
-	//List<Retrait> selectAllRetraits() throws Exception;
+	
 	
 	
 

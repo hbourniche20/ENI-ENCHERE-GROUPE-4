@@ -56,18 +56,7 @@
 					   	<div class="col-sm-9">
 					      	<input type="date" name="dateFin" class="form-control" id="dateFin" required>
 					   	</div>
-					</div>
-<!-- 					<div class="form-group row"> -->
-<!-- 					   	<label for="noRetrait" class="col-sm-3 col-form-label">Points de Retraits :</label> -->
-<!-- 					   	<div class="col-sm-9"> -->
-<!-- 					   	  	<select name="noRetrait" class="custom-select"> -->
-<!-- 								<option value="">Toutes</option> -->
-<%-- 								<c:forEach var="retrait" items="${ retraits }" begin="0"> --%>
-<%--  									<option value="${ retrait.noRetrait }">${ retrait.rue } ${ retrait.codePostal } ${ retrait.ville }</option> ${ retrait.codePostal } ${ retrait.ville } --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</select> -->
-<!-- 					   </div> -->
-<!-- 					</div>	 -->
+					</div> 					
 					</div>
 				</div>
 				<h3 class="text-center my-4">Retrait de l'article</h3>

@@ -44,10 +44,10 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		try {
 
 			List<Categorie> listeCategories = manager.recupererListeCategories();
-			//List<Retrait> listeRetraits = manager.recupererListeRetraits();
+			
 	
 			request.setAttribute("categories", listeCategories);
-			//request.setAttribute("retraits", listeRetraits);
+			
 			
 		} catch (Exception e) {
 			//request.setAttribute("error", e.getMessage());
@@ -70,23 +70,21 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
-	    int noRetrait = 0;
 		int nocategorie = 0;
 		
 		try {
 			try {
 				 nocategorie = Integer.parseInt(request.getParameter("noCategorie"));
-				// noRetrait = Integer.parseInt(request.getParameter("noRetrait"));
+				
 			}catch(NumberFormatException e) {
 				e.printStackTrace();
 			}
 			
 			Categorie c = new Categorie();
 			c.setNoCategorie(nocategorie);
-			Retrait r = new Retrait();
-			r.setNoRetrait(noRetrait);
 			
-			r = new Retrait(rue, codePostal, ville);
+			
+			Retrait r = new Retrait(rue, codePostal, ville);
 			ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
 			
 			ArticleVenduManager manager = new ArticleVenduManager();

@@ -16,7 +16,7 @@ import fr.eni.enchere.bo.Utilisateur;
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
-	private final String INSERT = "INSERT INTO ARTICLES_VENDUS(NOM_ARTICLE,DESCRIPTION,DATE_DEBUT_ENCHERES,DATE_FIN_ENCHERES,PRIX_INITIAL,NO_CATEGORIE,NO_UTILISATEUR,NO_RETRAIT) VALUES (?,?,?,?,?,?,?)";
+	private final String INSERT = "INSERT INTO ARTICLES_VENDUS(NOM_ARTICLE,DESCRIPTION,DATE_DEBUT_ENCHERES,DATE_FIN_ENCHERES,PRIX_INITIAL,NO_CATEGORIE,NO_UTILISATEUR,NO_RETRAIT) VALUES (?,?,?,?,?,?,?,?)";
 	private final String SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
 //	private final String SELECT_ALL_RETRAITS = "SELECT RUE,CODE_POSTAL,VILLE FROM RETRAITS ";
 	private final String SELECT_LOCATION = "SELECT RUE,CODE_POSTAL,VILLE FROM UTILISATEURS WHERE PSEUDO =?";
@@ -50,31 +50,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
 	
 	
-//	@Override
-//	public List<Retrait> selectAllRetraits() throws Exception {
-//		// TODO Auto-generated method stub
-//		List<Retrait> listeRetraits = new ArrayList<>();
-//		
-//		try(Connection con = ConnectionProvider.getConnection()){
-//			Statement st = con.createStatement();
-//			ResultSet rs = st.executeQuery(SELECT_ALL_RETRAITS);
-//			
-//			while(rs.next()) {
-//				Retrait r = new Retrait();
-//				r.setCodePostal(rs.getString(1));
-//				r.setRue(rs.getString(2));
-//				r.setVille(rs.getString(3));
-//				
-//				listeRetraits.add(r);
-//			}
-//			rs.close();
-//			st.close();
-//		}catch(SQLException e) {
-//			throw new Exception("Impossible de récupérer la liste de retraits");
-//		}
-//		
-//		return listeRetraits;
-//	}
+
 	
 	@Override
 	public void addArticleVendu(ArticleVendu a) throws Exception {
