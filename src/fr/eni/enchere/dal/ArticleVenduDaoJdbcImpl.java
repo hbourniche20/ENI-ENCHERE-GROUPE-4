@@ -22,10 +22,8 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
 	private final String INSERT = "INSERT INTO ARTICLES_VENDUS(NOM_ARTICLE,DESCRIPTION,DATE_DEBUT_ENCHERES,DATE_FIN_ENCHERES,PRIX_INITIAL,NO_CATEGORIE,NO_UTILISATEUR,NO_RETRAIT) VALUES (?,?,?,?,?,?,?,?)";
 	private final String SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
-//	private final String SELECT_ALL_RETRAITS = "SELECT RUE,CODE_POSTAL,VILLE FROM RETRAITS ";
-	private final String SELECT_LOCATION = "SELECT RUE,CODE_POSTAL,VILLE FROM UTILISATEURS WHERE PSEUDO =?";
 	private final String INSERT_RETRAIT = "INSERT INTO RETRAITS(RUE,CODE_POSTAL,VILLE) VALUES (?,?,?)  ";
-	
+	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET NOM_ARTICLE = ?, DESCRIPTION = ?, DATE_DEBUT_ENCHERES = ?, DATE_FIN_ENCHERES = ?, PRIX_INITIAL =?, NO_CATEGORIE = ? , NO_RETRAIT = ? WHERE NO_ARTICLE = ?";
 	private final String SELECT_ARTICLE_VENDU_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, "
 			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS u1 ON ARTICLES_VENDUS.no_utilisateur = u1.no_utilisateur " 
@@ -63,6 +61,10 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 		// TODO Auto-generated method stub
 		
 		try(Connection c = ConnectionProvider.getConnection()){
+			String request = INSERT;
+			if(a.getNoArticle() != 0) {
+				request = UPDATE_ARTICLE;
+			}
 			try {
 			c.setAutoCommit(false);
 			
@@ -85,7 +87,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			rs.close();
 			pstt.close();
 			
-			pstt = c.prepareStatement(INSERT);
+			pstt = c.prepareStatement(request);
 			
 			pstt.setString(1, a.getNomArticle());
 			pstt.setString(2, a.getDescription());

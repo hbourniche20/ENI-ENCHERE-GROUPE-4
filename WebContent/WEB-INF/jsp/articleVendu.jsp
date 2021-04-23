@@ -88,15 +88,22 @@
 						<label>${ article.getVendeur().getPseudo() }</label>
 					</div>
 				</div>
+				<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+					<a href="AjoutArticleVenduServlet" class="btn btn-primary">Modifier la vente</a>
+				</c:if>
+					
+				<c:if test="${not empty sessionScope.user && article.getVendeur().getPseudo() != user.getPseudo() }">
 				<div class="row justify-content-md-center align-items-end my-3">
 					<div class="col">
 						<label for="proposition" class="col-form-label font-weight-bold">Ma proposition</label>
 						<input type="number" name="proposition" class="form-control" id="proposition"/>
 					</div>
+					
 					<div class="col">
 						<button class="btn btn-danger col-sm">Enchérir</button>
 					</div>
 				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>

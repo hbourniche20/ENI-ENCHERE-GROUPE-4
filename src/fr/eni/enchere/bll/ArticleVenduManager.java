@@ -61,4 +61,6 @@ public class ArticleVenduManager {
 	public ArticleVendu recupererArticleVendu(Integer noArticle) throws ArticleVenduException {
 		return dao.selectArticleVenduById(noArticle);
 	}
+	
+	
 }
