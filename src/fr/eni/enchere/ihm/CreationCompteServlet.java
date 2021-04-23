@@ -42,7 +42,7 @@ public class CreationCompteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String pseudo = request.getParameter("pseudo");
-		request.setAttribute("pseudo", pseudo);
+		request.setAttribute("pseudo", pseudo); // save data if there is an error the fields will keep the data.
 		String nom = request.getParameter("nom");
 		request.setAttribute("nom", nom);
 		String prenom = request.getParameter("prenom");
@@ -57,26 +57,36 @@ public class CreationCompteServlet extends HttpServlet {
 		request.setAttribute("codepostal", codepostal);
 		String ville = request.getParameter("ville");
 		request.setAttribute("ville", ville);
-		String ancienMotdePasse = request.getParameter("actualmotdepasse");
+		// newly created password.
+		String nouveauMotdePasse = request.getParameter("newmotdepasse");
+		// Current password of the user id .
 		String motdepasse = request.getParameter("motdepasse");
+		// New password correspond to the newly created password.
 		String confirmationmdp = request.getParameter("confirmationmdp");
 		Utilisateur currentUtilisateur = (Utilisateur) request.getSession().getAttribute("user");
 
-		if(currentUtilisateur != null && 
-				(!ancienMotdePasse.equals("") && !ancienMotdePasse.equals(currentUtilisateur.getMotDePasse()))
-				) {
+		if(currentUtilisateur != null && !motdepasse.equals(currentUtilisateur.getMotDePasse())) {
 			this.throwException(request, response, "le mot de passe ne correspond pas");
 		}
+		System.out.println("confirmationmdp : " + confirmationmdp);
+		System.out.println("newmdp : " + nouveauMotdePasse);
+		System.out.println("currentUser : " + currentUtilisateur);
 
-		if (confirmationmdp.equals(motdepasse) || ancienMotdePasse.equals("")) {
-			
-			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, ville, codepostal, motdepasse);
+		if (confirmationmdp.equals(nouveauMotdePasse) || (currentUtilisateur != null && nouveauMotdePasse.equals(""))) {
+			if(nouveauMotdePasse.equals("")) {
+				nouveauMotdePasse = motdepasse;
+			}
+			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, ville, codepostal, nouveauMotdePasse);
 			if(currentUtilisateur != null) {
 				u.setNoUtilisateur(currentUtilisateur.getNoUtilisateur());
 			}
 			UtilisateurManager manager = new UtilisateurManager();
 			try {
 				manager.enregistrer(u);
+				System.out.println("attribute user updated in the session");
+				request.getSession().setAttribute("user", u); // update session
+				System.out.println("redirection");
+				response.sendRedirect("index");
 			} catch (EmailNotUniqueException e){
 				this.throwException(request, response, e.getMessage());
 			} catch (PseudoNotUniqueException e) {
@@ -84,8 +94,6 @@ public class CreationCompteServlet extends HttpServlet {
 			} catch (WrongInputException e) {
 				this.throwException(request, response, e.getMessage());
 			}
-			
-			response.sendRedirect("index");
 		}
 		else {
 			this.throwException(request, response, "La confirmation du mot de passe doit être identique au mot de passe");
@@ -94,6 +102,7 @@ public class CreationCompteServlet extends HttpServlet {
 	
 	private void throwException(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
 		request.setAttribute("error", message);
+		System.out.println("error ! " + message);
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
 		rd.forward(request, response);
 	}

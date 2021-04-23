@@ -168,40 +168,9 @@ public class Utilisateur {
 	}
 
 	public boolean hasValidInformations() throws WrongInputException {
-		if(this.pseudo.equals("")) {
-			throw new WrongInputException("Le pseudo est obligatoire");
-		}
 		
-		if(this.nom.equals("")) {
-			throw new WrongInputException("Le nom est obligatoire");
-		}
+		// TODO Verify phone number and postalCode
 		
-		if(this.prenom.equals("")) {
-			throw new WrongInputException("Le prenom est obligatoire");
-		}
-		
-		if(this.email.equals("")) {
-			throw new WrongInputException("L'email est obligatoire");
-		}
-		
-		if(this.rue.equals("")) {
-			throw new WrongInputException("La rue est obligatoire");
-		}
-		
-		if(this.codePostal.equals("")) {
-			throw new WrongInputException("Le code postal est obligatoire");
-		}
-		
-		if(this.ville.equals("")) {
-			throw new WrongInputException("La ville est obligatoire");
-		} 
-		
-		
-		if(this.motDePasse.equals("")) {
-			throw new WrongInputException("Le mot de passe est obligatoire");
-		}
-		
-
 		if(this.credit < 0) {
 			throw new WrongInputException("Le crédit doit être supérieur à 0");
 		}

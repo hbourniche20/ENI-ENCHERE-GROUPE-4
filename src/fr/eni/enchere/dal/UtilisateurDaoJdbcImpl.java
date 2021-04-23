@@ -19,7 +19,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	private final String SELECT_PSEUDO = "SELECT PSEUDO FROM UTILISATEURS WHERE PSEUDO =? AND NO_UTILISATEUR != ?";
 	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =? AND NO_UTILISATEUR != ?";
 	private final String GET_USER = "SELECT nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
-	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo= ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, code_postal = ?, ville = ? WHERE no_utilisateur = ?";
+	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo= ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?";
 	
 	public boolean verifPseudo(String pseudo, int idUser) {
 		boolean isOk = true;
@@ -32,7 +32,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			ResultSet rs = pstt.executeQuery();
 			
 			if(rs.next()) {
-				 
+				System.out.println("exist");
+				 System.out.println(rs);
 			isOk = false;
 							
 			}}catch(Exception e) {
@@ -54,24 +55,20 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			ResultSet rs = pstt.executeQuery();
 			
 			if(rs.next()) {
-				 
-				isOk = false;
-								
-				}}catch(Exception e) {
-					e.printStackTrace();
-				}
-					
-			return isOk; 
-		
+				isOk = false;	
+			}}catch(Exception e) {
+				e.printStackTrace();
+			}	
+		return isOk; 
 	}
 	@Override
 	public void addUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException {
-		
+		// TODO Return int
 		if(!verifPseudo(u.getPseudo(), u.getNoUtilisateur()))  {
 			throw new PseudoNotUniqueException();
 		}
 		
-		if(!verifPseudo(u.getEmail(), u.getNoUtilisateur())) {
+		if(!verifEmail(u.getEmail(), u.getNoUtilisateur())) {
 			throw new EmailNotUniqueException();
 		}
 		try(Connection c = ConnectionProvider.getConnection()){
@@ -79,6 +76,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			if(u.getNoUtilisateur() != 0) {
 				request = UPDATE_USER;
 			}
+			System.out.println("User : " + u.getNoUtilisateur());
+			System.out.println("Request: " + request);
 			PreparedStatement pstt = c.prepareStatement(request);
 			pstt.setString(1, u.getPseudo());
 			pstt.setString(2, u.getNom());
