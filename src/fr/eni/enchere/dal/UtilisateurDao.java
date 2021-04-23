@@ -12,5 +12,4 @@ public interface UtilisateurDao {
 	
 	Utilisateur getUtilisateur(String pseudo) throws UtilisateurNotFoundException;
 	
-	void updateUtilisateur(Utilisateur u) throws UtilisateurNotFoundException;
 }

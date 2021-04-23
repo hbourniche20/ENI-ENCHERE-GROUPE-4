@@ -24,6 +24,17 @@ public class CreationCompteServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd =request.getRequestDispatcher("WEB-INF/jsp/creationCompte.jsp");
+		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+		if(utilisateur != null) {
+			request.setAttribute("pseudo", utilisateur.getPseudo());
+			request.setAttribute("nom", utilisateur.getNom());
+			request.setAttribute("prenom", utilisateur.getPrenom());
+			request.setAttribute("email", utilisateur.getEmail());
+			request.setAttribute("telephone", utilisateur.getTelephone());
+			request.setAttribute("rue", utilisateur.getRue());
+			request.setAttribute("codepostal", utilisateur.getCodePostal());
+			request.setAttribute("ville", utilisateur.getVille());
+		}
 		rd.forward(request, response);
 	}
 
@@ -46,14 +57,23 @@ public class CreationCompteServlet extends HttpServlet {
 		request.setAttribute("codepostal", codepostal);
 		String ville = request.getParameter("ville");
 		request.setAttribute("ville", ville);
+		String ancienMotdePasse = request.getParameter("actualmotdepasse");
 		String motdepasse = request.getParameter("motdepasse");
 		String confirmationmdp = request.getParameter("confirmationmdp");
+		Utilisateur currentUtilisateur = (Utilisateur) request.getSession().getAttribute("user");
 
+		if(currentUtilisateur != null && 
+				(!ancienMotdePasse.equals("") && !ancienMotdePasse.equals(currentUtilisateur.getMotDePasse()))
+				) {
+			this.throwException(request, response, "le mot de passe ne correspond pas");
+		}
 
-		if (confirmationmdp.equals(motdepasse) ) {
+		if (confirmationmdp.equals(motdepasse) || ancienMotdePasse.equals("")) {
 			
 			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, ville, codepostal, motdepasse);
-			
+			if(currentUtilisateur != null) {
+				u.setNoUtilisateur(currentUtilisateur.getNoUtilisateur());
+			}
 			UtilisateurManager manager = new UtilisateurManager();
 			try {
 				manager.enregistrer(u);
@@ -68,10 +88,8 @@ public class CreationCompteServlet extends HttpServlet {
 			response.sendRedirect("index");
 		}
 		else {
-			System.out.println("La confirmation du mot de passe doit être identique au mot de passe");
+			this.throwException(request, response, "La confirmation du mot de passe doit être identique au mot de passe");
 		}
-		
-		
 	}
 	
 	private void throwException(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
