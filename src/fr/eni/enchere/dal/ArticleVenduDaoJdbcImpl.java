@@ -21,12 +21,12 @@ import fr.eni.enchere.exception.EnchereException;
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
 	private final String INSERT = "INSERT INTO ARTICLES_VENDUS(NOM_ARTICLE,DESCRIPTION,DATE_DEBUT_ENCHERES,DATE_FIN_ENCHERES,PRIX_INITIAL,NO_CATEGORIE,NO_UTILISATEUR,NO_RETRAIT) VALUES (?,?,?,?,?,?,?,?)";
-	private final String SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
-//	private final String SELECT_ALL_RETRAITS = "SELECT RUE,CODE_POSTAL,VILLE FROM RETRAITS ";
-	private final String SELECT_LOCATION = "SELECT RUE,CODE_POSTAL,VILLE FROM UTILISATEURS WHERE PSEUDO =?";
+	
 	private final String INSERT_RETRAIT = "INSERT INTO RETRAITS(RUE,CODE_POSTAL,VILLE) VALUES (?,?,?)  ";
 	
-	private final String SELECT_ARTICLE_VENDU_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, "
+	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET NOM_ARTICLE = ?, DESCRIPTION = ?, DATE_DEBUT_ENCHERES = ?, DATE_FIN_ENCHERES = ?, PRIX_INITIAL =?, NO_CATEGORIE = ? , NO_RETRAIT = ? WHERE NO_ARTICLE = ?";
+	
+	private final String SELECT_ARTICLE_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, "
 			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS u1 ON ARTICLES_VENDUS.no_utilisateur = u1.no_utilisateur " 
 			+ "INNER JOIN CATEGORIES ON ARTICLES_VENDUS.no_categorie = CATEGORIES.no_categorie " 
@@ -36,33 +36,14 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			+ "WHERE ARTICLES_VENDUS.no_article = ? ";
 	
 	@Override
-	public List<Categorie> selectAllCategories() throws Exception {
-		List<Categorie> listeCategories = new ArrayList<>();
-		try(Connection con = ConnectionProvider.getConnection()) {
-			Statement st  = con.createStatement();
-			ResultSet rs = st.executeQuery(SELECT_ALL_CATEGORIES);
-
-			while(rs.next()) {
-				Categorie c = new Categorie();
-				c.setNoCategorie(rs.getInt(1));
-				c.setLibelle(rs.getString(2));
-				
-				listeCategories.add(c);
-			}
-			rs.close();
-			st.close();
-		} catch(SQLException e) {
-			throw new Exception("Impossible de récupérer la liste de catégories");
-		}
-	
-		return listeCategories;
-	}
-	
-	@Override
 	public void addArticleVendu(ArticleVendu a) throws Exception {
 		// TODO Auto-generated method stub
 		
 		try(Connection c = ConnectionProvider.getConnection()){
+			String request = INSERT;
+			if(a.getNoArticle() != 0) {
+				request = UPDATE_ARTICLE;
+			}
 			try {
 			c.setAutoCommit(false);
 			
@@ -85,7 +66,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			rs.close();
 			pstt.close();
 			
-			pstt = c.prepareStatement(INSERT);
+			pstt = c.prepareStatement(request);
 			
 			pstt.setString(1, a.getNomArticle());
 			pstt.setString(2, a.getDescription());
@@ -119,7 +100,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 		ArticleVendu article = null;
 		
 		try(Connection con = ConnectionProvider.getConnection()) {
-			PreparedStatement st = con.prepareStatement(SELECT_ARTICLE_VENDU_BY_ID);
+			PreparedStatement st = con.prepareStatement(SELECT_ARTICLE_BY_ID);
 			st.setInt(1, noArticle);
 			
 			ResultSet rs = st.executeQuery();

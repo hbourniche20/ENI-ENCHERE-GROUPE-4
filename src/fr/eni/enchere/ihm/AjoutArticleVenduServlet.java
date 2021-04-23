@@ -23,6 +23,7 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
+import fr.eni.enchere.exception.ArticleVenduException;
 
 /**
  * Servlet implementation class AjoutArticleVenduServlet
@@ -44,15 +45,19 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		CategorieManager managerCategorie = new CategorieManager();
 		
 		try {
-
+			if(request.getSession().getAttribute("user") != null) {
 			List<Categorie> listeCategories = managerCategorie.recupererListeCategories();
 			
 	
 			request.setAttribute("categories", listeCategories);
 			
-			
-		} catch (Exception e) {
-			//request.setAttribute("error", e.getMessage());
+			} else {
+				throw new ArticleVenduException("Vous n'avez pas l'autorisation de vendre un article");
+			}	
+	
+		}catch(Exception e) {
+			request.setAttribute("error", e.getMessage());
+			response.sendRedirect(request.getContextPath());
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");

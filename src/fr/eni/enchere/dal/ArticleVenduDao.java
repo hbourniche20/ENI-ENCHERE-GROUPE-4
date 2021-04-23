@@ -16,10 +16,4 @@ public interface ArticleVenduDao {
 	
 	ArticleVendu selectArticleVenduById(Integer noArticle) throws ArticleVenduException;
 
-	List<Categorie> selectAllCategories() throws Exception;
-	
-	
-	
-	
-
 }

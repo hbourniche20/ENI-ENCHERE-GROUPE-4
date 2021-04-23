@@ -98,6 +98,13 @@
 							<button class="btn btn-danger col-sm">Enchérir</button>
 						</div>
 					</div>
+					<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+						<div class="row justify-content-md-center align-items-end my-3">
+							<div class="col">
+								<a href="AjoutArticleVenduServlet" class="btn btn-primary">Modifier la vente</a>
+							</div>
+						</div>
+					</c:if>
 				</div>
 			</div>
 		</form>
