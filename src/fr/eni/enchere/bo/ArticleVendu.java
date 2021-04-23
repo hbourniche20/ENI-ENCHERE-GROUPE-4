@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.enchere.exception.ArticleVenduException;
+
 public class ArticleVendu {
 	private int noArticle;
 	private String nomArticle;
@@ -174,6 +176,5 @@ public class ArticleVendu {
 	public void setEncheres(List<Enchere> encheres) {
 		this.encheres = encheres;
 	}
-
 	
 }

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.ArticleVenduManager;
 import fr.eni.enchere.bll.CategorieManager;
-import fr.eni.enchere.bll.EncheresManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Retrait;

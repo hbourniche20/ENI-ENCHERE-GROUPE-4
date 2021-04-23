@@ -2,7 +2,7 @@ package fr.eni.enchere.dal;
 
 public class DaoFactory {
 	
-	public static EncheresDao getEncheresDao() {
+	public static EncheresDao getEnchereDao() {
 		return new EncheresDaoJdbcImpl();
 	}
 	

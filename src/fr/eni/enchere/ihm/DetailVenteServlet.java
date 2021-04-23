@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.ArticleVenduManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
+import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.ArticleVenduException;
 
 /**
@@ -54,7 +56,28 @@ public class DetailVenteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		EnchereManager manager = new EnchereManager();
+		Integer noArticle = 0;
+		Integer montantEnchere = 0;
+		try {
+			if(request.getSession().getAttribute("user") != null) {
+				Utilisateur encherisseur = (Utilisateur) request.getSession().getAttribute("user");
+				noArticle = Integer.parseInt(request.getParameter("noArticle"));
+				montantEnchere = Integer.parseInt(request.getParameter("montantEnchere"));
+				manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
+			} else {
+				throw new ArticleVenduException("Vous n'avez pas l'autorisation d'accéder au détail d'un article");
+			}
+			request.setAttribute("noArticle", noArticle);
+			doGet(request, response);
+		} catch(NumberFormatException e) {
+			request.setAttribute("error", "Le numéro article doit être un nombre entier");
+			response.sendRedirect(request.getContextPath());
+		} catch(Exception e) {
+			System.out.println(e.getLocalizedMessage());
+			request.setAttribute("error", e.getMessage());
+			response.sendRedirect(request.getContextPath());
+		}
 	}
 
 }

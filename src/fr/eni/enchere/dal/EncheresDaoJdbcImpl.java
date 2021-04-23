@@ -5,18 +5,19 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.enchere.bo.ArticleVendu;
-import fr.eni.enchere.bo.Categorie;
+import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.exception.CategorieException;
-import fr.eni.enchere.exception.EncheresException;
+import fr.eni.enchere.exception.EnchereException;
 
 public class EncheresDaoJdbcImpl implements EncheresDao {
+	
+	private final String INSERT_AUCTION = "INSERT INTO ENCHERES(date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?, ?, ?, ?)";
 	
 	private final String SELECT_CURRENT_AUCTIONS = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
@@ -45,7 +46,32 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			+ "WHERE date_fin_encheres < ? AND ARTICLES_VENDUS.no_utilisateur = ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
 	
 	@Override
-	public List<ArticleVendu> selectAuctions(LocalDate date, String nomArticle, Integer noCategorie) throws EncheresException {
+	public void insert(Enchere enchere) throws EnchereException {
+		try(Connection con = ConnectionProvider.getConnection()) {
+			PreparedStatement st = con.prepareStatement(INSERT_AUCTION, PreparedStatement.RETURN_GENERATED_KEYS);
+			st.setTimestamp(1, Timestamp.valueOf(enchere.getDateEnchere()));
+			st.setInt(2, enchere.getMontantEnchere());
+			st.setInt(3, enchere.getArticle().getNoArticle());
+			st.setInt(4, enchere.getEncherisseur().getNoUtilisateur());
+			
+			st.executeUpdate();
+			
+			ResultSet rs = st.getGeneratedKeys();
+			
+			if(!rs.next()) {
+				throw new SQLException();
+			}
+			rs.close();
+			st.close();
+		} catch(SQLException e) {
+			System.out.println(e);
+			throw new EnchereException();
+		}	
+	}
+	
+	
+	@Override
+	public List<ArticleVendu> selectAuctions(LocalDate date, String nomArticle, Integer noCategorie) throws EnchereException {
 		List<ArticleVendu> listeArticles = new ArrayList<>();
 		
 		try(Connection con = ConnectionProvider.getConnection()) {
@@ -76,21 +102,21 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EncheresException();
+			throw new EnchereException();
 		}
 		
 		return listeArticles;
 	}
 	
 	@Override
-	public List<ArticleVendu> selectCurrentAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie) throws EncheresException {		
+	public List<ArticleVendu> selectCurrentAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie) throws EnchereException {		
 		listeArticles = selectAuctions(date, nomArticle, noCategorie);
 	
 		return listeArticles;
 	}
 
 	@Override
-	public List<ArticleVendu> selectMyAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle,	Integer noCategorie, Utilisateur utilisateur) throws EncheresException {
+	public List<ArticleVendu> selectMyAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle,	Integer noCategorie, Utilisateur utilisateur) throws EnchereException {
 		try(Connection con = ConnectionProvider.getConnection()) {
 			PreparedStatement st = con.prepareStatement(SELECT_MY_AUCTIONS);
 			st.setInt(1, utilisateur.getNoUtilisateur());
@@ -118,14 +144,14 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EncheresException("Impossible de récupérer la liste de mes enchères");
+			throw new EnchereException("Impossible de récupérer la liste de mes enchères");
 		}
 	
 		return listeArticles;
 	}
 
 	@Override
-	public List<ArticleVendu> selectMyWinAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EncheresException {
+	public List<ArticleVendu> selectMyWinAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EnchereException {
 		try(Connection con = ConnectionProvider.getConnection()) {
 			PreparedStatement st = con.prepareStatement(SELECT_MY_WIN_AUCTIONS);
 			st.setInt(1, utilisateur.getNoUtilisateur());
@@ -154,14 +180,14 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EncheresException("Impossible de récupérer la liste de mes enchères remportées");
+			throw new EnchereException("Impossible de récupérer la liste de mes enchères remportées");
 		}
 	
 		return listeArticles;
 	}
 
 	@Override
-	public List<ArticleVendu> selectCurrentSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EncheresException {
+	public List<ArticleVendu> selectCurrentSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EnchereException {
 		try(Connection con = ConnectionProvider.getConnection()) {
 			
 			PreparedStatement st = con.prepareStatement(SELECT_CURRENT_SALES);
@@ -192,14 +218,14 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EncheresException("Impossible de récupérer la liste de mes ventes en cours");
+			throw new EnchereException("Impossible de récupérer la liste de mes ventes en cours");
 		}
 	
 		return listeArticles;
 	}
 
 	@Override
-	public List<ArticleVendu> selectNotBeginSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EncheresException {
+	public List<ArticleVendu> selectNotBeginSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EnchereException {
 		try(Connection con = ConnectionProvider.getConnection()) {
 			PreparedStatement st = con.prepareStatement(SELECT_NOT_BEGIN_SALES);
 			st.setDate(1, Date.valueOf(date));
@@ -228,14 +254,14 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EncheresException("Impossible de récupérer la liste de mes ventes en cours");
+			throw new EnchereException("Impossible de récupérer la liste de mes ventes en cours");
 		}
 	
 		return listeArticles;
 	}
 
 	@Override
-	public List<ArticleVendu> selectFinishedSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EncheresException {
+	public List<ArticleVendu> selectFinishedSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie, Utilisateur utilisateur) throws EnchereException {
 		try(Connection con = ConnectionProvider.getConnection()) {
 			PreparedStatement st = con.prepareStatement(SELECT_FINISHED_SALES);
 			st.setDate(1, Date.valueOf(date));
@@ -264,9 +290,10 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EncheresException("Impossible de récupérer la liste de mes ventes en cours");
+			throw new EnchereException("Impossible de récupérer la liste de mes ventes en cours");
 		}
 	
 		return listeArticles;
 	}
+
 }

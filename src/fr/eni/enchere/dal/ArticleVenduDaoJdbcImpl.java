@@ -16,7 +16,7 @@ import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.ArticleVenduException;
-import fr.eni.enchere.exception.EncheresException;
+import fr.eni.enchere.exception.EnchereException;
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
@@ -26,7 +26,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	private final String SELECT_LOCATION = "SELECT RUE,CODE_POSTAL,VILLE FROM UTILISATEURS WHERE PSEUDO =?";
 	private final String INSERT_RETRAIT = "INSERT INTO RETRAITS(RUE,CODE_POSTAL,VILLE) VALUES (?,?,?)  ";
 	
-	private final String SELECT_ARTICLE_VENDU_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, "
+	private final String SELECT_ARTICLE_VENDU_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, "
 			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS u1 ON ARTICLES_VENDUS.no_utilisateur = u1.no_utilisateur " 
 			+ "INNER JOIN CATEGORIES ON ARTICLES_VENDUS.no_categorie = CATEGORIES.no_categorie " 
@@ -126,38 +126,39 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			while(rs.next()) {
 				if(article == null) {
 					article = new ArticleVendu();
-					article.setNoArticle(noArticle);
+					article.setNoArticle(rs.getInt(1));
 					article.setNomArticle(rs.getString(2));
 					article.setDescription(rs.getString(3));
-					article.setDateFinEncheres(rs.getDate(4).toLocalDate());
-					article.setMiseAPrix(rs.getInt(5));
+					article.setDateDebutEncheres(rs.getDate(4).toLocalDate());
+					article.setDateFinEncheres(rs.getDate(5).toLocalDate());
+					article.setMiseAPrix(rs.getInt(6));
 					
 					Utilisateur vendeur = new Utilisateur();
-	 				vendeur.setNoUtilisateur(rs.getInt(6));
-	 				vendeur.setPseudo(rs.getString(7));
+	 				vendeur.setNoUtilisateur(rs.getInt(7));
+	 				vendeur.setPseudo(rs.getString(8));
 	 				article.setVendeur(vendeur);
 	 				
 	 				Categorie categorieArticle = new Categorie();
-	 				categorieArticle.setNoCategorie(rs.getInt(8));
-	 				categorieArticle.setLibelle(rs.getString(9));
+	 				categorieArticle.setNoCategorie(rs.getInt(9));
+	 				categorieArticle.setLibelle(rs.getString(10));
 	 				article.setCategorieArticle(categorieArticle);
 	 				
 	 				Retrait lieuRetrait = new Retrait();
-	 				lieuRetrait.setRue(rs.getString(10));
-	 				lieuRetrait.setCodePostal(rs.getString(11));
-	 				lieuRetrait.setVille(rs.getString(12));
+	 				lieuRetrait.setRue(rs.getString(11));
+	 				lieuRetrait.setCodePostal(rs.getString(12));
+	 				lieuRetrait.setVille(rs.getString(13));
 	 				article.setLieuRetrait(lieuRetrait);
 				}
 				
-				if(rs.getInt(13) != 0) {
+				if(rs.getInt(14) != 0) {
 	 				Enchere enchere = new Enchere();
 	 				
 	 				Utilisateur encherisseur = new Utilisateur();
-	 				encherisseur.setNoUtilisateur(rs.getInt(13));
-	 				encherisseur.setPseudo(rs.getString(14));
+	 				encherisseur.setNoUtilisateur(rs.getInt(14));
+	 				encherisseur.setPseudo(rs.getString(15));
 					
 	 				enchere.setEncherisseur(encherisseur);
-	 				enchere.setMontantEnchere(rs.getInt(15));
+	 				enchere.setMontantEnchere(rs.getInt(16));
 					article.getEncheres().add(enchere);
 				}
 			}

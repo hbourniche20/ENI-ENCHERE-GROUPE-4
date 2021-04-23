@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.CategorieManager;
-import fr.eni.enchere.bll.EncheresManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Utilisateur;
@@ -27,7 +27,7 @@ public class ListeEncheresServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EncheresManager manager = new EncheresManager();
+		EnchereManager manager = new EnchereManager();
 		CategorieManager managerCategorie = new CategorieManager();
 		
 		try {
@@ -49,7 +49,7 @@ public class ListeEncheresServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EncheresManager manager = new EncheresManager();
+		EnchereManager manager = new EnchereManager();
 		CategorieManager managerCategorie = new CategorieManager();
 		String nomArticle = null;
 		String encheresOuvertes = null;

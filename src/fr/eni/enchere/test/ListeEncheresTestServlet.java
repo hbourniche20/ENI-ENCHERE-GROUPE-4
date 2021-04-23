@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.CategorieManager;
-import fr.eni.enchere.bll.EncheresManager;
+import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.CategorieException;
-import fr.eni.enchere.exception.EncheresException;
+import fr.eni.enchere.exception.EnchereException;
 
 /**
  * Servlet implementation class ListeEncheresTestServlet
@@ -22,11 +22,11 @@ import fr.eni.enchere.exception.EncheresException;
 @WebServlet("/servlet/fr.eni.enchere.test.ListeEncheresTestServlet")
 public class ListeEncheresTestServlet extends TestServlet  {
 	private static final long serialVersionUID = 1L;
-	private static EncheresManager manager;
+	private static EnchereManager manager;
 	private static CategorieManager managerCategorie;
   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	manager = new EncheresManager();
+    	manager = new EnchereManager();
     	managerCategorie = new CategorieManager();
     	printFirstMessage();	
 		testGetCategories();
@@ -56,7 +56,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 			Integer noCategorie = Integer.parseInt(categorie);
 		
 			articles = manager.recupererListeArticlesAvecFiltresAdditionnels(user, nomArticle, noCategorie, encheresOuvertes, mesEncheres, mesEncheresRemportees, ventesEnCours, ventesNonDebutees, ventesTerminees);
-		} catch (EncheresException e) {
+		} catch (EnchereException e) {
 			System.out.println(e.getMessage());
 		} catch(NumberFormatException e) {
 			System.out.println("Test réussi: Le numéro catégorie doît être un nombre entier.");
@@ -84,7 +84,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 
 		try {		
 			articles = manager.recupererListeArticlesAvecFiltresAdditionnels(user, nomArticle, noCategorie, encheresOuvertes, mesEncheres, mesEncheresRemportees, ventesEnCours, ventesNonDebutees, ventesTerminees);
-		} catch (EncheresException e) {
+		} catch (EnchereException e) {
 			printTestFail(e.getMessage());
 		}
 		
@@ -106,7 +106,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 			Integer noCategorie = Integer.parseInt(categorie);
 		
 			articles = manager.recupererListeArticlesAvecFiltres(nomArticle, noCategorie);
-		} catch (EncheresException e) {
+		} catch (EnchereException e) {
 			System.out.println(e.getMessage());
 		} catch(NumberFormatException e) {
 			System.out.println("Test réussi: Le numéro catégorie doît être un nombre entier.");
@@ -125,7 +125,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		
 		try {
 			articles = manager.recupererListeArticlesAvecFiltres(nomArticle, noCategorie);
-		} catch (EncheresException e) {
+		} catch (EnchereException e) {
 			printTestFail(e.getMessage());
 		}
 		
@@ -141,7 +141,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		List<ArticleVendu> articles = null;
 		try {
 			articles = manager.recupererListeArticles();
-		} catch (EncheresException e) {
+		} catch (EnchereException e) {
 			printTestFail(e.getMessage());
 		}
 		
