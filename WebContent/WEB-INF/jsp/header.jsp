@@ -17,7 +17,7 @@
 		       <a class="nav-link" href="${ pageContext.request.contextPath }/AjoutArticleVenduServlet">Vendre un article</a>
 		    </li>
 		    <li class="nav-item active">
-		       <a class="nav-link" href="${ pageContext.request.contextPath }/ProfileServlet?pseudo=${ sessionScope.user.getPseudo()}">Mon profil</a>
+		       <a class="nav-link" href="${ pageContext.request.contextPath }/ProfileServlet">Mon profil</a>
 		    </li>
 		    <li class="nav-item active dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -95,7 +95,16 @@
 						<div class="card-body">
 							<div class="row">
 								<div class="col">
-								  	<h6 class="card-title"><a href="#" class="text-dark">${ article.getNomArticle() }</a></h6>
+								  	<h6 class="card-title">
+								  		<c:choose>
+	    									<c:when test="${ not empty sessionScope.user }">
+								  				<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+								  			</c:when>
+								  			<c:otherwise>
+								  				${ article.getNomArticle() }
+								  			</c:otherwise>	
+								  		</c:choose>	
+								  	</h6>
 								    <p class="card-text text-left mb-0">Prix : ${ article.getPrixVente() } points</p>
 								    <fmt:parseDate  value="${ article.getDateFinEncheres() }"  type="date" pattern="yyyy-MM-dd" var="parsedDate" />
 									<fmt:formatDate value="${ parsedDate }" type="date" pattern="dd/MM/yyyy" var="dateFinEncheres" />

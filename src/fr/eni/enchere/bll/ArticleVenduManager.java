@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.dal.ArticleVenduDao;
 import fr.eni.enchere.dal.DaoFactory;
+import fr.eni.enchere.exception.ArticleVenduException;
 
 public class ArticleVenduManager {
 	
@@ -42,5 +43,10 @@ public class ArticleVenduManager {
 //		if(a.getLieuRetrait() == null) {
 //			throw new Exception("Le lieu de retrait doit être rempli (Par défaut le votre)");
 //		}
+	}
+	
+	
+	public ArticleVendu recupererArticleVendu(Integer noArticle) throws ArticleVenduException {
+		return dao.selectArticleVenduById(noArticle);
 	}
 }
