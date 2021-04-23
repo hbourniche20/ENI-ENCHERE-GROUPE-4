@@ -27,7 +27,7 @@ public class TestServlet extends HttpServlet {
 	}
 	
 	protected static void printFirstMessage() {
-		System.out.println("Vérifiez bien d'avoir initialisé la base de données avec le jeu de donnée mis à disposition dans le projet");
+		System.out.println("Vérifiez bien d'avoir initialisé la base de données avec le jeu de données mis à disposition dans le projet");
 	}
 	
 	protected static void printLastMessage(HttpServletResponse response) throws IOException {
