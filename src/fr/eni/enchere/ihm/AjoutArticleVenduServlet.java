@@ -68,7 +68,7 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		String descriptionArticleVendu = request.getParameter("description");	
 		LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
 		LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
-		int miseAPrix = request.getIntHeader("miseAPrix");
+		int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
