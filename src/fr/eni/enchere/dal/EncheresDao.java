@@ -11,8 +11,6 @@ import fr.eni.enchere.exception.EncheresException;
 
 public interface EncheresDao {
 	
-	List<Categorie> selectAllCategories() throws CategorieException;
-
 	List<ArticleVendu> selectAuctions(LocalDate date, String nomArticle, Integer noCategorie) throws EncheresException;
 	
 	List<ArticleVendu> selectCurrentAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie) throws EncheresException;

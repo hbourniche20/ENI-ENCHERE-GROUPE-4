@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bll.EncheresManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
@@ -27,10 +28,11 @@ public class ListeEncheresServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EncheresManager manager = new EncheresManager();
+		CategorieManager managerCategorie = new CategorieManager();
 		
 		try {
 
-			List<Categorie> listeCategories = manager.recupererListeCategories();
+			List<Categorie> listeCategories = managerCategorie.recupererListeCategories();
 			List<ArticleVendu> listeArticles = manager.recupererListeArticles();
 	
 			request.setAttribute("categories", listeCategories);
@@ -48,6 +50,7 @@ public class ListeEncheresServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EncheresManager manager = new EncheresManager();
+		CategorieManager managerCategorie = new CategorieManager();
 		String nomArticle = null;
 		String encheresOuvertes = null;
 		String mesEncheres = null;
@@ -71,7 +74,7 @@ public class ListeEncheresServlet extends HttpServlet {
 				}
 			} 
 
-			listeCategories = manager.recupererListeCategories();
+			listeCategories = managerCategorie.recupererListeCategories();
 
 			if(request.getSession().getAttribute("user") != null) {
 				if(request.getParameter("encheres").equals("achats")) {

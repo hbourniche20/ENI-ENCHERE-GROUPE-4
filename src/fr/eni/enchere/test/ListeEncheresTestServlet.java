@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bll.EncheresManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
@@ -22,9 +23,11 @@ import fr.eni.enchere.exception.EncheresException;
 public class ListeEncheresTestServlet extends TestServlet  {
 	private static final long serialVersionUID = 1L;
 	private static EncheresManager manager;
+	private static CategorieManager managerCategorie;
   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	manager = new EncheresManager();
+    	managerCategorie = new CategorieManager();
     	printFirstMessage();	
 		testGetCategories();
 		testGetAuctions();
@@ -153,7 +156,7 @@ public class ListeEncheresTestServlet extends TestServlet  {
 		printNewTest("Récupération des catégories");
 		List<Categorie> categories = null;
 		try {
-			categories = manager.recupererListeCategories();
+			categories = managerCategorie.recupererListeCategories();
 		} catch (CategorieException e) {
 			printTestFail(e.getMessage());
 		}

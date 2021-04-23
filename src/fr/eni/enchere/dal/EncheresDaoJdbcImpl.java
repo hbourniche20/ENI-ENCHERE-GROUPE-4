@@ -17,8 +17,6 @@ import fr.eni.enchere.exception.CategorieException;
 import fr.eni.enchere.exception.EncheresException;
 
 public class EncheresDaoJdbcImpl implements EncheresDao {
-
-	private final String SELECT_ALL_CATEGORIES = "SELECT no_categorie, libelle FROM CATEGORIES";
 	
 	private final String SELECT_CURRENT_AUCTIONS = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
@@ -45,30 +43,6 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 	private final String SELECT_FINISHED_SALES = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE date_fin_encheres < ? AND ARTICLES_VENDUS.no_utilisateur = ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
-	
-	@Override
-	public List<Categorie> selectAllCategories() throws CategorieException {
-		List<Categorie> listeCategories = new ArrayList<>();
-
-		try(Connection con = ConnectionProvider.getConnection()) {
-			Statement st  = con.createStatement();
-			ResultSet rs = st.executeQuery(SELECT_ALL_CATEGORIES);
-
-			while(rs.next()) {
-				Categorie c = new Categorie();
-				c.setNoCategorie(rs.getInt(1));
-				c.setLibelle(rs.getString(2));
-				
-				listeCategories.add(c);
-			}
-			rs.close();
-			st.close();
-		} catch(SQLException e) {
-			throw new CategorieException();
-		}
-	
-		return listeCategories;
-	}
 	
 	@Override
 	public List<ArticleVendu> selectAuctions(LocalDate date, String nomArticle, Integer noCategorie) throws EncheresException {

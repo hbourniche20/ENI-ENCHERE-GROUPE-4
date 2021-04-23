@@ -55,20 +55,8 @@ public class ArticleVenduManager {
 			throw new WrongInputException("Erreur lors de la saisie de la date de fin d'enchères! (Vérifiez qu'elle est bien postérieur à aujourd'hui ou à la date de mise en vente");
 		}
 		
-//		if(a.getLieuRetrait() == null) {
-//			throw new Exception("Le lieu de retrait doit être rempli (Par défaut le votre)");
-//		}
-		
 		dao.addArticleVendu(a);
 	}
-	
-	public List<Categorie> recupererListeCategories() throws Exception{
-		return dao.selectAllCategories();
-	}
-	
-//	public List<Retrait> recupererListeRetraits() throws Exception{
-//		return dao.selectAllRetraits();
-//	}
 
 	public ArticleVendu recupererArticleVendu(Integer noArticle) throws ArticleVenduException {
 		return dao.selectArticleVenduById(noArticle);

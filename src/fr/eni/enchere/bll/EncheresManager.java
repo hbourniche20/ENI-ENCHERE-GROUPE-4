@@ -22,10 +22,6 @@ public class EncheresManager {
 		dao = DaoFactory.getEncheresDao();
 	}
 	
-	public List<Categorie> recupererListeCategories() throws CategorieException {
-		return dao.selectAllCategories();
-	}
-	
 	public List<ArticleVendu> recupererListeArticles() throws EncheresException {
 		// Récupération de la date du jour
 		LocalDate date = LocalDate.now();

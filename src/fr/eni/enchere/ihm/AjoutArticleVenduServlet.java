@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.ArticleVenduManager;
+import fr.eni.enchere.bll.CategorieManager;
 import fr.eni.enchere.bll.EncheresManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Categorie;
@@ -40,10 +41,11 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ArticleVenduManager manager = new ArticleVenduManager();
+		CategorieManager managerCategorie = new CategorieManager();
 		
 		try {
 
-			List<Categorie> listeCategories = manager.recupererListeCategories();
+			List<Categorie> listeCategories = managerCategorie.recupererListeCategories();
 			
 	
 			request.setAttribute("categories", listeCategories);
