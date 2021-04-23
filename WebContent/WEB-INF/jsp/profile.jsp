@@ -44,22 +44,20 @@
 						<input type="text" name="telephone" class="form-control" id="telephone" value="${ user.getEmail() }"readonly>
 					</div>
 				</div>
-				<c:choose>
-					<c:when test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
-						<div class="form-group row">
-							<label for="telephone" class="col-sm-3 col-form-label">Téléphone :</label>
-							<div class="col-sm-9">
-								<input type="text" name="telephone" class="form-control" id="telephone" value="${ user.getTelephone() }" readonly>
-							</div>
+				<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+					<div class="form-group row">
+						<label for="telephone" class="col-sm-3 col-form-label">Téléphone :</label>
+						<div class="col-sm-9">
+							<input type="text" name="telephone" class="form-control" id="telephone" value="${ user.getTelephone() }" readonly>
 						</div>
-						<div class="form-group row">
-							<label for="codePostal" class="col-sm-3 col-form-label">Rue :</label>
-							<div class="col-sm-9">
-								<input type="text" name="codePostal" class="form-control" id="codePostal" value="${ user.getRue() }" readonly>
-							</div>
+					</div>
+					<div class="form-group row">
+						<label for="codePostal" class="col-sm-3 col-form-label">Rue :</label>
+						<div class="col-sm-9">
+							<input type="text" name="codePostal" class="form-control" id="codePostal" value="${ user.getRue() }" readonly>
 						</div>
-					</c:when>
-				</c:choose>
+					</div>
+				</c:if>
 				<div class="form-group row">
 					<label for="codePostal" class="col-sm-3 col-form-label">Code Postal :</label>
 					<div class="col-sm-9">
@@ -72,6 +70,9 @@
 						<input type="text" name="ville" class="form-control" id="Ville" value="${ user.getVille() }" readonly>
 					</div>
 				</div>
+				<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+					<a href="CreationCompteServlet" class="btn btn-primary">Modifier</a>
+				</c:if>
 			</div>
 		</div>
 	</div>
