@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
+<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,11 +10,27 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
-	
-	
 	<div class="container py-5">
-		<h3 class="text-center mt-5">Détail vente</h3>
+		<h3 class="text-center mt-5">
+			<c:choose>
+				<c:when test="${ article.getDateFinEncheres() > LocalDate.now() || article.getEncheres().size() == 0 }">
+					Détail vente
+				</c:when>
+				<c:otherwise>
+					<c:set var="enchere" scope="page" value="${ article.getEncheres().get(article.getEncheres().size() - 1) }"></c:set>
+				
+					<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(enchere.getEncherisseur().getPseudo()) }">
+						Vous avez remporté l'enchère
+					</c:if>
+					<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && !sessionScope.user.getPseudo().equals(enchere.getEncherisseur().getPseudo()) }">
+						${ enchere.getEncherisseur().getPseudo() } a remporté l'enchère
+					</c:if>
+				</c:otherwise>
+			</c:choose>
+		</h3>
+		
 		<jsp:include page="error.jsp"></jsp:include>
+		
 		<form action="${pageContext.request.contextPath }/article" method="POST">
 			<input type="hidden" name="noArticle" value="${ article.getNoArticle() }"/>
 			<div class="row justify-content-md-center my-4">
@@ -92,21 +109,14 @@
 							<label>${ article.getVendeur().getPseudo() }</label>
 						</div>
 					</div>
-					<c:if test="${not empty sessionScope.user && user.getPseudo() != article.getVendeur().getPseudo() }">
-					<div class="row justify-content-md-center align-items-end my-3">
-						<div class="col">
-							<label for="montantEnchere" class="col-form-label font-weight-bold">Ma proposition</label>
-							<input type="number" name="montantEnchere" class="form-control" id="montantEnchere"/>
-						</div>
-						<div class="col">
-							<button class="btn btn-danger col-sm">Enchérir</button>
-						</div>
-					</div>
-					</c:if>
-					<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }">
+					<c:if test="${ !sessionScope.user.getNoUtilisateur().equals(article.getVendeur().getNoUtilisateur()) && article.getDateFinEncheres() > LocalDate.now() }">
 						<div class="row justify-content-md-center align-items-end my-3">
 							<div class="col">
-								<a href="${pageContext.request.contextPath }/AjoutArticleVenduServlet?noArticle=${ article.getNoArticle() }" class="btn btn-primary">Modifier la vente</a>
+								<label for="montantEnchere" class="col-form-label font-weight-bold">Ma proposition</label>
+								<input type="number" name="montantEnchere" class="form-control" id="montantEnchere"/>
+							</div>
+							<div class="col">
+								<button class="btn btn-danger col-sm">Enchérir</button>
 							</div>
 						</div>
 					</c:if>

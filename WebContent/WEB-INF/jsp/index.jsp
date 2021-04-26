@@ -3,6 +3,7 @@
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,8 +98,11 @@
 								<div class="col">
 								  	<h6 class="card-title">
 								  		<c:choose>
-	    									<c:when test="${ not empty sessionScope.user }">
-								  				<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+	    									<c:when test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(article.getVendeur().getPseudo()) && article.getDateDebutEncheres() > LocalDate.now() }">
+	    										<a href="${pageContext.request.contextPath }/AjoutArticleVenduServlet?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+								  			</c:when>
+								  			<c:when test="${ not empty sessionScope.user && article.getDateDebutEncheres() <= LocalDate.now()}">
+	    										<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
 								  			</c:when>
 								  			<c:otherwise>
 								  				${ article.getNomArticle() }
@@ -109,7 +113,7 @@
 								    <fmt:parseDate  value="${ article.getDateFinEncheres() }"  type="date" pattern="yyyy-MM-dd" var="parsedDate" />
 									<fmt:formatDate value="${ parsedDate }" type="date" pattern="dd/MM/yyyy" var="dateFinEncheres" />
 								    <p class="card-text ">Fin de l'enchère : ${ dateFinEncheres }</p>
-								    <p class="card-text">Vendeur : <a href="ProfileServlet?pseudo=${ article.getVendeur().getPseudo()}" class="font-weight-bold">${ article.getVendeur().getPseudo() }</a></p>
+								    <p class="card-text">Vendeur : <a href="${pageContext.request.contextPath }/ProfileServlet?pseudo=${ article.getVendeur().getPseudo()}" class="font-weight-bold">${ article.getVendeur().getPseudo() }</a></p>
 								  </div>
 							</div>
 						</div>

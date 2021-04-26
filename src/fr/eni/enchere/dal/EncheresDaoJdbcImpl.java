@@ -27,29 +27,34 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			+ " INNER JOIN UTILISATEURS on ENCHERES.no_utilisateur = UTILISATEURS.no_utilisateur" 
 			+ " WHERE no_enchere = (SELECT MAX(no_enchere) FROM ENCHERES WHERE no_article = ?)";
 
-	private final String SELECT_CURRENT_AUCTIONS = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
+	private final String SELECT_CURRENT_AUCTIONS = "SELECT no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE date_debut_encheres <= ? AND date_fin_encheres > ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
 	
-	private final String SELECT_MY_AUCTIONS = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
+	private final String SELECT_MY_AUCTIONS = "SELECT no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE no_article IN (SELECT no_article FROM ENCHERES WHERE no_utilisateur = ?) AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?)";
 	
-	private final String SELECT_MY_WIN_AUCTIONS = "SELECT ARTICLES_VENDUS.no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
-			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur " 
-			+ "INNER JOIN ENCHERES ON ARTICLES_VENDUS.no_article = ENCHERES.no_article " 
-			+ "WHERE ENCHERES.no_utilisateur = ? AND date_fin_encheres < ? AND (? = '' OR ARTICLES_VENDUS.nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) " 
-			+ "GROUP BY ARTICLES_VENDUS.no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo HAVING MAX(montant_enchere)";
+	//private final String SELECT_MY_WIN_AUCTIONS = "SELECT ARTICLES_VENDUS.no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
+	//		+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur " 
+	//		+ "INNER JOIN ENCHERES ON ARTICLES_VENDUS.no_article = ENCHERES.no_article " 
+	//		+ "WHERE ENCHERES.no_utilisateur = ? AND date_fin_encheres < ? AND (? = '' OR ARTICLES_VENDUS.nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) " 
+	//		+ "GROUP BY ARTICLES_VENDUS.no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo HAVING MAX(montant_enchere)";
+	private final String SELECT_MY_WIN_AUCTIONS = "SELECT ARTICLES_VENDUS.no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ENCHERES"
+			+ " INNER JOIN ARTICLES_VENDUS ON ENCHERES.no_article = ARTICLES_VENDUS.no_article"
+			+ " INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur"
+			+ " WHERE no_enchere IN (SELECT MAX(no_enchere) AS no_enchere FROM ENCHERES GROUP BY no_article HAVING MAX(no_enchere))"
+			+ " AND ENCHERES.no_utilisateur = ? AND date_fin_encheres < ? AND (? = '' OR ARTICLES_VENDUS.nom_article LIKE ?) AND (? = 0 OR no_categorie = ?)";
 	
-	private final String SELECT_CURRENT_SALES = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
+	private final String SELECT_CURRENT_SALES = "SELECT no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE date_debut_encheres <= ? AND date_fin_encheres > ? AND ARTICLES_VENDUS.no_utilisateur = ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
 	
-	private final String SELECT_NOT_BEGIN_SALES = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
+	private final String SELECT_NOT_BEGIN_SALES = "SELECT no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE date_debut_encheres > ? AND ARTICLES_VENDUS.no_utilisateur = ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
 	
-	private final String SELECT_FINISHED_SALES = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
+	private final String SELECT_FINISHED_SALES = "SELECT no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE date_fin_encheres < ? AND ARTICLES_VENDUS.no_utilisateur = ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
 	
@@ -144,14 +149,15 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				Utilisateur vendeur = new Utilisateur();
-				vendeur.setNoUtilisateur(rs.getInt(5));
-				vendeur.setPseudo(rs.getString(6));
+				vendeur.setNoUtilisateur(rs.getInt(6));
+				vendeur.setPseudo(rs.getString(7));
 				
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
-				article.setDateFinEncheres(rs.getDate(3).toLocalDate());
-				article.setPrixVente(rs.getInt(4));
+				article.setDateDebutEncheres(rs.getDate(3).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(4).toLocalDate());
+				article.setPrixVente(rs.getInt(5));
 				article.setVendeur(vendeur);
 
 				listeArticles.add(article);
@@ -186,14 +192,15 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				Utilisateur vendeur = new Utilisateur();
-				vendeur.setNoUtilisateur(rs.getInt(5));
-				vendeur.setPseudo(rs.getString(6));
+				vendeur.setNoUtilisateur(rs.getInt(6));
+				vendeur.setPseudo(rs.getString(7));
 				
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
-				article.setDateFinEncheres(rs.getDate(3).toLocalDate());
-				article.setPrixVente(rs.getInt(4));
+				article.setDateDebutEncheres(rs.getDate(3).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(4).toLocalDate());
+				article.setPrixVente(rs.getInt(5));
 				article.setVendeur(vendeur);
 
 				listeArticles.add(article);
@@ -222,14 +229,15 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				Utilisateur vendeur = new Utilisateur();
-				vendeur.setNoUtilisateur(rs.getInt(5));
-				vendeur.setPseudo(rs.getString(6));
+				vendeur.setNoUtilisateur(rs.getInt(6));
+				vendeur.setPseudo(rs.getString(7));
 				
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
-				article.setDateFinEncheres(rs.getDate(3).toLocalDate());
-				article.setPrixVente(rs.getInt(4));
+				article.setDateDebutEncheres(rs.getDate(3).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(4).toLocalDate());
+				article.setPrixVente(rs.getInt(5));
 				article.setVendeur(vendeur);
 
 				listeArticles.add(article);
@@ -260,14 +268,15 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				Utilisateur vendeur = new Utilisateur();
-				vendeur.setNoUtilisateur(rs.getInt(5));
-				vendeur.setPseudo(rs.getString(6));
+				vendeur.setNoUtilisateur(rs.getInt(6));
+				vendeur.setPseudo(rs.getString(7));
 				
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
-				article.setDateFinEncheres(rs.getDate(3).toLocalDate());
-				article.setPrixVente(rs.getInt(4));
+				article.setDateDebutEncheres(rs.getDate(3).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(4).toLocalDate());
+				article.setPrixVente(rs.getInt(5));
 				article.setVendeur(vendeur);
 
 				listeArticles.add(article);
@@ -296,14 +305,15 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				Utilisateur vendeur = new Utilisateur();
-				vendeur.setNoUtilisateur(rs.getInt(5));
-				vendeur.setPseudo(rs.getString(6));
+				vendeur.setNoUtilisateur(rs.getInt(6));
+				vendeur.setPseudo(rs.getString(7));
 				
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
-				article.setDateFinEncheres(rs.getDate(3).toLocalDate());
-				article.setPrixVente(rs.getInt(4));
+				article.setDateDebutEncheres(rs.getDate(3).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(4).toLocalDate());
+				article.setPrixVente(rs.getInt(5));
 				article.setVendeur(vendeur);
 
 				listeArticles.add(article);
@@ -312,7 +322,7 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EnchereException("Impossible de récupérer la liste de mes ventes en cours");
+			throw new EnchereException("Impossible de récupérer la liste de mes ventes non débutées");
 		}
 	
 		return listeArticles;
@@ -332,14 +342,15 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()) {
 				Utilisateur vendeur = new Utilisateur();
-				vendeur.setNoUtilisateur(rs.getInt(5));
-				vendeur.setPseudo(rs.getString(6));
+				vendeur.setNoUtilisateur(rs.getInt(6));
+				vendeur.setPseudo(rs.getString(7));
 				
 				ArticleVendu article = new ArticleVendu();
 				article.setNoArticle(rs.getInt(1));
 				article.setNomArticle(rs.getString(2));
-				article.setDateFinEncheres(rs.getDate(3).toLocalDate());
-				article.setPrixVente(rs.getInt(4));
+				article.setDateDebutEncheres(rs.getDate(3).toLocalDate());
+				article.setDateFinEncheres(rs.getDate(4).toLocalDate());
+				article.setPrixVente(rs.getInt(5));
 				article.setVendeur(vendeur);
 
 				listeArticles.add(article);
@@ -348,7 +359,7 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			st.close();
 		} catch(SQLException e) {
 			System.out.println(e);
-			throw new EnchereException("Impossible de récupérer la liste de mes ventes en cours");
+			throw new EnchereException("Impossible de récupérer la liste de mes ventes terminées");
 		}
 	
 		return listeArticles;

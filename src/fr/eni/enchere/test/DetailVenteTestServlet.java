@@ -57,7 +57,7 @@ public class DetailVenteTestServlet extends TestServlet {
 	}
 
 	private void testSaleDetailUserFail() {
-		printNewTest("Récupération du détail d'une vente");
+		printNewTest("Récupération du détail d'une vente sans utilisateur connecté");
 		ArticleVendu article = null;
 		Integer noArticle = 0;
 		String numeroArticle = "1";
@@ -82,7 +82,7 @@ public class DetailVenteTestServlet extends TestServlet {
 	}
 
 	private void testSaleDetailNoArticleFail() {
-		printNewTest("Récupération du détail d'une vente");
+		printNewTest("Récupération du détail d'une vente sans numéro d'article");
 		ArticleVendu article = null;
 		Integer noArticle = 0;
 		String numeroArticle = "test";
