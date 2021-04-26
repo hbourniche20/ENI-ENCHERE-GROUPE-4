@@ -14,6 +14,8 @@ public interface EncheresDao {
 	
 	void insert(Enchere e) throws EnchereException;
 	
+	Enchere selectLastAuction(Integer noArticle) throws EnchereException;
+	
 	List<ArticleVendu> selectAuctions(LocalDate date, String nomArticle, Integer noCategorie) throws EnchereException;
 	
 	List<ArticleVendu> selectCurrentAuctions(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle, Integer noCategorie) throws EnchereException;
@@ -27,6 +29,8 @@ public interface EncheresDao {
 	List<ArticleVendu> selectNotBeginSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle,	Integer noCategorie, Utilisateur utilisateur) throws EnchereException;
 
 	List<ArticleVendu> selectFinishedSales(List<ArticleVendu> listeArticles, LocalDate date, String nomArticle,	Integer noCategorie, Utilisateur utilisateur) throws EnchereException;
+
+
 
 	
 

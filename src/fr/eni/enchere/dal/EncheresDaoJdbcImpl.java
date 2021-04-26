@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,8 +18,15 @@ import fr.eni.enchere.exception.EnchereException;
 
 public class EncheresDaoJdbcImpl implements EncheresDao {
 	
+
 	private final String INSERT_AUCTION = "INSERT INTO ENCHERES(date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?, ?, ?, ?)";
 	
+	private final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?";
+		
+	private static final String SELECT_USER_BY_NO_AUCTION = "SELECT date_enchere, montant_enchere, UTILISATEURS.no_utilisateur, pseudo, credit FROM ENCHERES"
+			+ " INNER JOIN UTILISATEURS on ENCHERES.no_utilisateur = UTILISATEURS.no_utilisateur" 
+			+ " WHERE no_enchere = (SELECT MAX(no_enchere) FROM ENCHERES WHERE no_article = ?)";
+
 	private final String SELECT_CURRENT_AUCTIONS = "SELECT no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS "
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE date_debut_encheres <= ? AND date_fin_encheres > ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
@@ -47,26 +55,76 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 	
 	@Override
 	public void insert(Enchere enchere) throws EnchereException {
+		Integer noEnchere = 0;
+		;
+		
 		try(Connection con = ConnectionProvider.getConnection()) {
-			PreparedStatement st = con.prepareStatement(INSERT_AUCTION, PreparedStatement.RETURN_GENERATED_KEYS);
-			st.setTimestamp(1, Timestamp.valueOf(enchere.getDateEnchere()));
-			st.setInt(2, enchere.getMontantEnchere());
-			st.setInt(3, enchere.getArticle().getNoArticle());
-			st.setInt(4, enchere.getEncherisseur().getNoUtilisateur());
-			
-			st.executeUpdate();
-			
-			ResultSet rs = st.getGeneratedKeys();
-			
-			if(!rs.next()) {
-				throw new SQLException();
+			try {
+				con.setAutoCommit(false);
+				
+				// Insert a new auction
+				PreparedStatement psttInsert = con.prepareStatement(INSERT_AUCTION, PreparedStatement.RETURN_GENERATED_KEYS);
+				psttInsert.setTimestamp(1, Timestamp.valueOf(enchere.getDateEnchere()));
+				psttInsert.setInt(2, enchere.getMontantEnchere());
+				psttInsert.setInt(3, enchere.getArticle().getNoArticle());
+				psttInsert.setInt(4, enchere.getEncherisseur().getNoUtilisateur());
+				psttInsert.executeUpdate();
+				
+				ResultSet rs = psttInsert.getGeneratedKeys();
+				if(rs.next()) {
+					noEnchere = rs.getInt(1);
+				}
+				rs.close();
+				psttInsert.close();
+							
+				// Remove user token equal for auction amount
+				PreparedStatement psttUpdate = con.prepareStatement(UPDATE_CREDIT);
+				psttUpdate.setInt(1, enchere.getEncherisseur().getCredit() - enchere.getMontantEnchere());
+				psttUpdate.setInt(2, enchere.getEncherisseur().getNoUtilisateur());
+				psttUpdate.executeUpdate();
+				
+				// Add user token equal for latest auction amount
+				Enchere encherePrecedente = selectLastAuction(enchere.getArticle().getNoArticle());
+				if(encherePrecedente != null) {
+					psttUpdate.setInt(1, encherePrecedente.getEncherisseur().getCredit() + encherePrecedente.getMontantEnchere());
+					psttUpdate.setInt(2, encherePrecedente.getEncherisseur().getNoUtilisateur());
+					psttUpdate.executeUpdate();	
+				}
+				psttUpdate.close();
+				con.commit();
+			} catch(Exception e) {
+				con.rollback();
+			}
+		} catch(SQLException e) {
+			throw new EnchereException();
+		}	
+	}
+	
+	@Override
+	public Enchere selectLastAuction(Integer noArticle) throws EnchereException {
+		Enchere enchere = null;
+		
+		try(Connection con = ConnectionProvider.getConnection()) {
+			PreparedStatement st = con.prepareStatement(SELECT_USER_BY_NO_AUCTION);	
+			st.setInt(1, noArticle);
+			ResultSet rs = st.executeQuery();
+			if(rs.next()) {
+				enchere = new Enchere();
+				enchere.setDateEnchere(rs.getTimestamp(1).toLocalDateTime());
+				enchere.setMontantEnchere(rs.getInt(2));
+				Utilisateur u = new Utilisateur();
+				u.setNoUtilisateur(rs.getInt(3));
+				u.setPseudo(rs.getString(4));
+				u.setCredit(rs.getInt(5));
+				enchere.setEncherisseur(u);
 			}
 			rs.close();
 			st.close();
 		} catch(SQLException e) {
-			System.out.println(e);
 			throw new EnchereException();
-		}	
+		}
+		
+		return enchere;
 	}
 	
 	

@@ -13,7 +13,8 @@
 	
 	<div class="container py-5">
 		<h3 class="text-center mt-5">Détail vente</h3>
-		<form method="POST">
+		<jsp:include page="error.jsp"></jsp:include>
+		<form action="${pageContext.request.contextPath }/article" method="POST">
 			<input type="hidden" name="noArticle" value="${ article.getNoArticle() }"/>
 			<div class="row justify-content-md-center my-4">
 				<div class="col-lg-6 col-sm">

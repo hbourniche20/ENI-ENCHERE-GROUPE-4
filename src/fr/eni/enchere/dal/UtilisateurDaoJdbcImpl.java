@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.EmailNotUniqueException;
@@ -20,7 +17,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =? AND NO_UTILISATEUR != ?";
 	private final String GET_USER = "SELECT nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
 	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo= ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?";
-	
+	private final String DELETE_USER = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
+
 	public boolean verifPseudo(String pseudo, int idUser) {
 		boolean isOk = true;
 		
@@ -126,6 +124,26 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			s.printStackTrace();
 		}
 		return user;
+	}
+
+	@Override
+	public void deleteUtilisateur(Utilisateur u) throws UtilisateurNotFoundException {
+		
+		try (Connection c = ConnectionProvider.getConnection()) {
+			PreparedStatement pstt = c.prepareStatement(DELETE_USER);
+			
+			pstt.setInt(1, u.getNoUtilisateur());
+			
+
+			System.out.println("User: " + u.getNoUtilisateur());
+			int response = pstt.executeUpdate();
+			if(response == 0) {
+				throw new UtilisateurNotFoundException();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new UtilisateurNotFoundException();
+		}
 	}
 
 }
