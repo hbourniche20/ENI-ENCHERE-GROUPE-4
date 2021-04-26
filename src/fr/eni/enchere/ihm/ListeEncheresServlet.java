@@ -41,6 +41,8 @@ public class ListeEncheresServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 		}
 		
+		request.setAttribute("error", request.getSession().getAttribute("error"));
+		request.getSession().removeAttribute("error");		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		rd.forward(request, response);
 	}

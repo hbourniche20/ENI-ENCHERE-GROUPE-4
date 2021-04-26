@@ -32,23 +32,27 @@ public class DetailVenteServlet extends HttpServlet {
 		ArticleVenduManager manager = new ArticleVenduManager();
 		ArticleVendu article = null;
 		Integer noArticle = null;
+		
 		try {
 			if(request.getSession().getAttribute("user") != null) {
 				noArticle = Integer.parseInt(request.getParameter("noArticle"));
 				article = manager.recupererArticleVendu(noArticle);
 				request.setAttribute("article", article);
+				request.setAttribute("error", request.getSession().getAttribute("error"));
+				request.getSession().removeAttribute("error");
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/articleVendu.jsp");
 				rd.forward(request, response);
 			} else {
 				throw new ArticleVenduException("Vous n'avez pas l'autorisation d'acceder au détail d'un article");
 			}
 		} catch(NumberFormatException e) {
-			request.setAttribute("error", "Le numéro article doit être un nombre entier");
+			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
 			response.sendRedirect(request.getContextPath());
 		} catch(Exception e) {
-			request.setAttribute("error", e.getMessage());
+			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
 		}
+		
 	}
 
 	/**
@@ -71,12 +75,12 @@ public class DetailVenteServlet extends HttpServlet {
 			request.setAttribute("noArticle", noArticle);
 			doGet(request, response);
 		} catch(NumberFormatException e) {
-			request.setAttribute("error", "Le numéro article doit être un nombre entier");
-			response.sendRedirect(request.getContextPath());
+			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
+			doGet(request, response);
 		} catch(Exception e) {
 			System.out.println(e.getLocalizedMessage());
-			request.setAttribute("error", e.getMessage());
-			response.sendRedirect(request.getContextPath());
+			request.getSession().setAttribute("error", e.getMessage());
+			doGet(request, response);
 		}
 	}
 
