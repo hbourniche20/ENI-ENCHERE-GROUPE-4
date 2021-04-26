@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +9,8 @@
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
+	
+	
 	<div class="container py-5">
 		<h3 class="text-center mt-5">Détail vente</h3>
 		<jsp:include page="error.jsp"></jsp:include>
@@ -90,6 +92,7 @@
 							<label>${ article.getVendeur().getPseudo() }</label>
 						</div>
 					</div>
+					<c:if test="${not empty sessionScope.user && user.getPseudo() != article.getVendeur().getPseudo() }">
 					<div class="row justify-content-md-center align-items-end my-3">
 						<div class="col">
 							<label for="montantEnchere" class="col-form-label font-weight-bold">Ma proposition</label>
@@ -99,10 +102,11 @@
 							<button class="btn btn-danger col-sm">Enchérir</button>
 						</div>
 					</div>
-					<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+					</c:if>
+					<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }">
 						<div class="row justify-content-md-center align-items-end my-3">
 							<div class="col">
-								<a href="AjoutArticleVenduServlet" class="btn btn-primary">Modifier la vente</a>
+								<a href="${pageContext.request.contextPath }/AjoutArticleVenduServlet?noArticle=${ article.getNoArticle() }" class="btn btn-primary">Modifier la vente</a>
 							</div>
 						</div>
 					</c:if>
