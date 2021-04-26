@@ -11,17 +11,19 @@
 	<jsp:include page="header.jsp"></jsp:include>
 	<jsp:include page="error.jsp"></jsp:include>
 	<div class="container pt-5">
-	<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo()) }">
+	<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }">
 					<h3>Modifier la vente</h3>
 	</c:if>
+	<c:if test="${not empty sessionScope.user && user.getPseudo() != article.getVendeur().getPseudo() }">
 		<h3 class="text-center my-4">Vendre un article</h3>
+	</c:if>
 		<form action ="${pageContext.request.contextPath }/AjoutArticleVenduServlet" method="POST">
 			<div class="row">
 				<div class="col">
 					<div class="form-group row">
 					   	<label for="nom" class="col-sm-3 col-form-label">Article : </label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="nom" class="form-control" id="nom" required>
+					      	<input type="text" name="nom" class="form-control" id="nom" value="test" required>
 					   	</div>
 					</div>
 					<div class="form-group row">
