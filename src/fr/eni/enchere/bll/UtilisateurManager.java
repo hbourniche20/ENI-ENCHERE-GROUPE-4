@@ -25,4 +25,8 @@ public class UtilisateurManager {
 	public Utilisateur recuperer(String pseudo) throws UtilisateurNotFoundException {
 		return this.dao.getUtilisateur(pseudo);
 	}
+	
+	public void supprimer(Utilisateur u) throws UtilisateurNotFoundException {
+		this.dao.deleteUtilisateur(u);
+	}
 }
