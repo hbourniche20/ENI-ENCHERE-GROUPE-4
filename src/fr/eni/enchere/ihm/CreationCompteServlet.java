@@ -64,19 +64,16 @@ public class CreationCompteServlet extends HttpServlet {
 		// New password correspond to the newly created password.
 		String confirmationmdp = request.getParameter("confirmationmdp");
 		Utilisateur currentUtilisateur = (Utilisateur) request.getSession().getAttribute("user");
-
+		
 		if(currentUtilisateur != null && !motdepasse.equals(currentUtilisateur.getMotDePasse())) {
 			this.throwException(request, response, "le mot de passe ne correspond pas");
 		}
-		System.out.println("confirmationmdp : " + confirmationmdp);
-		System.out.println("newmdp : " + nouveauMotdePasse);
-		System.out.println("currentUser : " + currentUtilisateur);
 
 		if (confirmationmdp.equals(nouveauMotdePasse) || (currentUtilisateur != null && nouveauMotdePasse.equals(""))) {
 			if(nouveauMotdePasse.equals("")) {
 				nouveauMotdePasse = motdepasse;
 			}
-			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, ville, codepostal, nouveauMotdePasse);
+			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse);
 			if(currentUtilisateur != null) {
 				u.setNoUtilisateur(currentUtilisateur.getNoUtilisateur());
 			}

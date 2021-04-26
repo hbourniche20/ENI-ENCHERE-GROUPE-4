@@ -63,7 +63,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	}
 	@Override
 	public void addUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException {
-		// TODO Return int
+
 		if(!verifPseudo(u.getPseudo(), u.getNoUtilisateur()))  {
 			throw new PseudoNotUniqueException();
 		}

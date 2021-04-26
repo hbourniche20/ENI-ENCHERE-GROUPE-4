@@ -169,13 +169,38 @@ public class Utilisateur {
 
 	public boolean hasValidInformations() throws WrongInputException {
 		
-		// TODO Verify phone number and postalCode
+		// Verify phone number format (we are using the French format here)
+		if((this.telephone.length() == 12 && this.telephone.toCharArray()[0] == '+')) {
+			checkNumbers(this.telephone.substring(1), "telephone");
+		} else if (this.telephone.length() == 10) {
+			checkNumbers(this.telephone, "telephone");
+		} else {
+			throw new WrongInputException("Le numéro de téléphone n'est pas au bon format.");
+		}
+
+		// Verify postal code format (we are using the French format here)
+		if(this.codePostal.length() == 5) {
+			checkNumbers(this.codePostal, "code postal");
+		} else {
+			throw new WrongInputException("Le code postal n'est pas au bon format");
+		}
 		
 		if(this.credit < 0) {
 			throw new WrongInputException("Le crédit doit être supérieur à 0");
 		}
 		
 		return true;
+	}
+
+	public void checkNumbers(String toCheck, String inputLabel) throws WrongInputException {
+		System.out.println("Verify: " + toCheck);
+		try {
+			for(char character: toCheck.toCharArray()) {
+				Integer.parseInt(character + "");
+			}
+		} catch(NumberFormatException e) {
+			throw new WrongInputException("Le " + inputLabel + " contient des caractères interdits.");
+		}
 	}
 
 	@Override
