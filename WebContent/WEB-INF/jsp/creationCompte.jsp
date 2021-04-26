@@ -111,16 +111,18 @@
 				</div>
 			</div>							
 			<div class="text-center mb-3">
-			<c:choose>
-				<c:when test="${ not empty sessionScope.user }">
-					<input type="submit" class="btn btn-danger m-1" value="Accepter les modifications">		
-				</c:when>
-				<c:otherwise>
-					<input type="submit" class="btn btn-danger m-1" value="Créer">		
-				</c:otherwise>
-			</c:choose>	
-			<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler</a>	
-		
+				<c:choose>
+					<c:when test="${ not empty sessionScope.user }">
+						<input type="submit" class="btn btn-danger m-1" value="Accepter les modifications">		
+					</c:when>
+					<c:otherwise>
+						<input type="submit" class="btn btn-danger m-1" value="Créer">		
+					</c:otherwise>
+				</c:choose>	
+				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler</a>	
+				<c:if test="${ not empty sessionScope.user }">
+					<a href="${ pageContext.request.contextPath }/supprimerUtilisateur" class="btn btn-primary m-1">Supprimer votre compte</a>	
+				</c:if>
 			</div>
 		</form>
 		
