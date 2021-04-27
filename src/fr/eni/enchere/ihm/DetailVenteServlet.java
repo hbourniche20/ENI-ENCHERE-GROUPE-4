@@ -40,7 +40,7 @@ public class DetailVenteServlet extends HttpServlet {
 				request.setAttribute("article", article);
 				request.setAttribute("error", request.getSession().getAttribute("error"));
 				request.getSession().removeAttribute("error");
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/articleVendu.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailArticle.jsp");
 				rd.forward(request, response);
 			} else {
 				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
