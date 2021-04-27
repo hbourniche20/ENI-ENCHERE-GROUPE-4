@@ -41,16 +41,28 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ArticleVenduManager manager = new ArticleVenduManager();
+		//ArticleVenduManager manager = new ArticleVenduManager();
 		CategorieManager managerCategorie = new CategorieManager();
+		//Integer noArticle = null;
+		//ArticleVendu article = null;
+		List<Categorie> listeCategories = null;
 		
 		try {
 			if(request.getSession().getAttribute("user") != null) {
-			List<Categorie> listeCategories = managerCategorie.recupererListeCategories();
+			//noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			//System.out.println(noArticle);
 			
-	
-			request.setAttribute("categories", listeCategories);
+				listeCategories = managerCategorie.recupererListeCategories();				
+				request.setAttribute("categories", listeCategories);
+				request.setAttribute("error", request.getSession().getAttribute("error"));
+				request.removeAttribute("error");
 			
+				
+			//article = manager.recupererArticleVendu(noArticle);
+			//request.setAttribute("article", article);
+				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");
+				rd.forward(request, response);
+						
 			} else {
 				throw new ArticleVenduException("Vous n'avez pas l'autorisation de vendre un article");
 			}	
@@ -78,25 +90,28 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
 		int nocategorie = 0;
+		//int noArticle =0;
 		
 		try {
-			try {
+			//noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			
 				 nocategorie = Integer.parseInt(request.getParameter("noCategorie"));
-				
+				 
+				 Categorie c = new Categorie();
+					c.setNoCategorie(nocategorie);
+					
+					
+					Retrait r = new Retrait(rue, codePostal, ville);
+					ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
+					//a.setNoArticle(noArticle);
+					//System.out.println("Num article " + a.getNoArticle());
+					ArticleVenduManager manager = new ArticleVenduManager();
+					manager.enregistrerArticleVendu(a);
+					response.sendRedirect("index");
+					
 			}catch(NumberFormatException e) {
 				e.printStackTrace();
-			}
-			
-			Categorie c = new Categorie();
-			c.setNoCategorie(nocategorie);
-			
-			
-			Retrait r = new Retrait(rue, codePostal, ville);
-			ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
-			
-			ArticleVenduManager manager = new ArticleVenduManager();
-			manager.enregistrerArticleVendu(a);
-			response.sendRedirect("index");
+					
 		}catch(Exception e ) {
 			
 			e.printStackTrace();

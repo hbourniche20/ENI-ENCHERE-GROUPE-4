@@ -11,32 +11,38 @@
 	<jsp:include page="header.jsp"></jsp:include>
 	<jsp:include page="error.jsp"></jsp:include>
 	<div class="container pt-5">
-	<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }">
-					<h3>Modifier la vente</h3>
-	</c:if>
-	<c:if test="${not empty sessionScope.user && user.getPseudo() != article.getVendeur().getPseudo() }">
+<%-- 	<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }"> --%>
+<!-- 					<h3 class="text-center my-4">Modifier la vente</h3> -->
+<%-- 	</c:if> --%>
+<%-- 	<c:if test="${not empty sessionScope.user && article.getNoArticle().equals(null) }"> --%>
 		<h3 class="text-center my-4">Vendre un article</h3>
-	</c:if>
+<%-- 	</c:if> --%>
 		<form action ="${pageContext.request.contextPath }/AjoutArticleVenduServlet" method="POST">
+		<input type="hidden" name="noArticle" value="${ article.getNoArticle() }"/>
 			<div class="row">
 				<div class="col">
-					<div class="form-group row">
+					<div class="form-group row">					
 					   	<label for="nom" class="col-sm-3 col-form-label">Article : </label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="nom" class="form-control" id="nom" value="test" required>
+						<c:if test="${not empty sessionScope.user && article.getNoArticle() != 0 }">			   	
+					      	<input type="text" name="nom" class="form-control" id="nom" value="${ article.getNomArticle() }" required>
+					    </c:if>
+					    <c:if test="${not empty sessionScope.user && article.getNoArticle().equals(null) }">			   	
+					      	<input type="text" name="nom" class="form-control" id="nom"  required>
+					    </c:if>
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="description" class="col-sm-3 col-form-label">Description :</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="description" class="form-control" id="description" required>
+					      	<input type="text" name="description" class="form-control" id="description" value="${ article.getDescription() }" required>
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="noCategorie" class="col-sm-3 col-form-label">Catégorie :</label>
 					   	<div class="col-sm-9">
 					   	  	<select name="noCategorie" class="custom-select">
-								<option value="">Toutes</option>
+								<option selected value ="${ article.getCategorieArticle().getNoCategorie() }" > ${ article.getCategorieArticle().getLibelle() }</option>
 								<c:forEach var="categorie" items="${ categories }" begin="0">
 									<option value="${ categorie.noCategorie }">${ categorie.libelle }</option>
 								</c:forEach>
@@ -46,19 +52,19 @@
 					<div class="form-group row">
 					   	<label for="miseAPrix" class="col-sm-3 col-form-label">Mise à prix :</label>
 					   	<div class="col-sm-9">
-					      	<input type="number" name="miseAPrix" class="form-control" id="miseAPrix" min=0>
+					      	<input type="number" name="miseAPrix" class="form-control" id="miseAPrix" value="${ article.getMiseAPrix() }" min=0>
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="dateDebut" class="col-sm-3 col-form-label">Début de l'enchère : </label>
 					   	<div class="col-sm-9">
-					      	<input type="date" name="dateDebut" class="form-control" id="dateDebut" required>
+					      	<input type="date" name="dateDebut" class="form-control" id="dateDebut" value="${ article.getDateDebutEncheres() }"required>
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="dateFin" class="col-sm-3 col-form-label">Fin de l'enchère :</label>
 					   	<div class="col-sm-9">
-					      	<input type="date" name="dateFin" class="form-control" id="dateFin" required>
+					      	<input type="date" name="dateFin" class="form-control" id="dateFin" value="${ article.getDateFinEncheres() }" required>
 					   	</div>
 					</div> 					
 					</div>

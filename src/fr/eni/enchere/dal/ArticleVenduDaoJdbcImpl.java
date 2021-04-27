@@ -16,7 +16,7 @@ import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.ArticleVenduException;
-import fr.eni.enchere.exception.EnchereException;
+
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
@@ -41,8 +41,11 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 		
 		try(Connection c = ConnectionProvider.getConnection()){
 			String request = INSERT;
+			System.out.println(a.getNoArticle());
 			if(a.getNoArticle() != 0) {
+				
 				request = UPDATE_ARTICLE;
+				
 			}
 			try {
 			c.setAutoCommit(false);
