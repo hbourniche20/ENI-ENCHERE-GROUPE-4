@@ -92,11 +92,19 @@
 					   	  	<input type="text" name="ville" class="form-control" id="ville" value ="${sessionScope.user.getVille() }" required>
 					   </div>
 					</div>	
-					
+ 			<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }"> 					
+<!-- 			<div class="text-center"> -->
+<!-- 				<button class="btn btn-danger m-1">Enregistrer les modifications</button>		 -->
+<%-- 				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler les modifications</a>		 --%>
+<!-- 			</div> -->
+				
+			</c:if>
+			<c:if test="${not empty sessionScope.user && article.getNoArticle() == null }">
 			<div class="text-center">
 				<button class="btn btn-danger m-1">Enregistrer</button>		
 				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler</a>		
 			</div>
+			</c:if>
 		</form>
 		
 	</div>	

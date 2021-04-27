@@ -50,10 +50,22 @@ public class ArticleVendu {
 		
 	}
 
-	
+		
+	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, Categorie categorieArticle, Retrait lieuRetrait,
+			Utilisateur vendeur) {
+		super();
+		this.noArticle = noArticle;
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.categorieArticle = categorieArticle;
+		this.lieuRetrait = lieuRetrait;
+		this.vendeur = vendeur;
+	}
 
-	
-	
 	public ArticleVendu(String nomArticleVendu, String descriptionArticleVendu, LocalDate dateDebut, LocalDate dateFin,
 			int miseAPrix2, Categorie c, Utilisateur u, Retrait r) {
 		// TODO Auto-generated constructor stub
