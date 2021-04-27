@@ -18,7 +18,7 @@ public class UtilisateurManager {
 	
 	public void enregistrer(Utilisateur utilisateur) throws PseudoNotUniqueException, EmailNotUniqueException, WrongInputException {
 		if(utilisateur.hasValidInformations()) {
-			dao.addUtilisateur(utilisateur);
+			dao.saveUtilisateur(utilisateur);
 		}
 	}
 	

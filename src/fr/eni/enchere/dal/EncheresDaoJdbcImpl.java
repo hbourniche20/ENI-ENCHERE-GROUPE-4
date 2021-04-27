@@ -20,8 +20,6 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 	
 
 	private final String INSERT_AUCTION = "INSERT INTO ENCHERES(date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(?, ?, ?, ?)";
-	
-	private final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?";
 		
 	private static final String SELECT_USER_BY_NO_AUCTION = "SELECT date_enchere, montant_enchere, UTILISATEURS.no_utilisateur, pseudo, credit FROM ENCHERES"
 			+ " INNER JOIN UTILISATEURS on ENCHERES.no_utilisateur = UTILISATEURS.no_utilisateur" 
@@ -35,11 +33,6 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur "
 			+ "WHERE no_article IN (SELECT no_article FROM ENCHERES WHERE no_utilisateur = ?) AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?)";
 	
-	//private final String SELECT_MY_WIN_AUCTIONS = "SELECT ARTICLES_VENDUS.no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ARTICLES_VENDUS " 
-	//		+ "INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur " 
-	//		+ "INNER JOIN ENCHERES ON ARTICLES_VENDUS.no_article = ENCHERES.no_article " 
-	//		+ "WHERE ENCHERES.no_utilisateur = ? AND date_fin_encheres < ? AND (? = '' OR ARTICLES_VENDUS.nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) " 
-	//		+ "GROUP BY ARTICLES_VENDUS.no_article, nom_article, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo HAVING MAX(montant_enchere)";
 	private final String SELECT_MY_WIN_AUCTIONS = "SELECT ARTICLES_VENDUS.no_article, nom_article, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, pseudo FROM ENCHERES"
 			+ " INNER JOIN ARTICLES_VENDUS ON ENCHERES.no_article = ARTICLES_VENDUS.no_article"
 			+ " INNER JOIN UTILISATEURS ON ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur"
@@ -59,57 +52,27 @@ public class EncheresDaoJdbcImpl implements EncheresDao {
 			+ "WHERE date_fin_encheres < ? AND ARTICLES_VENDUS.no_utilisateur = ? AND (? = '' OR nom_article LIKE ?) AND (? = 0 OR no_categorie = ?) ";
 	
 	@Override
-	public void insert(Enchere enchere) throws EnchereException {
+	public void insert(Connection con, Enchere enchere) throws EnchereException {
 		Integer noEnchere = 0;
-		;
 		
-		try(Connection con = ConnectionProvider.getConnection()) {
-			try {
-				con.setAutoCommit(false);
-				
-				// Insert a new auction
-				PreparedStatement psttInsert = con.prepareStatement(INSERT_AUCTION, PreparedStatement.RETURN_GENERATED_KEYS);
-				psttInsert.setTimestamp(1, Timestamp.valueOf(enchere.getDateEnchere()));
-				psttInsert.setInt(2, enchere.getMontantEnchere());
-				psttInsert.setInt(3, enchere.getArticle().getNoArticle());
-				psttInsert.setInt(4, enchere.getEncherisseur().getNoUtilisateur());
-				psttInsert.executeUpdate();
-				
-				ResultSet rs = psttInsert.getGeneratedKeys();
-				if(rs.next()) {
-					noEnchere = rs.getInt(1);
-				}
-				rs.close();
-				psttInsert.close();
-							
-				// Remove user token equal for auction amount
-				PreparedStatement psttUpdate = con.prepareStatement(UPDATE_CREDIT);
-				psttUpdate.setInt(1, enchere.getEncherisseur().getCredit() - enchere.getMontantEnchere());
-				psttUpdate.setInt(2, enchere.getEncherisseur().getNoUtilisateur());
-				psttUpdate.executeUpdate();
-				
-				// Add user token equal for latest auction amount
-				Enchere encherePrecedente = selectLastAuction(enchere.getArticle().getNoArticle());
-				if(encherePrecedente != null) {
-					psttUpdate.setInt(1, encherePrecedente.getEncherisseur().getCredit() + encherePrecedente.getMontantEnchere());
-					psttUpdate.setInt(2, encherePrecedente.getEncherisseur().getNoUtilisateur());
-					psttUpdate.executeUpdate();	
-				}
-				psttUpdate.close();
-				con.commit();
-			} catch(Exception e) {
-				con.rollback();
-			}
+		try {
+			PreparedStatement st = con.prepareStatement(INSERT_AUCTION);
+			st.setTimestamp(1, Timestamp.valueOf(enchere.getDateEnchere()));
+			st.setInt(2, enchere.getMontantEnchere());
+			st.setInt(3, enchere.getArticle().getNoArticle());
+			st.setInt(4, enchere.getEncherisseur().getNoUtilisateur());
+			st.execute();
+			st.close();
 		} catch(SQLException e) {
 			throw new EnchereException();
 		}	
 	}
 	
 	@Override
-	public Enchere selectLastAuction(Integer noArticle) throws EnchereException {
+	public Enchere selectLastAuction(Connection con, Integer noArticle) throws EnchereException {
 		Enchere enchere = null;
 		
-		try(Connection con = ConnectionProvider.getConnection()) {
+		try {
 			PreparedStatement st = con.prepareStatement(SELECT_USER_BY_NO_AUCTION);	
 			st.setInt(1, noArticle);
 			ResultSet rs = st.executeQuery();
