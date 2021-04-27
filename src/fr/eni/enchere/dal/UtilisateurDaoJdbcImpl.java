@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.EmailNotUniqueException;
+import fr.eni.enchere.exception.EnchereException;
 import fr.eni.enchere.exception.PseudoNotUniqueException;
 import fr.eni.enchere.exception.UtilisateurNotFoundException;
 
@@ -17,6 +19,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =? AND NO_UTILISATEUR != ?";
 	private final String GET_USER = "SELECT no_utilisateur, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
 	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo= ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?";
+	private final String UPDATE_CREDIT = "UPDATE UTILISATEURS SET credit = ? WHERE no_utilisateur = ?";
 	private final String DELETE_USER = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
 
 	public boolean verifPseudo(String pseudo, int idUser) {
@@ -127,6 +130,20 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 		}
 		return user;
 	}
+	
+	@Override
+	public void updateCredit(Connection con, Integer noUtilisateur, Integer credit) throws SQLException {
+		try {
+			PreparedStatement st = con.prepareStatement(UPDATE_CREDIT);
+			st.setInt(1, credit);
+			st.setInt(2, noUtilisateur);
+			st.executeUpdate();
+			st.close();
+		} catch(SQLException e) {
+			throw e;
+		}	
+		
+	}
 
 	@Override
 	public void deleteUtilisateur(Utilisateur u) throws UtilisateurNotFoundException {
@@ -147,5 +164,6 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			throw new UtilisateurNotFoundException();
 		}
 	}
+
 
 }

@@ -67,17 +67,14 @@
 								<c:when test="${ article.getEncheres().size() == 0 }">
 									Pas d'enchères
 								</c:when>
-								<c:otherwise>
-									<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
+								<c:when test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
 										${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points
-									</c:if>
-									<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && !sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
-										${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points par 
-										<a href="${pageContext.request.contextPath }/ProfileServlet?pseudo=${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }">${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }</a>
-									</c:if>
-									</c:otherwise>
+								</c:when>
+								<c:otherwise>
+									${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points par 
+									<a href="${pageContext.request.contextPath }/ProfileServlet?pseudo=${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }">${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }</a>	
+								</c:otherwise>
 							</c:choose>
-							
 						</div>
 					</div>
 					<div class="row justify-content-md-center align-items-center my-3">
@@ -115,28 +112,28 @@
 							<label>${ article.getVendeur().getPseudo() }</label>
 						</div>
 					</div>
-						<c:if test="${ article.getEncheres().size() > 0 }">
-							<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
-								<div class="row align-items-center my-3">
-									<div class="col my-auto">
-										<span class="font-weight-bold">Téléphone</span>
-									</div>
-									<div class="col my-auto">
-										<label>${ article.getVendeur().getTelephone() }</label>
-									</div>
+					<c:if test="${ article.getEncheres().size() > 0 }">
+						<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
+							<div class="row align-items-center my-3">
+								<div class="col my-auto">
+									<span class="font-weight-bold">Téléphone</span>
 								</div>
-							</c:if>
+								<div class="col my-auto">
+									<label>${ article.getVendeur().getTelephone() }</label>
+								</div>
+							</div>
 						</c:if>
-					<c:if test="${ !sessionScope.user.getNoUtilisateur().equals(article.getVendeur().getNoUtilisateur()) && article.getDateFinEncheres() > LocalDate.now() }">
-						<div class="row justify-content-md-center align-items-end my-3">
-							<div class="col">
-								<label for="montantEnchere" class="col-form-label font-weight-bold">Ma proposition</label>
-								<input type="number" name="montantEnchere" class="form-control" id="montantEnchere"/>
+						<c:if test="${ !sessionScope.user.getNoUtilisateur().equals(article.getVendeur().getNoUtilisateur()) && article.getDateFinEncheres() > LocalDate.now() }">
+							<div class="row justify-content-md-center align-items-end my-3">
+								<div class="col">
+									<label for="montantEnchere" class="col-form-label font-weight-bold">Ma proposition</label>
+									<input type="number" name="montantEnchere" class="form-control" id="montantEnchere"/>
+								</div>
+								<div class="col">
+									<button class="btn btn-danger col-sm">Enchérir</button>
+								</div>
 							</div>
-							<div class="col">
-								<button class="btn btn-danger col-sm">Enchérir</button>
-							</div>
-						</div>
+						</c:if>
 					</c:if>
 				</div>
 			</div>
