@@ -17,7 +17,7 @@
 		       <a class="nav-link" href="${ pageContext.request.contextPath }/AjoutArticleVenduServlet">Vendre un article</a>
 		    </li>
 		    <li class="nav-item active">
-		       <a class="nav-link" href="${ pageContext.request.contextPath }/ProfileServlet">Mon profil</a>
+		       <a class="nav-link" href="${ pageContext.request.contextPath }/profile">Mon profil</a>
 		    </li>
 		    <li class="nav-item active dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,7 +30,7 @@
 	    </c:when>
 	    <c:otherwise>
 		  <li class="nav-item active">
-	        <a class="nav-link" href="${ pageContext.request.contextPath }/ConnexionServlet">S'inscrire - Se connecter</a>
+	        <a class="nav-link" href="${ pageContext.request.contextPath }/seConnecter">S'inscrire - Se connecter</a>
 	      </li>
 	    </c:otherwise>
 	</c:choose>

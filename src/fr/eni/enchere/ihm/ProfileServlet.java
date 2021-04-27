@@ -16,7 +16,7 @@ import fr.eni.enchere.exception.UtilisateurNotFoundException;
 /**
  * Servlet implementation class ProfileServlet
  */
-@WebServlet("/ProfileServlet")
+@WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

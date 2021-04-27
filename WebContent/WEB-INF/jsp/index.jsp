@@ -113,7 +113,7 @@
 								    <fmt:parseDate  value="${ article.getDateFinEncheres() }"  type="date" pattern="yyyy-MM-dd" var="parsedDate" />
 									<fmt:formatDate value="${ parsedDate }" type="date" pattern="dd/MM/yyyy" var="dateFinEncheres" />
 								    <p class="card-text ">Fin de l'enchère : ${ dateFinEncheres }</p>
-								    <p class="card-text">Vendeur : <a href="${pageContext.request.contextPath }/ProfileServlet?pseudo=${ article.getVendeur().getPseudo()}" class="font-weight-bold">${ article.getVendeur().getPseudo() }</a></p>
+								    <p class="card-text">Vendeur : <a href="${pageContext.request.contextPath }/profile?pseudo=${ article.getVendeur().getPseudo()}" class="font-weight-bold">${ article.getVendeur().getPseudo() }</a></p>
 								  </div>
 							</div>
 						</div>

@@ -72,7 +72,7 @@
 								</c:when>
 								<c:otherwise>
 									${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points par 
-									<a href="${pageContext.request.contextPath }/ProfileServlet?pseudo=${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }">${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }</a>	
+									<a href="${pageContext.request.contextPath }/profile?pseudo=${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }">${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }</a>	
 								</c:otherwise>
 							</c:choose>
 						</div>

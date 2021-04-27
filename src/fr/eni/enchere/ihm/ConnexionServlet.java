@@ -16,17 +16,9 @@ import fr.eni.enchere.exception.ConnexionException;
 /**
  * Servlet implementation class ConnexionServlet
  */
-@WebServlet("/ConnexionServlet")
+@WebServlet("/seConnecter")
 public class ConnexionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ConnexionServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

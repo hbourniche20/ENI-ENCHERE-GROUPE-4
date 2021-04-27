@@ -75,7 +75,7 @@ public class DetailVenteServlet extends HttpServlet {
 			request.setAttribute("noArticle", noArticle);
 			doGet(request, response);
 		} catch(NumberFormatException e) {
-			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
+			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier"); // TODO check return message.
 			doGet(request, response);
 		} catch(Exception e) {
 			System.out.println(e.getLocalizedMessage());
