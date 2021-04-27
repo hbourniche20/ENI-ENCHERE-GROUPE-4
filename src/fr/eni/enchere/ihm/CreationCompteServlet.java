@@ -26,14 +26,7 @@ public class CreationCompteServlet extends HttpServlet {
 		RequestDispatcher rd =request.getRequestDispatcher("WEB-INF/jsp/creationCompte.jsp");
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 		if(utilisateur != null) {
-			request.setAttribute("pseudo", utilisateur.getPseudo());
-			request.setAttribute("nom", utilisateur.getNom());
-			request.setAttribute("prenom", utilisateur.getPrenom());
-			request.setAttribute("email", utilisateur.getEmail());
-			request.setAttribute("telephone", utilisateur.getTelephone());
-			request.setAttribute("rue", utilisateur.getRue());
-			request.setAttribute("codepostal", utilisateur.getCodePostal());
-			request.setAttribute("ville", utilisateur.getVille());
+			request.setAttribute("utilisateur", utilisateur);
 		}
 		rd.forward(request, response);
 	}
@@ -42,21 +35,14 @@ public class CreationCompteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String pseudo = request.getParameter("pseudo");
-		request.setAttribute("pseudo", pseudo); // save data if there is an error the fields will keep the data.
 		String nom = request.getParameter("nom");
-		request.setAttribute("nom", nom);
 		String prenom = request.getParameter("prenom");
-		request.setAttribute("prenom", prenom);
 		String email = request.getParameter("email");
-		request.setAttribute("email", email);
 		String telephone = request.getParameter("telephone");
-		request.setAttribute("telephone", telephone);
 		String rue = request.getParameter("rue");
-		request.setAttribute("rue", rue);
 		String codepostal = request.getParameter("codepostal");
-		request.setAttribute("codepostal", codepostal);
 		String ville = request.getParameter("ville");
-		request.setAttribute("ville", ville);
+
 		// newly created password.
 		String nouveauMotdePasse = request.getParameter("newmotdepasse");
 		// Current password of the user id .
@@ -64,18 +50,20 @@ public class CreationCompteServlet extends HttpServlet {
 		// New password correspond to the newly created password.
 		String confirmationmdp = request.getParameter("confirmationmdp");
 		Utilisateur currentUtilisateur = (Utilisateur) request.getSession().getAttribute("user");
-		
+		Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse);
+		request.setAttribute("utilisateur", u);
+
 		if(currentUtilisateur != null && !motdepasse.equals(currentUtilisateur.getMotDePasse())) {
 			this.throwException(request, response, "le mot de passe ne correspond pas");
 		}
 
 		if (confirmationmdp.equals(nouveauMotdePasse) || (currentUtilisateur != null && nouveauMotdePasse.equals(""))) {
 			if(nouveauMotdePasse.equals("")) {
-				nouveauMotdePasse = motdepasse;
+				u.setMotDePasse(motdepasse);
 			}
-			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse);
 			if(currentUtilisateur != null) {
 				u.setNoUtilisateur(currentUtilisateur.getNoUtilisateur());
+				u.setCredit(currentUtilisateur.getCredit());
 			}
 			UtilisateurManager manager = new UtilisateurManager();
 			try {
