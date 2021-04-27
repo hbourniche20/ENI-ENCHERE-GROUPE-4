@@ -12,6 +12,7 @@ import fr.eni.enchere.bll.EnchereManager;
 import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.ArticleVenduException;
+import fr.eni.enchere.exception.EnchereException;
 
 /**
  * Servlet implementation class EncherirTestServlet
@@ -39,99 +40,259 @@ public class EncherirTestServlet extends TestServlet {
 
 	private void testSuccess() {
     	printNewTest("Enchère sur un article");
-    	/*ArticleVendu article = null;
-		Integer noArticle = 0;
-		String numeroArticle = "1";
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "3";
+		String montantEnchere = "250";
 		Utilisateur user = new Utilisateur();
 		user.setNoUtilisateur(2);
 		user.setPseudo("Dupond85");
+		user.setCredit(1000);
 		try {
 			if(user.getNoUtilisateur() != 0) {
 				noArticle = Integer.parseInt(numeroArticle);
-				//article = manager.recupererArticleVendu(noArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
 			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation d'acceder au détail d'un article");
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}
 		} catch (NumberFormatException e) {
 			printTestFail(e.getMessage());
 		} catch (ArticleVenduException e) {
 			printTestFail(e.getMessage());
+		} catch (EnchereException e) {
+			printTestFail(e.getMessage());
 		}
 		
-		System.out.println("Test réussi: Le détail de la vente de l'article a été affiché.");*/
+		System.out.println("Test réussi: Vous avez enchérit sur cet article.");
 	}
 	
 	private void testFailCreditLack() {
     	printNewTest("Enchère sur un article avec utilisateur n'ayant pas assez de crédit");
-		
-	}
-
-	private void testFailUserDisconnected() {
-    	printNewTest("Enchère sur un article avec utilisateur non connecté");
-    	ArticleVendu article = null;
-		Integer noArticle = 0;
-		String numeroArticle = "1";
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "5";
+		String montantEnchere = "250";
 		Utilisateur user = new Utilisateur();
+		user.setNoUtilisateur(2);
+		user.setPseudo("Dupond85");
+		user.setCredit(1000);
 		
 		try {
 			if(user.getNoUtilisateur() != 0) {
 				noArticle = Integer.parseInt(numeroArticle);
-				//article = manager.recupererArticleVendu(noArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
 			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation d'acceder au détail d'un article");
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}
-			printTestFail("Exception non gérée");
 		} catch (NumberFormatException e) {
 			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
 		} catch (ArticleVenduException e) {
 			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
 		} 
+		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
+		}
+	}
+
+	private void testFailUserDisconnected() {
+    	printNewTest("Enchère sur un article avec utilisateur non connecté");
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "2";
+		String montantEnchere = "250";
+		Utilisateur user = new Utilisateur();
+		try {
+			if(user.getNoUtilisateur() != 0) {
+				noArticle = Integer.parseInt(numeroArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
+			} else {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
+		} catch (ArticleVenduException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} 
+		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
+		}
 	}
 
 	private void testFailNoArticle() {
     	printNewTest("Enchère sur un article sans le numéro de l'article");
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "10";
+		String montantEnchere = "250";
+		Utilisateur user = new Utilisateur();
+		user.setNoUtilisateur(2);
+		user.setPseudo("Dupond85");
+		user.setCredit(1000);
+		try {
+			if(user.getNoUtilisateur() != 0) {
+				noArticle = Integer.parseInt(numeroArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
+			} else {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
+		} catch (ArticleVenduException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} 
 		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
+		}
 	}
 
 	private void testFailFinishedAuction() {
     	printNewTest("Enchère sur un article alors que les enchères sont terminées");
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "2";
+		String montantEnchere = "250";
+		Utilisateur user = new Utilisateur();
+		user.setNoUtilisateur(2);
+		user.setPseudo("Dupond85");
+		user.setCredit(1000);
+		try {
+			if(user.getNoUtilisateur() != 0) {
+				noArticle = Integer.parseInt(numeroArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
+			} else {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
+		} catch (ArticleVenduException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} 
 		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
+		}
 	}
 
 	private void testFailNotBeginAuction() {
     	printNewTest("Enchère sur un article alors que les enchères ne sont pas commencées");
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "7";
+		String montantEnchere = "250";
+		Utilisateur user = new Utilisateur();
+		user.setNoUtilisateur(2);
+		user.setPseudo("Dupond85");
+		user.setCredit(1000);
+		try {
+			if(user.getNoUtilisateur() != 0) {
+				noArticle = Integer.parseInt(numeroArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
+			} else {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
+		} catch (ArticleVenduException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} 
 		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
+		}
 	}
 
 	private void testFailOwnArticle() {
     	printNewTest("Enchère sur un article qui m'appartient");
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "6";
+		String montantEnchere = "250";
+		Utilisateur user = new Utilisateur();
+		user.setNoUtilisateur(2);
+		user.setPseudo("Dupond85");
+		user.setCredit(1000);
+		try {
+			if(user.getNoUtilisateur() != 0) {
+				noArticle = Integer.parseInt(numeroArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
+			} else {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
+		} catch (ArticleVenduException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} 
 		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
+		}
 	}
 
 	private void testFailAlreadyOverbid() {
-    	printNewTest("Enchère sur un article alors que je suis le dernier à avoir enchérit");		
-	}	
-
-/*
-    Integer noArticle = 0;
-	Integer montantEnchere = 0;
-	try {
-		if(request.getSession().getAttribute("user") != null) {
-			Utilisateur encherisseur = (Utilisateur) request.getSession().getAttribute("user");
-			noArticle = Integer.parseInt(request.getParameter("noArticle"));
-			montantEnchere = Integer.parseInt(request.getParameter("montantEnchere"));
-			manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
-		} else {
-			throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+    	printNewTest("Enchère sur un article alors que je suis le dernier à avoir enchérit");
+    	boolean bReussi = false;
+    	Integer noArticle = 0;
+    	Integer montant = 0;
+		String numeroArticle = "3";
+		String montantEnchere = "250";
+		Utilisateur user = new Utilisateur();
+		user.setNoUtilisateur(2);
+		user.setPseudo("Dupond85");
+		user.setCredit(1000);
+		try {
+			if(user.getNoUtilisateur() != 0) {
+				noArticle = Integer.parseInt(numeroArticle);
+				montant = Integer.parseInt(montantEnchere);
+				manager.ajouterEnchere(noArticle, user, montant);
+				bReussi = true;
+			} else {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("Test réussi: Le paramètre noArticle n'est pas un entier");
+		} catch (ArticleVenduException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} catch (EnchereException e) {
+			System.out.println("Test réussi: " + e.getMessage());
+		} 
+		
+		if(bReussi) {
+			printTestFail("Sans message précédent : Exception non gérée");
 		}
-		request.setAttribute("noArticle", noArticle);
-		doGet(request, response);
-	} catch(NumberFormatException e) {
-		request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
-		doGet(request, response);
-	} catch(Exception e) {
-		System.out.println(e.getLocalizedMessage());
-		request.getSession().setAttribute("error", e.getMessage());
-		doGet(request, response);
-	}*/
+	}	
 }

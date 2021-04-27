@@ -37,42 +37,39 @@ public class EnchereManager {
 		Integer credit = null;
 		LocalDate date = LocalDate.now();
 		ArticleVendu article = articleVenduDao.selectArticleVenduById(noArticle);
-		if(article.getNoArticle() != 0 & verifierEligibilite(article, encherisseur, date, montantEnchere)) {
-			Enchere enchere = setEnchere(article, encherisseur, date, montantEnchere);
-			try(Connection con = ConnectionProvider.getConnection()) {
-				try {
-					con.setAutoCommit(false);
-					
-					// Créditer le précédent enchérisseur du montant de son enchère
-					Enchere encherePrecedente = dao.selectLastAuction(con, noArticle);
-					if(encherePrecedente != null) {
-						credit = encherePrecedente.getEncherisseur().getCredit() + encherePrecedente.getMontantEnchere();
-						Utilisateur encherisseurPrecedent = encherePrecedente.getEncherisseur();
-						System.out.println("Utilisateur précédent");
-						System.out.println(credit);
-						System.out.println(encherisseurPrecedent.getNoUtilisateur());
-						utilisateurDao.updateCredit(con, encherisseurPrecedent.getNoUtilisateur(), credit);
+		if(article != null) {
+			if(verifierEligibilite(article, encherisseur, date, montantEnchere)) {
+				Enchere enchere = setEnchere(article, encherisseur, date, montantEnchere);
+				try(Connection con = ConnectionProvider.getConnection()) {
+					try {
+						con.setAutoCommit(false);
+						
+						// Créditer le précédent enchérisseur du montant de son enchère
+						Enchere encherePrecedente = dao.selectLastAuction(con, noArticle);
+						if(encherePrecedente != null) {
+							credit = encherePrecedente.getEncherisseur().getCredit() + encherePrecedente.getMontantEnchere();
+							Utilisateur encherisseurPrecedent = encherePrecedente.getEncherisseur();
+							utilisateurDao.updateCredit(con, encherisseurPrecedent.getNoUtilisateur(), credit);
+						}
+						
+						// Insérer l'enchère
+						dao.insert(con, enchere);
+						
+						// Débiter le crédit de l'enchérisseur
+						credit = enchere.getEncherisseur().getCredit() - enchere.getMontantEnchere();
+						utilisateurDao.updateCredit(con, encherisseur.getNoUtilisateur(), credit);
+						
+						con.commit();
+					} catch(SQLException e) {
+						con.rollback();
+						throw e;
 					}
-					
-					// Insérer l'enchère
-					dao.insert(con, enchere);
-					
-					// Débiter le crédit de l'enchérisseur
-					credit = enchere.getEncherisseur().getCredit() - enchere.getMontantEnchere();
-					System.out.println("Utilisateur actuel");
-					System.out.println(credit);
-					System.out.println(encherisseur.getNoUtilisateur());
-					utilisateurDao.updateCredit(con, encherisseur.getNoUtilisateur(), credit);
-					
-					con.commit();
-				} catch(SQLException e) {
-					con.rollback();
-					throw e;
+				} catch (Exception e) {
+					throw new EnchereException();
 				}
-			} catch (Exception e) {
-				throw new EnchereException();
+			} else {
+				throw new ArticleVenduException();
 			}
-			
 		} else {
 			throw new ArticleVenduException();
 		}
@@ -164,6 +161,19 @@ public class EnchereManager {
 			throw new EnchereException(EnchereException.USER_FORBIDDEN);
 		}
 			
+		if(article.getEncheres().size() > 0) {
+			if(encherisseur.getNoUtilisateur() == article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getNoUtilisateur()) {
+				throw new EnchereException(EnchereException.USER_LATEST_AUCTION);
+			}
+			if(encherisseur.getCredit() <= article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere()) {
+				throw new ArticleVenduException(ArticleVenduException.CREDIT_LACK);
+			}
+		} else {
+			if(encherisseur.getCredit() < article.getMiseAPrix()) {
+				throw new ArticleVenduException(ArticleVenduException.CREDIT_LACK);
+			}
+		}
+		
 		if(date.isBefore(article.getDateDebutEncheres())) {
 			throw new EnchereException(EnchereException.NOT_BEGIN_AUCTION);
 		}
@@ -172,18 +182,7 @@ public class EnchereManager {
 			throw new EnchereException(EnchereException.FINISHED_AUCTION);
 		}
 		
-		if(article.getEncheres().size() > 0) {
-			if(encherisseur.getCredit() <= article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere()) {
-				throw new ArticleVenduException(ArticleVenduException.CREDIT_LACK);
-			}
-			if(encherisseur.getNoUtilisateur() == article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getNoUtilisateur()) {
-				throw new EnchereException(EnchereException.USER_LATEST_AUCTION);
-			}
-		} else {
-			if(encherisseur.getCredit() < article.getMiseAPrix()) {
-				throw new ArticleVenduException(ArticleVenduException.CREDIT_LACK);
-			}
-		}
+		
 		return true;
 	}
 
