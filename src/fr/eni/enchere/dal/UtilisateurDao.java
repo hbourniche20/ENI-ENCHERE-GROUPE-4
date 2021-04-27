@@ -1,6 +1,9 @@
 package fr.eni.enchere.dal;
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.EmailNotUniqueException;
 import fr.eni.enchere.exception.PseudoNotUniqueException;
@@ -13,4 +16,6 @@ public interface UtilisateurDao {
 	Utilisateur getUtilisateur(String pseudo) throws UtilisateurNotFoundException;
 	
 	void deleteUtilisateur(Utilisateur u)  throws UtilisateurNotFoundException;
+
+	void updateCredit(Connection con, Integer noUtilisateur, Integer credit) throws SQLException;
 }

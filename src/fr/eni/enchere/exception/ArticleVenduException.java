@@ -6,6 +6,9 @@ public class ArticleVenduException extends Exception {
 
 	public static final String CREDIT_LACK = "Vous n'avez pas assez de crédit pour participer à l'enchère";
 	
+	public static final String USER_FORBIDDEN = "Vous n'avez pas l'autorisation d'acceder au détail d'un article";
+
+	
 	public ArticleVenduException(String message) {
 		super(message);
 	}

@@ -1,5 +1,7 @@
 package fr.eni.enchere.bll;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,8 +12,10 @@ import fr.eni.enchere.bo.ArticleVendu;
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.dal.ArticleVenduDao;
+import fr.eni.enchere.dal.ConnectionProvider;
 import fr.eni.enchere.dal.DaoFactory;
 import fr.eni.enchere.dal.EncheresDao;
+import fr.eni.enchere.dal.UtilisateurDao;
 import fr.eni.enchere.exception.ArticleVenduException;
 import fr.eni.enchere.exception.EnchereException;
 
@@ -19,30 +23,62 @@ public class EnchereManager {
 	
 	private EncheresDao dao;
 	private ArticleVenduDao articleVenduDao;
+	private UtilisateurDao utilisateurDao;
 	
 	
 	public EnchereManager() {
 		dao = DaoFactory.getEnchereDao();
 		articleVenduDao = DaoFactory.getArticleVenduDao();
+		utilisateurDao = DaoFactory.getUtilisateurDao();
 	}
 	
 	
 	public void ajouterEnchere(Integer noArticle, Utilisateur encherisseur, Integer montantEnchere) throws EnchereException, ArticleVenduException {
+		Integer credit = null;
 		LocalDate date = LocalDate.now();
-		LocalDateTime heureActuelle = LocalDateTime.now();
 		ArticleVendu article = articleVenduDao.selectArticleVenduById(noArticle);
 		if(article.getNoArticle() != 0 & verifierEligibilite(article, encherisseur, date, montantEnchere)) {
-			Enchere e = new Enchere();
-			e.setArticle(article);
-			e.setEncherisseur(encherisseur);
-			e.setMontantEnchere(montantEnchere);
-			e.setDateEnchere(heureActuelle);
-			dao.insert(e);
+			Enchere enchere = setEnchere(article, encherisseur, date, montantEnchere);
+			try(Connection con = ConnectionProvider.getConnection()) {
+				try {
+					con.setAutoCommit(false);
+					
+					// Créditer le précédent enchérisseur du montant de son enchère
+					Enchere encherePrecedente = dao.selectLastAuction(con, noArticle);
+					if(encherePrecedente != null) {
+						credit = encherePrecedente.getEncherisseur().getCredit() + encherePrecedente.getMontantEnchere();
+						Utilisateur encherisseurPrecedent = encherePrecedente.getEncherisseur();
+						System.out.println("Utilisateur précédent");
+						System.out.println(credit);
+						System.out.println(encherisseurPrecedent.getNoUtilisateur());
+						utilisateurDao.updateCredit(con, encherisseurPrecedent.getNoUtilisateur(), credit);
+					}
+					
+					// Insérer l'enchère
+					dao.insert(con, enchere);
+					
+					// Débiter le crédit de l'enchérisseur
+					credit = enchere.getEncherisseur().getCredit() - enchere.getMontantEnchere();
+					System.out.println("Utilisateur actuel");
+					System.out.println(credit);
+					System.out.println(encherisseur.getNoUtilisateur());
+					utilisateurDao.updateCredit(con, encherisseur.getNoUtilisateur(), credit);
+					
+					con.commit();
+				} catch(SQLException e) {
+					con.rollback();
+					throw e;
+				}
+			} catch (Exception e) {
+				throw new EnchereException();
+			}
+			
 		} else {
 			throw new ArticleVenduException();
 		}
 	}
 
+	
 	public List<ArticleVendu> recupererListeArticles() throws EnchereException {
 		// Récupération de la date du jour
 		LocalDate date = LocalDate.now();
@@ -97,6 +133,17 @@ public class EnchereManager {
 		}
 		
 		return listeArticles;
+	}
+	
+	private Enchere setEnchere(ArticleVendu article, Utilisateur encherisseur, LocalDate date, Integer montantEnchere) {
+		LocalDateTime heureActuelle = LocalDateTime.now();
+		Enchere enchere = new Enchere();
+		enchere.setArticle(article);
+		enchere.setEncherisseur(encherisseur);
+		enchere.setMontantEnchere(montantEnchere);
+		enchere.setDateEnchere(heureActuelle);
+	
+		return enchere;
 	}
 
 	private List<ArticleVendu> removeArticlesDuplications(List<ArticleVendu> listeArticles) {

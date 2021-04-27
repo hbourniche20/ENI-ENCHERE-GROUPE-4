@@ -43,7 +43,7 @@ public class DetailVenteServlet extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/articleVendu.jsp");
 				rd.forward(request, response);
 			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation d'acceder au détail d'un article");
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}
 		} catch(NumberFormatException e) {
 			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
@@ -70,7 +70,7 @@ public class DetailVenteServlet extends HttpServlet {
 				montantEnchere = Integer.parseInt(request.getParameter("montantEnchere"));
 				manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
 			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation d'accéder au détail d'un article");
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}
 			request.setAttribute("noArticle", noArticle);
 			doGet(request, response);

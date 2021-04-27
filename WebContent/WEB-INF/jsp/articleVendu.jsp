@@ -77,7 +77,6 @@
 									</c:if>
 									</c:otherwise>
 							</c:choose>
-							
 						</div>
 					</div>
 					<div class="row justify-content-md-center align-items-center my-3">
