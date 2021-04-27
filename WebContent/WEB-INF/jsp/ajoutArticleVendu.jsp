@@ -99,6 +99,11 @@
 <!-- 			</div> -->
 				
 			</c:if>
+			<c:if test="${not empty sessionScope.user && article.getNoArticle() != null && user.getPseudo().equals(article.getVendeur().getPseudo()) }">
+				<div class="text-center">
+					<a href="${ pageContext.request.contextPath }/SuppressionArticleServlet?noArticle=${ article.getNoArticle() }" class="btn btn-danger m-1">Annuler la vente</a>		
+				</div>
+			</c:if>
 			<c:if test="${not empty sessionScope.user && article.getNoArticle() == null }">
 			<div class="text-center">
 				<button class="btn btn-danger m-1">Enregistrer</button>		
