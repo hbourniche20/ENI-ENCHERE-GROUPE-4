@@ -15,7 +15,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	private final String INSERT = "INSERT INTO UTILISATEURS(PSEUDO,NOM,PRENOM,EMAIL,TELEPHONE,RUE,CODE_POSTAL,VILLE,MOT_DE_PASSE,CREDIT,ADMINISTRATEUR) VALUES (?,?,?,?,?,?,?,?,?,0,FALSE)";
 	private final String SELECT_PSEUDO = "SELECT PSEUDO FROM UTILISATEURS WHERE PSEUDO =? AND NO_UTILISATEUR != ?";
 	private final String SELECT_MAIL = "SELECT EMAIL FROM UTILISATEURS WHERE EMAIL =? AND NO_UTILISATEUR != ?";
-	private final String GET_USER = "SELECT nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
+	private final String GET_USER = "SELECT no_utilisateur, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur FROM utilisateurs WHERE pseudo = ?";
 	private final String UPDATE_USER = "UPDATE utilisateurs SET pseudo= ?, nom = ?, prenom = ?, email = ?, telephone = ? , rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur = ?";
 	private final String DELETE_USER = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
 
@@ -60,7 +60,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 		return isOk; 
 	}
 	@Override
-	public void addUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException {
+	public void saveUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException {
 
 		if(!verifPseudo(u.getPseudo(), u.getNoUtilisateur()))  {
 			throw new PseudoNotUniqueException();
@@ -106,17 +106,19 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			pstt.setString(1, pseudo);
 			ResultSet rs = pstt.executeQuery();
 			if(rs.next()) {
-				String nom = rs.getString(1);
-				String prenom = rs.getString(2);
-				String email = rs.getString(3);
-				String telephone = rs.getString(4);
-				String rue = rs.getString(5);
-				String codePostal = rs.getString(6);
-				String ville = rs.getString(7);
-				String motDePasse = rs.getString(8);
-				int credit = rs.getInt(9);
-				boolean administrateur = rs.getBoolean(10);
+				Integer noUtilisateur = rs.getInt(1);
+				String nom = rs.getString(2);
+				String prenom = rs.getString(3);
+				String email = rs.getString(4);
+				String telephone = rs.getString(5);
+				String rue = rs.getString(6);
+				String codePostal = rs.getString(7);
+				String ville = rs.getString(8);
+				String motDePasse = rs.getString(9);
+				int credit = rs.getInt(10);
+				boolean administrateur = rs.getBoolean(11);
 				user = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur);
+				user.setNoUtilisateur(noUtilisateur);
 			} else {
 				throw new UtilisateurNotFoundException();
 			}
