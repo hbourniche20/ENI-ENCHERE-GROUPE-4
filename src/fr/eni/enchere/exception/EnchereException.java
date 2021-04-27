@@ -11,6 +11,8 @@ public class EnchereException extends Exception {
 	public static final String USER_FORBIDDEN = "Un utilisateur ne peut enchérir sur son propre article";
 
 	public static final String USER_LATEST_AUCTION = "Vous avez déjà enchérie sur cet article";
+
+	public static final String BEGIN_AUCTION = "L'article est déjà proposé aux enchères";
 	
 	public EnchereException(String message) {
 		super(message);

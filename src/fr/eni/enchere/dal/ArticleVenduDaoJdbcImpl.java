@@ -20,6 +20,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
+
 	private final String INSERT = "INSERT INTO ARTICLES_VENDUS(NOM_ARTICLE,DESCRIPTION,DATE_DEBUT_ENCHERES,DATE_FIN_ENCHERES,PRIX_INITIAL,NO_CATEGORIE,NO_UTILISATEUR,NO_RETRAIT) VALUES (?,?,?,?,?,?,?,?)";
 	
 	private final String INSERT_RETRAIT = "INSERT INTO RETRAITS(RUE,CODE_POSTAL,VILLE) VALUES (?,?,?)  ";
@@ -35,6 +36,8 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			+ "LEFT JOIN UTILISATEURS u2 ON ENCHERES.no_utilisateur = u2.no_utilisateur "
 			+ "WHERE ARTICLES_VENDUS.no_article = ? ";
 	
+	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+
 	@Override
 	public void addArticleVendu(ArticleVendu a) throws Exception {
 		// TODO Auto-generated method stub
@@ -150,11 +153,23 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			rs.close();
 			st.close();
 		} catch(SQLException e) {
-			System.out.println(e);
 			throw new ArticleVenduException();
 		}
 		
 		return article;
+	}
+
+	@Override
+	public void delete(Integer noArticle) throws ArticleVenduException {
+		try(Connection con = ConnectionProvider.getConnection()) {
+			PreparedStatement st = con.prepareStatement(DELETE);
+			st.setInt(1, noArticle);
+			st.executeUpdate();
+			st.close();
+		} catch(SQLException e) {
+			throw new ArticleVenduException(ArticleVenduException.DELETE);
+		}
+		
 	}
 
 }
