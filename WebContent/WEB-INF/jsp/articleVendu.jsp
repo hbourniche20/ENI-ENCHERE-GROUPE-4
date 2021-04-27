@@ -68,8 +68,14 @@
 									Pas d'enchères
 								</c:when>
 								<c:otherwise>
-									${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points par ${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }
-								</c:otherwise>
+									<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
+										${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points
+									</c:if>
+									<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && !sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
+										${ article.getEncheres().get(article.getEncheres().size() - 1).getMontantEnchere() } points par 
+										<a href="${pageContext.request.contextPath }/ProfileServlet?pseudo=${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }">${ article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo() }</a>
+									</c:if>
+									</c:otherwise>
 							</c:choose>
 							
 						</div>
@@ -109,6 +115,18 @@
 							<label>${ article.getVendeur().getPseudo() }</label>
 						</div>
 					</div>
+						<c:if test="${ article.getEncheres().size() > 0 }">
+							<c:if test="${ article.getDateFinEncheres() <= LocalDate.now() && sessionScope.user.getPseudo().equals(article.getEncheres().get(article.getEncheres().size() - 1).getEncherisseur().getPseudo()) }">
+								<div class="row align-items-center my-3">
+									<div class="col my-auto">
+										<span class="font-weight-bold">Téléphone</span>
+									</div>
+									<div class="col my-auto">
+										<label>${ article.getVendeur().getTelephone() }</label>
+									</div>
+								</div>
+							</c:if>
+						</c:if>
 					<c:if test="${ !sessionScope.user.getNoUtilisateur().equals(article.getVendeur().getNoUtilisateur()) && article.getDateFinEncheres() > LocalDate.now() }">
 						<div class="row justify-content-md-center align-items-end my-3">
 							<div class="col">
