@@ -26,7 +26,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
 	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET NOM_ARTICLE = ?, DESCRIPTION = ?, DATE_DEBUT_ENCHERES = ?, DATE_FIN_ENCHERES = ?, PRIX_INITIAL =?, NO_CATEGORIE = ? , NO_RETRAIT = ? WHERE NO_ARTICLE = ?";
 	
-	private final String SELECT_ARTICLE_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, "
+	private final String SELECT_ARTICLE_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, u1.telephone, "
 			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS u1 ON ARTICLES_VENDUS.no_utilisateur = u1.no_utilisateur " 
 			+ "INNER JOIN CATEGORIES ON ARTICLES_VENDUS.no_categorie = CATEGORIES.no_categorie " 
@@ -120,29 +120,30 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 					Utilisateur vendeur = new Utilisateur();
 	 				vendeur.setNoUtilisateur(rs.getInt(7));
 	 				vendeur.setPseudo(rs.getString(8));
+	 				vendeur.setTelephone(rs.getString(9));
 	 				article.setVendeur(vendeur);
 	 				
 	 				Categorie categorieArticle = new Categorie();
-	 				categorieArticle.setNoCategorie(rs.getInt(9));
-	 				categorieArticle.setLibelle(rs.getString(10));
+	 				categorieArticle.setNoCategorie(rs.getInt(10));
+	 				categorieArticle.setLibelle(rs.getString(11));
 	 				article.setCategorieArticle(categorieArticle);
 	 				
 	 				Retrait lieuRetrait = new Retrait();
-	 				lieuRetrait.setRue(rs.getString(11));
-	 				lieuRetrait.setCodePostal(rs.getString(12));
-	 				lieuRetrait.setVille(rs.getString(13));
+	 				lieuRetrait.setRue(rs.getString(12));
+	 				lieuRetrait.setCodePostal(rs.getString(13));
+	 				lieuRetrait.setVille(rs.getString(14));
 	 				article.setLieuRetrait(lieuRetrait);
 				}
 				
-				if(rs.getInt(14) != 0) {
+				if(rs.getInt(15) != 0) {
 	 				Enchere enchere = new Enchere();
 	 				
 	 				Utilisateur encherisseur = new Utilisateur();
-	 				encherisseur.setNoUtilisateur(rs.getInt(14));
-	 				encherisseur.setPseudo(rs.getString(15));
+	 				encherisseur.setNoUtilisateur(rs.getInt(15));
+	 				encherisseur.setPseudo(rs.getString(16));
 					
 	 				enchere.setEncherisseur(encherisseur);
-	 				enchere.setMontantEnchere(rs.getInt(16));
+	 				enchere.setMontantEnchere(rs.getInt(17));
 					article.getEncheres().add(enchere);
 				}
 			}
