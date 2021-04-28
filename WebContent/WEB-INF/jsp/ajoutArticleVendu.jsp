@@ -17,7 +17,7 @@
  		<c:if test="${not empty sessionScope.user && article.getNoArticle() == null }">
 		<h3 class="text-center my-4">Vendre un article</h3>
 	 	</c:if> 
-		<form action ="${pageContext.request.contextPath }/AjoutArticleVenduServlet" method="POST">
+		<form action ="${pageContext.request.contextPath }/ajouterArticle" method="POST">
 		<input type="hidden" name="noArticle" value="${ article.getNoArticle() }"/>
 			<div class="row">
 				<div class="col">
