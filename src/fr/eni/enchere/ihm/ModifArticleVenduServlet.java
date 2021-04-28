@@ -22,7 +22,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class ModifArticleVenduServlet
  */
-@WebServlet("/modificationArticle")
+@WebServlet("/ModifArticleVenduServlet")
 public class ModifArticleVenduServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -98,7 +98,7 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			ArticleVendu av = new ArticleVendu(noArticle, nomArticleVendu, descriptionArticleVendu, dateDebut, dateFin, miseAPrix, c, r, utilisateur);
 			ArticleVenduManager manager = new ArticleVenduManager();
 			
-			manager.enregistrerArticleVendu(av);
+			manager.modificationArticleVendu(utilisateur,av.getNoArticle());
 					
 		}catch(NumberFormatException e){
 			e.printStackTrace();

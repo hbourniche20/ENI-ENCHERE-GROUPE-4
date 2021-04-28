@@ -17,5 +17,7 @@ public interface ArticleVenduDao {
 	ArticleVendu selectArticleVenduById(Integer noArticle) throws ArticleVenduException;
 	
 	void delete(Integer noArticle) throws ArticleVenduException;
+	
+	void updateArticleVendu(Integer noArticle) throws ArticleVenduException;
 
 }

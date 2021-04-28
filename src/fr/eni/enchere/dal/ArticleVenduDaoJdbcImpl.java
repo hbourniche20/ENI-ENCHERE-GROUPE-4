@@ -45,11 +45,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 		try(Connection c = ConnectionProvider.getConnection()){
 			String request = INSERT;
 			System.out.println(a.getNoArticle());
-			if(a.getNoArticle() != 0) {
-				
-				request = UPDATE_ARTICLE;
-				
-			}
+			
 			try {
 			c.setAutoCommit(false);
 			
@@ -68,9 +64,10 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			
 			a.getLieuRetrait().setNoRetrait(rs.getInt(1));
 			
-			}
 			rs.close();
 			pstt.close();
+			}
+			
 			
 			pstt = c.prepareStatement(request);
 			
@@ -82,12 +79,12 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			pstt.setInt(6, a.getCategorieArticle().getNoCategorie());
 			pstt.setInt(7, a.getVendeur().getNoUtilisateur());
 			pstt.setInt(8, a.getLieuRetrait().getNoRetrait());
-			
-			
+					
 			pstt.executeUpdate();
 			pstt.close();
 			
 			c.commit();
+			System.out.println("Ajout fait !");
 			}catch (Exception e ){
 				c.rollback();
 				throw e;
@@ -95,11 +92,9 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			}
 		}catch(SQLException s) {
 			s.printStackTrace();
-		}
-		
-		
-		
+		}	
 	}
+	
 
 	@Override
 	public ArticleVendu selectArticleVenduById(Integer noArticle) throws ArticleVenduException {
@@ -172,4 +167,67 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 		
 	}
 
-}
+
+	@Override
+	public void updateArticleVendu(Integer noArticle) throws ArticleVenduException {
+		// TODO Auto-generated method stub
+		try(Connection c = ConnectionProvider.getConnection()){
+			
+			ArticleVendu a = new ArticleVendu();
+			
+			System.out.println(a.getNoArticle());
+			
+			try {
+			c.setAutoCommit(false);
+			
+			PreparedStatement pstt = c.prepareStatement(INSERT_RETRAIT,PreparedStatement.RETURN_GENERATED_KEYS);
+		
+			
+			pstt.setString(1, a.getLieuRetrait().getRue());
+			pstt.setString(2, a.getLieuRetrait().getCodePostal());
+			pstt.setString(3, a.getLieuRetrait().getVille());
+			
+			pstt.executeUpdate();
+			
+			ResultSet rs = pstt.getGeneratedKeys();
+			
+			if(rs.next()){
+			
+			a.getLieuRetrait().setNoRetrait(rs.getInt(1));
+			
+			rs.close();
+			pstt.close();
+			}
+			
+			
+			pstt = c.prepareStatement(UPDATE_ARTICLE);
+			
+			pstt.setString(1, a.getNomArticle());
+			pstt.setString(2, a.getDescription());
+			pstt.setDate(3, Date.valueOf(a.getDateDebutEncheres()));
+			pstt.setDate(4, Date.valueOf(a.getDateFinEncheres()));
+			pstt.setInt(5, a.getMiseAPrix());
+			pstt.setInt(6, a.getCategorieArticle().getNoCategorie());
+			pstt.setInt(7, a.getVendeur().getNoUtilisateur());
+			pstt.setInt(8, a.getLieuRetrait().getNoRetrait());
+			pstt.setInt(9, a.getNoArticle());
+					
+			pstt.executeUpdate();
+			pstt.close();
+			
+			c.commit();
+			
+			System.out.println("Modification faite !");
+			}catch (Exception e ){
+				c.rollback();
+				throw e;
+				
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}	
+			
+		}
+	}
+
+
