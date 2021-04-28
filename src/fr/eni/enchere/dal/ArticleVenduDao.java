@@ -18,6 +18,6 @@ public interface ArticleVenduDao {
 	
 	void delete(Integer noArticle) throws ArticleVenduException;
 	
-	void updateArticleVendu(Integer noArticle) throws ArticleVenduException;
+	void updateArticleVendu(ArticleVendu article) throws ArticleVenduException;
 
 }

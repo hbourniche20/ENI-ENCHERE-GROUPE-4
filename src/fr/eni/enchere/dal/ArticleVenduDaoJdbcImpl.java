@@ -169,11 +169,11 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 
 
 	@Override
-	public void updateArticleVendu(Integer noArticle) throws ArticleVenduException {
+	public void updateArticleVendu(ArticleVendu a) throws ArticleVenduException {
 		// TODO Auto-generated method stub
 		try(Connection c = ConnectionProvider.getConnection()){
 			
-			ArticleVendu a = new ArticleVendu();
+			
 			
 			System.out.println(a.getNoArticle());
 			
