@@ -28,38 +28,22 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class AjoutArticleVenduServlet
  */
-@WebServlet("/AjoutArticleVenduServlet")
+@WebServlet("/ajouterArticle")
 public class AjoutArticleVenduServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    
-    public AjoutArticleVenduServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//ArticleVenduManager manager = new ArticleVenduManager();
 		CategorieManager managerCategorie = new CategorieManager();
-		//Integer noArticle = null;
-		//ArticleVendu article = null;
 		List<Categorie> listeCategories = null;
 		
 		try {
 			if(request.getSession().getAttribute("user") != null) {
-			//noArticle = Integer.parseInt(request.getParameter("noArticle"));
-			//System.out.println(noArticle);
 			
 				listeCategories = managerCategorie.recupererListeCategories();				
 				request.setAttribute("categories", listeCategories);
 				request.setAttribute("error", request.getSession().getAttribute("error"));
 				request.removeAttribute("error");
 			
-				
-			//article = manager.recupererArticleVendu(noArticle);
-			//request.setAttribute("article", article);
 				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");
 				rd.forward(request, response);
 						
@@ -71,15 +55,10 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
 		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");
-		rd.forward(request, response);
 	}
 
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 		String nomArticleVendu = request.getParameter("nom");
 		String descriptionArticleVendu = request.getParameter("description");	
@@ -90,33 +69,21 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
 		int nocategorie = 0;
-		//int noArticle =0;
 		
-		try {
-			//noArticle = Integer.parseInt(request.getParameter("noArticle"));
-			
-				 nocategorie = Integer.parseInt(request.getParameter("noCategorie"));
-				 
-				 Categorie c = new Categorie();
-					c.setNoCategorie(nocategorie);
-					
-					
-					Retrait r = new Retrait(rue, codePostal, ville);
-					ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
-					//a.setNoArticle(noArticle);
-					//System.out.println("Num article " + a.getNoArticle());
-					ArticleVenduManager manager = new ArticleVenduManager();
-					manager.enregistrerArticleVendu(a);
-					response.sendRedirect("index");
-					
-			}catch(NumberFormatException e) {
-				e.printStackTrace();
-					
+		try {			
+			nocategorie = Integer.parseInt(request.getParameter("noCategorie"));
+			Categorie c = new Categorie();
+			c.setNoCategorie(nocategorie);
+			Retrait r = new Retrait(rue, codePostal, ville);
+			ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
+			ArticleVenduManager manager = new ArticleVenduManager();
+			manager.enregistrerArticleVendu(a);
+			response.sendRedirect("index");
+		}catch(NumberFormatException e) {
+			e.printStackTrace();	
 		}catch(Exception e ) {
-			
 			e.printStackTrace();
 		}
-		
 	}
 
 }
