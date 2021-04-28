@@ -88,7 +88,6 @@ public class DetailVenteServlet extends HttpServlet {
 				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}
 		} catch(Exception e) {
-			System.out.println(e.getLocalizedMessage());
 			request.getSession().setAttribute("error", e.getMessage());
 		}
 		request.setAttribute("noArticle", noArticle);

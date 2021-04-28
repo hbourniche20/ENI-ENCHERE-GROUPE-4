@@ -20,7 +20,7 @@
 					<div class="form-group row">
 					   	<label for="noCategorie" class="col-sm-3 col-form-label">Catégorie :</label>
 					   	<div class="col-sm-9">
-					   	  	<select name="noCategorie" class="custom-select">
+					   	  	<select name="noCategorie" class="custom-select" required>
 								<option selected value ="${ article.getCategorieArticle().getNoCategorie() }" > ${ article.getCategorieArticle().getLibelle() }</option>
 								<c:forEach var="categorie" items="${ categories }" begin="0">
 									<option value="${ categorie.noCategorie }">${ categorie.libelle }</option>

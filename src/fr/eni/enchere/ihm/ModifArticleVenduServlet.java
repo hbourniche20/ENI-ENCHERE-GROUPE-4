@@ -47,7 +47,6 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		try {
 			if(request.getSession().getAttribute("user") != null){
 				noArticle = Integer.parseInt(request.getParameter("noArticle"));
-				System.out.println(noArticle);
 						
 				article = manager.recupererArticleVendu(noArticle);
 				request.setAttribute("article", article);	
