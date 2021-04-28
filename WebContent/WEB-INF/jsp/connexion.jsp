@@ -16,7 +16,7 @@
 	<jsp:include page="error.jsp"></jsp:include>
 
 		<div class="row justify-content-md-center pt-2">
-			<form action="ConnexionServlet" method="post" class="col-lg-6 col-sm pt-5" >
+			<form action="${ pageContext.request.contextPath }\seConnecter" method="post" class="col-lg-6 col-sm pt-5" >
 				<div class="form-group row">
 					<label for="identifiant" class="col-sm col-form-label">Identifiant :</label>
 					<div class="col-sm">
