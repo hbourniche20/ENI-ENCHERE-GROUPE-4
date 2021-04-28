@@ -66,22 +66,28 @@ public class DetailVenteServlet extends HttpServlet {
 		try {
 			if(request.getSession().getAttribute("user") != null) {
 				Utilisateur encherisseur = (Utilisateur) request.getSession().getAttribute("user");
-				noArticle = Integer.parseInt(request.getParameter("noArticle"));
-				montantEnchere = Integer.parseInt(request.getParameter("montantEnchere"));
+				try {
+					noArticle = Integer.parseInt(request.getParameter("noArticle"));
+				} catch(NumberFormatException e) {
+					throw new Exception("Le numéro article doit être un nombre entier");
+				}
+				try {
+					montantEnchere = Integer.parseInt(request.getParameter("montantEnchere"));
+				} catch(NullPointerException e) {
+					throw new Exception("Le montant d'une enchère est obligatoire");
+				} catch(NumberFormatException e) {
+					throw new Exception("Le montant doit être un nombre entier");
+				}
 				manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
 			} else {
 				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}
-			request.setAttribute("noArticle", noArticle);
-			doGet(request, response);
-		} catch(NumberFormatException e) {
-			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier"); // TODO check return message.
-			doGet(request, response);
 		} catch(Exception e) {
 			System.out.println(e.getLocalizedMessage());
 			request.getSession().setAttribute("error", e.getMessage());
-			doGet(request, response);
 		}
+		request.setAttribute("noArticle", noArticle);
+		response.sendRedirect(request.getContextPath() + "/article?noArticle=" + noArticle);
 	}
 
 }

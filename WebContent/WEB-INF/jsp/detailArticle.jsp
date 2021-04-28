@@ -127,7 +127,7 @@
 							<div class="row justify-content-md-center align-items-end my-3">
 								<div class="col">
 									<label for="montantEnchere" class="col-form-label font-weight-bold">Ma proposition</label>
-									<input type="number" name="montantEnchere" class="form-control" id="montantEnchere"/>
+									<input type="number" name="montantEnchere" value="0" min="0" class="form-control" id="montantEnchere"/>
 								</div>
 								<div class="col">
 									<button class="btn btn-danger col-sm">Enchérir</button>
