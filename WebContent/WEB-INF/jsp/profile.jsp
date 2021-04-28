@@ -71,6 +71,12 @@
 					</div>
 				</div>
 				<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(sessionScope.user.getPseudo()) }">
+					<div class="form-group row">
+						<label for="credit" class="col-sm-3 col-form-label">Credits :</label>
+						<div class="col-sm-9">
+							<input type="number" name="credit" class="form-control" id="Credit" value="${ user.getCredit() }" readonly>
+						</div>
+					</div>
 					<a href="CreationCompteServlet" class="btn btn-primary">Modifier</a>
 				</c:if>
 			</div>
