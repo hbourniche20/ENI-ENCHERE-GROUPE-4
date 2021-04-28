@@ -101,4 +101,23 @@ public class ArticleVenduManager {
 		}
 		
 	}
+	
+	public void modificationArticleVendu(Utilisateur vendeur, Integer noArticle) throws ArticleVenduException{
+		LocalDate date = LocalDate.now();
+		
+		ArticleVendu article = recupererArticleVendu(noArticle);
+		
+		if(article != null) {
+			if(vendeur.getNoUtilisateur() != article.getVendeur().getNoUtilisateur()) {
+				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN_UPDATE);
+			}
+			if(date.isEqual(article.getDateDebutEncheres()) || date.isAfter(article.getDateDebutEncheres())) {
+				throw new ArticleVenduException(EnchereException.BEGIN_AUCTION);
+			}
+			dao.updateArticleVendu(noArticle);
+		}else {
+			throw new ArticleVenduException();
+		}
+		
+	}
 }

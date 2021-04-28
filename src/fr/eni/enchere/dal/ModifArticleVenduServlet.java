@@ -98,7 +98,7 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			ArticleVendu av = new ArticleVendu(noArticle, nomArticleVendu, descriptionArticleVendu, dateDebut, dateFin, miseAPrix, c, r, utilisateur);
 			ArticleVenduManager manager = new ArticleVenduManager();
 			
-			manager.enregistrerArticleVendu(av);
+			manager.modificationArticleVendu(utilisateur,av.getNoArticle());
 					
 		}catch(NumberFormatException e){
 			e.printStackTrace();
