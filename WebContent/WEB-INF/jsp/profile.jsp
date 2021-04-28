@@ -77,7 +77,9 @@
 							<input type="number" name="credit" class="form-control" id="Credit" value="${ user.getCredit() }" readonly>
 						</div>
 					</div>
-					<a href="CreationCompteServlet" class="btn btn-primary">Modifier</a>
+					<div class="text-center mb-3">
+						<a href="${ pageContext.request.contextPath }/enregistrerUtilisateur" class="btn btn-primary">Modifier</a>
+					</div>
 				</c:if>
 			</div>
 		</div>

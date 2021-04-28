@@ -1,4 +1,4 @@
-package fr.eni.enchere.dal;
+package fr.eni.enchere.ihm;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class ModifArticleVenduServlet
  */
-@WebServlet("/ModifArticleVenduServlet")
+@WebServlet("/modificationArticle")
 public class ModifArticleVenduServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

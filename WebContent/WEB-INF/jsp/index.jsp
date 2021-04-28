@@ -99,7 +99,7 @@
 								  	<h6 class="card-title">
 								  		<c:choose>
 	    									<c:when test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(article.getVendeur().getPseudo()) && article.getDateDebutEncheres() > LocalDate.now() }">
-	    										<a href="${pageContext.request.contextPath }/ModifArticleVenduServlet?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+	    										<a href="${pageContext.request.contextPath }/modificationArticle?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
 								  			</c:when>
 								  			<c:when test="${ not empty sessionScope.user && article.getDateDebutEncheres() <= LocalDate.now()}">
 	    										<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
