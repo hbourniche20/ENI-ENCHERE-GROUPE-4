@@ -81,8 +81,12 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			response.sendRedirect("index");
 		}catch(NumberFormatException e) {
 			e.printStackTrace();	
+			request.setAttribute("error", "Impossible de récupérer le numéro");
+			doGet(request, response);
 		}catch(Exception e ) {
 			e.printStackTrace();
+			request.setAttribute("error", e.getMessage());
+			doGet(request, response);
 		}
 	}
 
