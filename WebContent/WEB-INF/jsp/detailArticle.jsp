@@ -130,7 +130,7 @@
 									<input type="number" name="montantEnchere" value="0" min="0" class="form-control" id="montantEnchere"/>
 								</div>
 								<div class="col">
-									<button class="btn btn-danger col-sm">Enchérir</button>
+									<button class="btn btn-success col-sm">Enchérir</button>
 								</div>
 							</div>
 						</c:if>

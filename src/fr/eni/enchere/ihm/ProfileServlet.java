@@ -24,16 +24,20 @@ public class ProfileServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
-		UtilisateurManager manager = new UtilisateurManager();
-		Utilisateur user = null;
-		try {
-			user = manager.recuperer(request.getParameter("pseudo"));
-			request.setAttribute("user", user);
-		} catch (UtilisateurNotFoundException e) {
-			request.setAttribute("error", e.getMessage());
+		if(request.getSession().getAttribute("user") == null) {
+			response.sendRedirect(request.getContextPath());
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
+			UtilisateurManager manager = new UtilisateurManager();
+			Utilisateur user = null;
+			try {
+				user = manager.recuperer(request.getParameter("pseudo"));
+				request.setAttribute("user", user);
+			} catch (UtilisateurNotFoundException e) {
+				request.setAttribute("error", e.getMessage());
+			}
+			rd.forward(request, response);
 		}
-		rd.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

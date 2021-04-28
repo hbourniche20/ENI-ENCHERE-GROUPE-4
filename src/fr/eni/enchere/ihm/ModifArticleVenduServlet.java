@@ -1,4 +1,4 @@
-package fr.eni.enchere.dal;
+package fr.eni.enchere.ihm;
 
 import java.io.IOException;
 import java.time.LocalDate;

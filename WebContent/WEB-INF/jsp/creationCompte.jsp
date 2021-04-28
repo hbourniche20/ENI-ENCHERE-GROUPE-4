@@ -22,7 +22,7 @@
 
 		<jsp:include page="error.jsp"></jsp:include>
 
-		<form action ="${pageContext.request.contextPath }/CreationCompteServlet" method="POST">
+		<form action ="${pageContext.request.contextPath }/enregistrerUtilisateur" method="POST">
 			<div class="row">
 				<div class="col-lg col-sm">
 					<div class="form-group row">
@@ -139,18 +139,20 @@
 				</div>		
 			</c:if>
 			<div class="text-center mb-3">
-				<c:choose>
-					<c:when test="${ not empty sessionScope.user }">
-						<input type="submit" class="btn btn-danger m-1" value="Accepter les modifications">		
-					</c:when>
-					<c:otherwise>
-						<input type="submit" class="btn btn-danger m-1" value="Créer">		
-					</c:otherwise>
-				</c:choose>	
-				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler</a>	
+				<button class="btn btn-success m-1">
+					<c:choose>
+						<c:when test="${ not empty sessionScope.user }">
+							Enregistrer
+						</c:when>
+						<c:otherwise>
+							Créer
+						</c:otherwise>
+					</c:choose>	
+				</button>
 				<c:if test="${ not empty sessionScope.user }">
-					<a href="${ pageContext.request.contextPath }/supprimerUtilisateur" class="btn btn-primary m-1">Supprimer votre compte</a>	
+					<a href="${ pageContext.request.contextPath }/supprimerUtilisateur" class="btn btn-danger m-1">Supprimer votre compte</a>	
 				</c:if>
+				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Retour</a>	
 			</div>
 		</form>
 	</div>	

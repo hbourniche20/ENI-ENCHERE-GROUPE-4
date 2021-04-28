@@ -18,7 +18,7 @@ import fr.eni.enchere.exception.WrongInputException;
 /**
  * Servlet implementation class CreationCompteServlet
  */
-@WebServlet("/CreationCompteServlet")
+@WebServlet("/enregistrerUtilisateur")
 public class CreationCompteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

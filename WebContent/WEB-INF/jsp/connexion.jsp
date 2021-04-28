@@ -16,7 +16,7 @@
 	<jsp:include page="error.jsp"></jsp:include>
 
 		<div class="row justify-content-md-center pt-2">
-			<form action="${ pageContext.request.contextPath }\seConnecter" method="post" class="col-lg-6 col-sm pt-5" >
+			<form action="${ pageContext.request.contextPath }/seConnecter" method="post" class="col-lg-6 col-sm pt-5" >
 				<div class="form-group row">
 					<label for="identifiant" class="col-sm col-form-label">Identifiant :</label>
 					<div class="col-sm">
@@ -32,8 +32,8 @@
 				<div class="form-group text-center my-3">
 					<button class="btn btn-danger ">Connexion</button>
 				</div>
-				<div class="form-group text-center  my-3">
-					<a href="CreationCompteServlet" class="btn btn-primary">Créer un compte</a>
+				<div class="form-group text-center my-3">
+					<a href="${ pageContext.request.contextPath }/enregistrerUtilisateur" class="btn btn-primary">Créer un compte</a>
 				</div>
 			</form>
 		</div>

@@ -74,12 +74,12 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 		}
 		try(Connection c = ConnectionProvider.getConnection()){
 			String request = INSERT;
+			// Update data when user already exist in database.
 			if(u.getNoUtilisateur() != 0) {
 				request = UPDATE_USER;
 			}
-			System.out.println("User : " + u.getNoUtilisateur());
-			System.out.println("Request: " + request);
-			PreparedStatement pstt = c.prepareStatement(request);
+
+			PreparedStatement pstt = c.prepareStatement(request, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstt.setString(1, u.getPseudo());
 			pstt.setString(2, u.getNom());
 			pstt.setString(3, u.getPrenom());
@@ -92,12 +92,17 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			if(u.getNoUtilisateur() != 0) {
 				pstt.setInt(10, u.getNoUtilisateur());
 			}
-			pstt.executeUpdate();			
+			pstt.executeUpdate();
+			
+			if(u.getNoUtilisateur() == 0) {
+				ResultSet rs = pstt.getGeneratedKeys();
+				if(rs.next()) {
+					u.setNoUtilisateur(rs.getInt(1));
+				}
+			}
 		}	catch(SQLException s) {
 			s.printStackTrace();
 		}
-		
-		
 	}
 
 	@Override
