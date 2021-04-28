@@ -54,6 +54,10 @@ public class ModifArticleVenduServlet extends HttpServlet {
 				
 				listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
 				request.setAttribute("categories", listeCategories);
+				
+				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/modifArticleVendu.jsp");
+				rd.forward(request, response);
+				
 			} else {
 				throw new ArticleVenduException("Vous n'avez pas l'autorisation de modifier cet article");
 			}		
@@ -62,8 +66,6 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/modifArticleVendu.jsp");
-		rd.forward(request, response);
 		
 	
 	}

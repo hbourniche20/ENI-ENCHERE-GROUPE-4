@@ -41,9 +41,7 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			
 				listeCategories = managerCategorie.recupererListeCategories();				
 				request.setAttribute("categories", listeCategories);
-				request.setAttribute("error", request.getSession().getAttribute("error"));
-				request.removeAttribute("error");
-			
+				
 				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");
 				rd.forward(request, response);
 						
