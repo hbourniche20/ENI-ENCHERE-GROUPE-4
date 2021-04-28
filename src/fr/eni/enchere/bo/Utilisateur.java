@@ -171,35 +171,34 @@ public class Utilisateur {
 		
 		// Verify phone number format (we are using the French format here)
 		if((this.telephone.length() == 12 && this.telephone.toCharArray()[0] == '+')) {
-			checkNumbers(this.telephone.substring(1), "telephone");
+			checkNumbers(this.telephone.substring(1), WrongInputException.USER_INVALID_PHONE_CHAR);
 		} else if (this.telephone.length() == 10) {
-			checkNumbers(this.telephone, "telephone");
+			checkNumbers(this.telephone, WrongInputException.USER_INVALID_PHONE_CHAR);
 		} else {
-			throw new WrongInputException("Le numéro de téléphone n'est pas au bon format.");
+			throw new WrongInputException(WrongInputException.USER_WRONG_PHONE_FORMAT);
 		}
 
 		// Verify postal code format (we are using the French format here)
 		if(this.codePostal.length() == 5) {
-			checkNumbers(this.codePostal, "code postal");
+			checkNumbers(this.codePostal, WrongInputException.USER_INVALID_POSTCODE_CHAR);
 		} else {
-			throw new WrongInputException("Le code postal n'est pas au bon format");
+			throw new WrongInputException(WrongInputException.USER_WRONG_POSTCODE_FORMAT);
 		}
 		
 		if(this.credit < 0) {
-			throw new WrongInputException("Le crédit doit être supérieur à 0");
+			throw new WrongInputException(WrongInputException.USER_NEGATIVE_CREDITS);
 		}
 		
 		return true;
 	}
 
-	public void checkNumbers(String toCheck, String inputLabel) throws WrongInputException {
-		System.out.println("Verify: " + toCheck);
+	public void checkNumbers(String toCheck, String errorMessage) throws WrongInputException {
 		try {
 			for(char character: toCheck.toCharArray()) {
 				Integer.parseInt(character + "");
 			}
 		} catch(NumberFormatException e) {
-			throw new WrongInputException("Le " + inputLabel + " contient des caractères interdits.");
+			throw new WrongInputException(errorMessage);
 		}
 	}
 
