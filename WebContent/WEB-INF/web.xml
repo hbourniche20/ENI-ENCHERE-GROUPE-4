@@ -4,7 +4,9 @@
   <welcome-file-list>
     <welcome-file>index</welcome-file>
   </welcome-file-list>
-  
+  <session-config>
+  <session-timeout>5</session-timeout>
+  </session-config>
   <error-page>
   	<error-code>404</error-code>
   	<location>/WEB-INF/jsp/error404.jsp</location>
