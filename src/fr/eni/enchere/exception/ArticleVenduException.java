@@ -12,6 +12,8 @@ public class ArticleVenduException extends Exception {
 
 	public static final String USER_FORBIDDEN_DELETE = "Vous n'avez pas l'autorisation de supprimer cet article";
 
+	public static final String ARTICLE_NOT_FOUND = "Article inexistant";
+
 	
 	public ArticleVenduException(String message) {
 		super(message);

@@ -37,9 +37,13 @@ public class DetailVenteServlet extends HttpServlet {
 			if(request.getSession().getAttribute("user") != null) {
 				noArticle = Integer.parseInt(request.getParameter("noArticle"));
 				article = manager.recupererArticleVendu(noArticle);
+				if(article == null) {
+					throw new ArticleVenduException(ArticleVenduException.ARTICLE_NOT_FOUND);
+				}
 				request.setAttribute("article", article);
 				request.setAttribute("error", request.getSession().getAttribute("error"));
 				request.getSession().removeAttribute("error");
+				
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailArticle.jsp");
 				rd.forward(request, response);
 			} else {
@@ -49,6 +53,7 @@ public class DetailVenteServlet extends HttpServlet {
 			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
 			response.sendRedirect(request.getContextPath());
 		} catch(Exception e) {
+			System.out.println(e.getMessage());
 			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
 		}
