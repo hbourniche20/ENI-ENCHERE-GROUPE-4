@@ -96,17 +96,7 @@
 					</div>	
 			</div>
 			</div>
- 			<c:if test="${ not empty sessionScope.user && user.getPseudo().equals(article.getVendeur().getPseudo())  }"> 					
- 			<div class="text-center">
-				<button class="btn btn-danger m-1">Enregistrer les modifications</button>		 
- 				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Annuler les modifications</a>		
-			</div> 
 				
-			</c:if>
-			<c:if test="${not empty sessionScope.user && article.getNoArticle() != null && user.getPseudo().equals(article.getVendeur().getPseudo()) }">
-				<div class="text-center">
-					<a href="${ pageContext.request.contextPath }/SuppressionArticleServlet?noArticle=${ article.getNoArticle() }" class="btn btn-danger m-1">Annuler la vente</a>		
-
 					<div class="text-center mb-3">
 						<button class="btn btn-success m-1">Enregistrer</button>		
 						<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Retour</a>		
@@ -114,9 +104,7 @@
 							<a href="${ pageContext.request.contextPath }/SuppressionArticleServlet?noArticle=${ article.getNoArticle() }" class="btn btn-danger m-1">Annuler la vente</a>		
 						</c:if>
 					</div>
-				</div>
-			</c:if>	
-	
+					
 	</form>
 </div>
 </body>

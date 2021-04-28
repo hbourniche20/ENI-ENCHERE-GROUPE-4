@@ -17,6 +17,12 @@ public class ArticleVenduException extends Exception {
 	public static final String USER_FORBIDDEN_UPDATE = "Vous n'avez pas l'autorisation de modifier cet article";
 
 	public static final String ARTICLE_NOT_FOUND = "Article inexistant";
+	
+	public static final String ARTICLE_NAME_NOT_DEFINED ="Le nom de l'article n'est pas défini";
+	
+	public static final String ARTICLE_DESCRIPTION_NOT_DEFINED ="La description de l'article n'est pas définie";
+	
+	public static final String ARTICLE_CATEGORIE_NOT_DEFINED ="La catégorie de l'article n'est pas définie";
 
 	
 	public ArticleVenduException(String message) {

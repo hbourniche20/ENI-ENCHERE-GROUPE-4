@@ -12,7 +12,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 
 public interface ArticleVenduDao {
 	
-	void addArticleVendu(ArticleVendu a) throws Exception;
+	void addArticleVendu(ArticleVendu a) throws ArticleVenduException;
 	
 	ArticleVendu selectArticleVenduById(Integer noArticle) throws ArticleVenduException;
 	
