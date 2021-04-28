@@ -20,9 +20,7 @@ import fr.eni.enchere.exception.ConnexionException;
 @WebServlet("/seConnecter")
 public class ConnexionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String COOKIE_PREFIX = "ENCHERE_";
-	private static final String COOKIE_FULLNAME_ID = COOKIE_PREFIX + "userId";
-	private static final String COOKIE_FULLNAME_PASSWORD = COOKIE_PREFIX + "userPassword";
+	private static final String COOKIE_FULLNAME_ID = "ENCHERE_userId";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,8 +31,6 @@ public class ConnexionServlet extends HttpServlet {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(COOKIE_FULLNAME_ID)) {
                     request.setAttribute("userId", cookie.getValue());
-                } else if (cookie.getName().equals(COOKIE_FULLNAME_PASSWORD)){
-                    request.setAttribute("userPassword", cookie.getValue());
                 }
             }
         }
@@ -59,8 +55,6 @@ public class ConnexionServlet extends HttpServlet {
 			if(checkbox != null) {
 		        Cookie cookie = new Cookie(COOKIE_FULLNAME_ID, email);
 		        response.addCookie(cookie);
-		        Cookie cookie2 = new Cookie(COOKIE_FULLNAME_PASSWORD, password);
-		        response.addCookie(cookie2);
 			}
 			response.sendRedirect(request.getContextPath());
 		} catch (ConnexionException exception) {
