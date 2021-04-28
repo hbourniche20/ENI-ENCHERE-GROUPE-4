@@ -20,4 +20,8 @@ private CategorieDao dao;
 	public List<Categorie> recupererListeCategories() throws CategorieException {
 		return dao.selectAllCategories();
 	}
+	
+	public List<Categorie> recupererAutresCategories(int noCategorie) throws CategorieException {	
+		return dao.selectOtherCategories(noCategorie);
+	}
 }

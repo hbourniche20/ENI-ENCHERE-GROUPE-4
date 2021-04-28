@@ -48,21 +48,21 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			if(request.getSession().getAttribute("user") != null){
 				noArticle = Integer.parseInt(request.getParameter("noArticle"));
 				System.out.println(noArticle);
-				
-				listeCategories = managerC.recupererListeCategories();
-				request.setAttribute("categories", listeCategories);
-				
+						
 				article = manager.recupererArticleVendu(noArticle);
-				request.setAttribute("article", article);			
+				request.setAttribute("article", article);	
+				
+				listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
+				request.setAttribute("categories", listeCategories);
 			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation de vendre un article");
+				throw new ArticleVenduException("Vous n'avez pas l'autorisation de modifier cet article");
 			}		
 		} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/modifArticleVendu.jsp");
 		rd.forward(request, response);
 		
 	
@@ -84,30 +84,34 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		String ville = request.getParameter("ville");
 		int noCategorie = 0;
 		int noArticle =0;
+		int noRetrait = 0;
 		
 		try {
 			noArticle = Integer.parseInt(request.getParameter("noArticle"));
-			
+			noRetrait = Integer.parseInt(request.getParameter("noRetrait"));
 			noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
 			
 			Categorie c = new Categorie();
 			c.setNoCategorie(noCategorie);
 			
-			Retrait r = new Retrait(rue,codePostal,ville);
+			Retrait r = new Retrait(rue,codePostal,ville,noRetrait);
 			
 			ArticleVendu av = new ArticleVendu(noArticle, nomArticleVendu, descriptionArticleVendu, dateDebut, dateFin, miseAPrix, c, r, utilisateur);
 			ArticleVenduManager manager = new ArticleVenduManager();
 			
-			manager.modificationArticleVendu(utilisateur,av.getNoArticle());
-					
+			manager.modificationArticleVendu(av);
+			response.sendRedirect(request.getContextPath());		
 		}catch(NumberFormatException e){
 			e.printStackTrace();
+			request.setAttribute("error", "Impossible de récupérer le numéro");
+			doGet(request, response);
 		}catch(Exception e) {
 			e.printStackTrace();
+			request.setAttribute("error", e.getMessage());
+			doGet(request, response);
 		}
 		
 		
-		doGet(request, response);
 	}
 
 }

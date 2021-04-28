@@ -25,7 +25,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	
 	private final String INSERT_RETRAIT = "INSERT INTO RETRAITS(RUE,CODE_POSTAL,VILLE) VALUES (?,?,?)  ";
 	
-	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET NOM_ARTICLE = ?, DESCRIPTION = ?, DATE_DEBUT_ENCHERES = ?, DATE_FIN_ENCHERES = ?, PRIX_INITIAL =?, NO_CATEGORIE = ? , NO_RETRAIT = ? WHERE NO_ARTICLE = ?";
+	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET NOM_ARTICLE = ?, DESCRIPTION = ?, DATE_DEBUT_ENCHERES = ?, DATE_FIN_ENCHERES = ?, PRIX_INITIAL =?, NO_CATEGORIE = ?  WHERE NO_ARTICLE = ?";
 	
 	private final String SELECT_ARTICLE_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, u1.telephone, "
 			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.no_retrait, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
@@ -37,14 +37,16 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			+ "WHERE ARTICLES_VENDUS.no_article = ? ";
 	
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+	
+	private static final String UPDATE_RETRAIT ="UPDATE RETRAITS SET RUE=? , CODE_POSTAL=?, VILLE=? WHERE no_retrait=?";
 
 	@Override
 	public void addArticleVendu(ArticleVendu a) throws ArticleVenduException {
 		// TODO Auto-generated method stub
 		
 		try(Connection c = ConnectionProvider.getConnection()){
-			String request = INSERT;
-			System.out.println(a.getNoArticle());
+			
+			
 			
 			try {
 			c.setAutoCommit(false);
@@ -69,7 +71,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			}
 			
 			
-			pstt = c.prepareStatement(request);
+			pstt = c.prepareStatement(INSERT);
 			
 			pstt.setString(1, a.getNomArticle());
 			pstt.setString(2, a.getDescription());
@@ -84,7 +86,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			pstt.close();
 			
 			c.commit();
-			System.out.println("Ajout fait !");
+			
 			}catch (Exception e ){
 				c.rollback();
 				throw e;
@@ -172,53 +174,36 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	@Override
 	public void updateArticleVendu(ArticleVendu a) throws ArticleVenduException {
 		// TODO Auto-generated method stub
-		try(Connection c = ConnectionProvider.getConnection()){
-			
-			
-			
-			System.out.println(a.getNoArticle());
-			
+		try(Connection c = ConnectionProvider.getConnection()){			
 			try {
 			c.setAutoCommit(false);
 			
-			PreparedStatement pstt = c.prepareStatement(INSERT_RETRAIT,PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement pstt = c.prepareStatement(UPDATE_RETRAIT);
 		
 			
 			pstt.setString(1, a.getLieuRetrait().getRue());
 			pstt.setString(2, a.getLieuRetrait().getCodePostal());
 			pstt.setString(3, a.getLieuRetrait().getVille());
+			pstt.setInt(4, a.getLieuRetrait().getNoRetrait());
 			
-			pstt.executeUpdate();
-			
-			ResultSet rs = pstt.getGeneratedKeys();
-			
-			if(rs.next()){
-			
-			a.getLieuRetrait().setNoRetrait(rs.getInt(1));
-			
-			rs.close();
+			pstt.executeUpdate();		
 			pstt.close();
-			}
-			
-			
+					
 			pstt = c.prepareStatement(UPDATE_ARTICLE);
-			
 			pstt.setString(1, a.getNomArticle());
 			pstt.setString(2, a.getDescription());
 			pstt.setDate(3, Date.valueOf(a.getDateDebutEncheres()));
 			pstt.setDate(4, Date.valueOf(a.getDateFinEncheres()));
 			pstt.setInt(5, a.getMiseAPrix());
 			pstt.setInt(6, a.getCategorieArticle().getNoCategorie());
-			pstt.setInt(7, a.getVendeur().getNoUtilisateur());
-			pstt.setInt(8, a.getLieuRetrait().getNoRetrait());
-			pstt.setInt(9, a.getNoArticle());
+			pstt.setInt(7, a.getNoArticle());
 					
 			pstt.executeUpdate();
 			pstt.close();
 			
 			c.commit();
 			
-			System.out.println("Modification faite !");
+			
 			}catch (Exception e ){
 				c.rollback();
 				throw e;

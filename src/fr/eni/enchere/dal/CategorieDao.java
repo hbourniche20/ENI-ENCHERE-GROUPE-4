@@ -11,4 +11,6 @@ public interface CategorieDao {
 
 	List<Categorie> selectAllCategories() throws CategorieException;
 	
+	List<Categorie> selectOtherCategories(int noCategorie) throws CategorieException;
+	
 }
