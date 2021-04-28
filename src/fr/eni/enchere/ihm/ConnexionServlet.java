@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +20,24 @@ import fr.eni.enchere.exception.ConnexionException;
 @WebServlet("/seConnecter")
 public class ConnexionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String COOKIE_PREFIX = "ENCHERE_";
+	private static final String COOKIE_FULLNAME_ID = COOKIE_PREFIX + "userId";
+	private static final String COOKIE_FULLNAME_PASSWORD = COOKIE_PREFIX + "userPassword";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(COOKIE_FULLNAME_ID)) {
+                    request.setAttribute("userId", cookie.getValue());
+                } else if (cookie.getName().equals(COOKIE_FULLNAME_PASSWORD)){
+                    request.setAttribute("userPassword", cookie.getValue());
+                }
+            }
+        }
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/connexion.jsp");
 		rd.forward(request, response);
 	}
@@ -36,10 +50,18 @@ public class ConnexionServlet extends HttpServlet {
 
 		String email = request.getParameter("id");
 		String password = request.getParameter("password");
+		String checkbox = request.getParameter("rememberMe");
+
 		Utilisateur user = null;
 		try {
 			user = manager.authentification(email, password);
 			request.getSession().setAttribute("user", user); // add to session
+			if(checkbox != null) {
+		        Cookie cookie = new Cookie(COOKIE_FULLNAME_ID, email);
+		        response.addCookie(cookie);
+		        Cookie cookie2 = new Cookie(COOKIE_FULLNAME_PASSWORD, password);
+		        response.addCookie(cookie2);
+			}
 			response.sendRedirect(request.getContextPath());
 		} catch (ConnexionException exception) {
 			request.setAttribute("error", exception.getMessage());
