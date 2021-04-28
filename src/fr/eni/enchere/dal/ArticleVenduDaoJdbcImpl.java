@@ -28,7 +28,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	private final String UPDATE_ARTICLE = "UPDATE ARTICLES_VENDUS SET NOM_ARTICLE = ?, DESCRIPTION = ?, DATE_DEBUT_ENCHERES = ?, DATE_FIN_ENCHERES = ?, PRIX_INITIAL =?, NO_CATEGORIE = ? , NO_RETRAIT = ? WHERE NO_ARTICLE = ?";
 	
 	private final String SELECT_ARTICLE_BY_ID = "SELECT ARTICLES_VENDUS.no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, ARTICLES_VENDUS.no_utilisateur, u1.pseudo, u1.telephone, "
-			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
+			+ "ARTICLES_VENDUS.no_categorie, libelle, RETRAITS.no_retrait, RETRAITS.rue, RETRAITS.code_postal, RETRAITS.ville, ENCHERES.no_utilisateur, u2.pseudo, montant_enchere FROM ARTICLES_VENDUS " 
 			+ "INNER JOIN UTILISATEURS u1 ON ARTICLES_VENDUS.no_utilisateur = u1.no_utilisateur " 
 			+ "INNER JOIN CATEGORIES ON ARTICLES_VENDUS.no_categorie = CATEGORIES.no_categorie " 
 			+ "INNER JOIN RETRAITS  ON ARTICLES_VENDUS.no_retrait = RETRAITS.no_retrait " 
@@ -127,21 +127,22 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	 				article.setCategorieArticle(categorieArticle);
 	 				
 	 				Retrait lieuRetrait = new Retrait();
-	 				lieuRetrait.setRue(rs.getString(12));
-	 				lieuRetrait.setCodePostal(rs.getString(13));
-	 				lieuRetrait.setVille(rs.getString(14));
+	 				lieuRetrait.setNoRetrait(rs.getInt(12));
+	 				lieuRetrait.setRue(rs.getString(13));
+	 				lieuRetrait.setCodePostal(rs.getString(14));
+	 				lieuRetrait.setVille(rs.getString(15));
 	 				article.setLieuRetrait(lieuRetrait);
 				}
 				
-				if(rs.getInt(15) != 0) {
+				if(rs.getInt(16) != 0) {
 	 				Enchere enchere = new Enchere();
 	 				
 	 				Utilisateur encherisseur = new Utilisateur();
-	 				encherisseur.setNoUtilisateur(rs.getInt(15));
-	 				encherisseur.setPseudo(rs.getString(16));
+	 				encherisseur.setNoUtilisateur(rs.getInt(16));
+	 				encherisseur.setPseudo(rs.getString(17));
 					
 	 				enchere.setEncherisseur(encherisseur);
-	 				enchere.setMontantEnchere(rs.getInt(17));
+	 				enchere.setMontantEnchere(rs.getInt(18));
 					article.getEncheres().add(enchere);
 				}
 			}
