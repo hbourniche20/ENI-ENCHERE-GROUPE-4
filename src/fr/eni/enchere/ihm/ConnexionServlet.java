@@ -33,7 +33,7 @@ public class ConnexionServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ConnexionManager manager = new ConnexionManager();
-		
+
 		String email = request.getParameter("id");
 		String password = request.getParameter("password");
 		Utilisateur user = null;
