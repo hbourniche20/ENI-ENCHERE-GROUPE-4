@@ -39,7 +39,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 
 	@Override
-	public void addArticleVendu(ArticleVendu a) throws Exception {
+	public void addArticleVendu(ArticleVendu a) throws ArticleVenduException {
 		// TODO Auto-generated method stub
 		
 		try(Connection c = ConnectionProvider.getConnection()){

@@ -14,6 +14,10 @@ public class EnchereException extends Exception {
 
 	public static final String BEGIN_AUCTION = "L'article est déjà proposé aux enchères";
 	
+	public static final String WRONG_BEGIN_AUCTION ="La date de début d'enchère doit être postérieure ou égale à aujourd'hui";
+	
+	public static final String WRONG_END_AUCTION ="La date de fin d'enchère doit être postérieure à la date de début d'enchère";
+	
 	public EnchereException(String message) {
 		super(message);
 	}

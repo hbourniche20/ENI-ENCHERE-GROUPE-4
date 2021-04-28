@@ -30,34 +30,29 @@ public class ArticleVenduManager {
 		
 	}
 
-	public void enregistrerArticleVendu(ArticleVendu a) throws Exception{
+	public void enregistrerArticleVendu(ArticleVendu a) throws ArticleVenduException{
 		
 		LocalDate date = LocalDate.now();
 		
 		if(a.getNomArticle().equals("")) {
-			System.out.println("exception");
-			throw new WrongInputException("Le nom de l'article est obligatoire");
+			throw new ArticleVenduException(ArticleVenduException.ARTICLE_NAME_NOT_DEFINED);
 		}
 		
 		if(a.getDescription().equals("")) {
-			System.out.println("exception");
-			throw new WrongInputException("La description de l'article est obligatoire");
+			throw new ArticleVenduException(ArticleVenduException.ARTICLE_DESCRIPTION_NOT_DEFINED);
 		}
 		
 		if(a.getCategorieArticle()== null) {
-			System.out.println("exception");
-			throw new WrongInputException("La catégorie de l'article est obligatoire");
+			throw new ArticleVenduException(ArticleVenduException.ARTICLE_CATEGORIE_NOT_DEFINED);
 		}
 		
 		
 		if(a.getDateDebutEncheres().isBefore(date)) {
-			System.out.println("exception");
-			throw new WrongInputException("La date de mise en vente doit être postérieur à aujourd'hui");
+			throw new ArticleVenduException(EnchereException.WRONG_BEGIN_AUCTION);
 		}
 		
 		if(a.getDateFinEncheres().isBefore(date) || a.getDateFinEncheres().isBefore(a.getDateDebutEncheres())) {
-			System.out.println("exception");
-			throw new WrongInputException("Erreur lors de la saisie de la date de fin d'enchères! (Vérifiez qu'elle est bien postérieur à aujourd'hui ou à la date de mise en vente");
+			throw new ArticleVenduException(EnchereException.WRONG_END_AUCTION);
 		}
 		
 		dao.addArticleVendu(a);
