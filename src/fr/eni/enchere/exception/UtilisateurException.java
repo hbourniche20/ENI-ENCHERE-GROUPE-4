@@ -15,6 +15,13 @@ public class UtilisateurException extends Exception {
 
 	public static final String USER_CONFIRM_PASSWORD = "La confirmation du mot de passe doit être identique au mot de passe";
 	
+	public static final String USER_WRONG_PASSWORD = "Votre mot de passe ne correspond pas.";
+	
+	public static final String USER_PSEUDO_NOT_UNIQUE = "Le pseudo est déjà utilisé.";
+	
+	public static final String USER_MAIL_NOT_UNIQUE = "L'email est déjà utilisé.";
+
+	
 	public UtilisateurException(String message) {
 		super(message);
 	}

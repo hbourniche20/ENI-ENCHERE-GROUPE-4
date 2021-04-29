@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.exception.EmailNotUniqueException;
-import fr.eni.enchere.exception.PseudoNotUniqueException;
 import fr.eni.enchere.exception.UtilisateurException;
 import fr.eni.enchere.exception.WrongInputException;
 import fr.eni.enchere.util.TextInputUtil;
@@ -32,8 +30,7 @@ public class CreationCompteServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pseudo = "", nom = "", prenom = "", email = "", telephone = "", rue = "", 
-				codepostal = "", ville = "", nouveauMotdePasse = "", confirmationmdp = "";
+		String pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse, confirmationmdp;
 		try {
 			pseudo = TextInputUtil.getSafeParameter(request, "pseudo");
 			nom = TextInputUtil.getSafeParameter(request, "nom");
@@ -47,23 +44,18 @@ public class CreationCompteServlet extends HttpServlet {
 			nouveauMotdePasse = TextInputUtil.getSafeParameter(request, "newmotdepasse");
 			// New password correspond to the newly created password.
 			confirmationmdp = TextInputUtil.getSafeParameter(request, "confirmationmdp");
-		} catch (WrongInputException e1) {
-			this.throwException(request, response, e1.getMessage());
-			return;
-		}
-		Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse);
-		request.setAttribute("utilisateur", u);
-		UtilisateurManager manager = new UtilisateurManager();
-		try {
+			
+			Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse);
+			request.setAttribute("utilisateur", u);
+			UtilisateurManager manager = new UtilisateurManager();
+		
 			manager.enregistrer(u, confirmationmdp);
 			request.getSession().setAttribute("user", u); // update session
 			response.sendRedirect("index");
-		} catch (EmailNotUniqueException e){
-			this.throwException(request, response, e.getMessage());
-		} catch (PseudoNotUniqueException e) {
-			this.throwException(request, response, e.getMessage());
 		} catch (UtilisateurException e) {
 			this.throwException(request, response, e.getMessage());
+		} catch (WrongInputException e1) {
+			this.throwException(request, response, e1.getMessage());
 		}
 	}
 	

@@ -167,41 +167,6 @@ public class Utilisateur {
 		this.encheres = encheres;
 	}
 
-	public boolean hasValidInformations() throws UtilisateurException {
-		
-		// Verify phone number format (we are using the French format here)
-		if((this.telephone.length() == 12 && this.telephone.toCharArray()[0] == '+')) {
-			checkNumbers(this.telephone.substring(1), UtilisateurException.USER_INVALID_PHONE_CHAR);
-		} else if (this.telephone.length() == 10) {
-			checkNumbers(this.telephone, UtilisateurException.USER_INVALID_PHONE_CHAR);
-		} else {
-			throw new UtilisateurException(UtilisateurException.USER_WRONG_PHONE_FORMAT);
-		}
-
-		// Verify postal code format (we are using the French format here)
-		if(this.codePostal.length() == 5) {
-			checkNumbers(this.codePostal, UtilisateurException.USER_INVALID_POSTCODE_CHAR);
-		} else {
-			throw new UtilisateurException(UtilisateurException.USER_WRONG_POSTCODE_FORMAT);
-		}
-		
-		if(this.credit < 0) {
-			throw new UtilisateurException(UtilisateurException.USER_NEGATIVE_CREDITS);
-		}
-		
-		return true;
-	}
-
-	public void checkNumbers(String toCheck, String errorMessage) throws UtilisateurException {
-		try {
-			for(char character: toCheck.toCharArray()) {
-				Integer.parseInt(character + "");
-			}
-		} catch(NumberFormatException e) {
-			throw new UtilisateurException(errorMessage);
-		}
-	}
-
 	@Override
 	public String toString() {
 		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="

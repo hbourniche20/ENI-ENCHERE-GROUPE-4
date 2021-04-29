@@ -7,9 +7,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.exception.EmailNotUniqueException;
 import fr.eni.enchere.exception.EnchereException;
-import fr.eni.enchere.exception.PseudoNotUniqueException;
+import fr.eni.enchere.exception.UtilisateurException;
 import fr.eni.enchere.exception.UtilisateurNotFoundException;
 
 public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
@@ -63,14 +62,14 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 		return isOk; 
 	}
 	@Override
-	public void saveUtilisateur(Utilisateur u) throws PseudoNotUniqueException, EmailNotUniqueException {
+	public void saveUtilisateur(Utilisateur u) throws UtilisateurException {
 
 		if(!verifPseudo(u.getPseudo(), u.getNoUtilisateur()))  {
-			throw new PseudoNotUniqueException();
+			throw new UtilisateurException(UtilisateurException.USER_PSEUDO_NOT_UNIQUE);
 		}
 		
 		if(!verifEmail(u.getEmail(), u.getNoUtilisateur())) {
-			throw new EmailNotUniqueException();
+			throw new UtilisateurException(UtilisateurException.USER_MAIL_NOT_UNIQUE);
 		}
 		try(Connection c = ConnectionProvider.getConnection()){
 			String request = INSERT;
