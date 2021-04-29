@@ -35,8 +35,6 @@ public class FiltreSession implements javax.servlet.Filter {
 	 * @see FiltreSession#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		httpRequest.setCharacterEncoding("UTF-8");
@@ -44,8 +42,9 @@ public class FiltreSession implements javax.servlet.Filter {
 		String url = httpRequest.getServletPath().toLowerCase();
 		if ((url.contains("/articles/") || url.contains("/utilisateur/") || url.contains("/seDeconnecter")) && httpRequest.getSession().getAttribute("user") == null) {
 			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
-		}
-		else {
+		} else if ((url.contains("/creationCompte") || url.contains("/seConnecter")) && httpRequest.getSession().getAttribute("user") != null) {
+			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
+		} else {
 			chain.doFilter(request, response);
 		}
 	}

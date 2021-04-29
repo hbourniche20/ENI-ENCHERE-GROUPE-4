@@ -20,8 +20,8 @@ import fr.eni.enchere.util.TextInputUtil;
 /**
  * Servlet implementation class CreationCompteServlet
  */
-@WebServlet("/enregistrerUtilisateur")
-public class CreationCompteServlet extends UtilisateurServlet {
+@WebServlet("/creationCompte")
+public class CreationCompteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,5 +66,11 @@ public class CreationCompteServlet extends UtilisateurServlet {
 			this.throwException(request, response, e.getMessage());
 		}
 	}
-		
+	
+	protected void throwException(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
+		request.setAttribute("error", message);
+		System.out.println("error ! " + message);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
+		rd.forward(request, response);
+	}
 }

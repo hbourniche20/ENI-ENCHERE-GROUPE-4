@@ -20,8 +20,8 @@ import fr.eni.enchere.util.TextInputUtil;
 /**
  * Servlet implementation class UpdateProfileServlet
  */
-@WebServlet("/updateProfile")
-public class UpdateProfileServlet extends UtilisateurServlet {
+@WebServlet("/utilistateur/modificationUtilisateur")
+public class UpdateProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -92,6 +92,13 @@ public class UpdateProfileServlet extends UtilisateurServlet {
 		else {
 			this.throwException(request, response, "La confirmation du mot de passe doit être identique au mot de passe");
 		}
+	}
+	
+	protected void throwException(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
+		request.setAttribute("error", message);
+		System.out.println("error ! " + message);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationCompte.jsp");
+		rd.forward(request, response);
 	}
 
 }
