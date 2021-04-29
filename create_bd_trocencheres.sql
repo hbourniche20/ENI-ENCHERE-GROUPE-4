@@ -56,31 +56,31 @@ CREATE TABLE ENCHERES(
  
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
-    ON DELETE NO ACTION 
+    ON DELETE RESTRICT
     ON UPDATE NO ACTION;
 
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_no_article_fk FOREIGN KEY ( no_article ) REFERENCES ARTICLES_VENDUS ( no_article )
-    ON DELETE NO ACTION 
+    ON DELETE RESTRICT
     ON UPDATE NO ACTION ;
 	
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT articles_vendus_retrait_fk FOREIGN KEY ( no_retrait )
         REFERENCES RETRAITS ( no_retrait )
-    ON DELETE NO ACTION 
+    ON DELETE RESTRICT
     ON UPDATE NO ACTION;
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT articles_vendus_categories_fk FOREIGN KEY ( no_categorie )
         REFERENCES categories ( no_categorie )
-    ON DELETE NO ACTION 
+    ON DELETE RESTRICT
     ON UPDATE NO ACTION;
 
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT ventes_utilisateur_fk FOREIGN KEY ( no_utilisateur )
         REFERENCES utilisateurs ( no_utilisateur )
-    ON DELETE NO ACTION 
+    ON DELETE RESTRICT
     ON UPDATE NO ACTION;
 
 

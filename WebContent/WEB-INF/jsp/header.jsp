@@ -14,17 +14,17 @@
 		       <a class="nav-link" href="${ pageContext.request.contextPath }">Enchères</a>
 		    </li>
 		    <li class="nav-item active">
-		       <a class="nav-link" href="${ pageContext.request.contextPath }/ajouterArticle">Vendre un article</a>
+		       <a class="nav-link" href="${ pageContext.request.contextPath }/articles/ajouterArticle">Vendre un article</a>
 		    </li>
 		    <li class="nav-item active">
-		       <a class="nav-link" href="${ pageContext.request.contextPath }/profile">Mon profil</a>
+		       <a class="nav-link" href="${ pageContext.request.contextPath }/utilisateur/profil">Mon profil</a>
 		    </li>
 		    <li class="nav-item active dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          <c:out value="${ sessionScope.user.pseudo }"></c:out>
 		        </a>
 		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          	<a class="dropdown-item" href="${ pageContext.request.contextPath }/DeconnexionServlet">Se Deconnecter</a>
+		          	<a class="dropdown-item" href="${ pageContext.request.contextPath }/seDeconnecter">Se Deconnecter</a>
 		        </div>
       		</li>
 	    </c:when>

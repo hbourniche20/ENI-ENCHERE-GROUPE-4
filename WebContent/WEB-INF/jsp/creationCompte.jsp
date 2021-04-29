@@ -28,7 +28,7 @@
 					<div class="form-group row">
 					   	<label for="pseudo" class="col-sm-3 col-form-label">Pseudo</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="pseudo" class="form-control" id="pseudo" value="${utilisateur.getPseudo()}" required>
+					      	<input type="text" name="pseudo" class="form-control" id="pseudo" value="${utilisateur.getPseudo()}" >
 					   	</div>
 					</div>
 				</div>
@@ -36,7 +36,7 @@
 					<div class="form-group row">
 					   	<label for="nom" class="col-sm-3 col-form-label">Nom</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="nom" class="form-control" id="nom" value="${utilisateur.getNom()}" required>
+					      	<input type="text" name="nom" class="form-control" id="nom" value="${utilisateur.getNom()}" >
 					   	</div>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 					<div class="form-group row">
 					   	<label for="prenom" class="col-sm-3 col-form-label">Prénom</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="prenom" class="form-control" id="prenom" value="${utilisateur.getPrenom()}" required>
+					      	<input type="text" name="prenom" class="form-control" id="prenom" value="${utilisateur.getPrenom()}" >
 					   	</div>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 					<div class="form-group row">
 					   	<label for="email" class="col-sm-3 col-form-label">Email</label>
 					   	<div class="col-sm-9">
-					      	<input type="email" name="email" class="form-control" id="email" value="${utilisateur.getEmail()}" required>
+					      	<input type="email" name="email" class="form-control" id="email" value="${utilisateur.getEmail()}" >
 					   	</div>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 					<div class="form-group row">
 					   	<label for="telephone" class="col-sm-3 col-form-label">Téléphone</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="telephone" class="form-control" id="telephone" value="${utilisateur.getTelephone()}" required>
+					      	<input type="text" name="telephone" class="form-control" id="telephone" value="${utilisateur.getTelephone()}" >
 					   	</div>
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 					<div class="form-group row">
 					   	<label for="rue" class="col-sm-3 col-form-label">Rue</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="rue" class="form-control" id="rue" value="${utilisateur.getRue()}" required>
+					      	<input type="text" name="rue" class="form-control" id="rue" value="${utilisateur.getRue()}" >
 					   	</div>
 					</div>
 				</div>
@@ -82,7 +82,7 @@
 					<div class="form-group row">
 					   	<label for="codepostal" class="col-sm-3 col-form-label">Code Postal</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="codepostal" class="form-control" id="codepostal" value="${utilisateur.getCodePostal()}" required>
+					      	<input type="text" name="codepostal" class="form-control" id="codepostal" value="${utilisateur.getCodePostal()}" >
 					   	</div>
 					</div>
 				</div>
@@ -90,7 +90,7 @@
 					<div class="form-group row">
 					   	<label for="ville" class="col-sm-3 col-form-label">Ville</label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="ville" class="form-control" id="ville" value="${utilisateur.getVille()}" required>
+					      	<input type="text" name="ville" class="form-control" id="ville" value="${utilisateur.getVille()}" >
 					   	</div>
 					</div>
 				</div>
@@ -101,7 +101,7 @@
 						<div class="form-group row my-auto">
 							<label for="motdepasse" class="col-sm-3 col-form-label">Mot de passe actuel</label>
 							<div class="col-sm-9">
-								<input type="password" name="motdepasse" class="form-control" id="motdepasse" required>
+								<input type="password" name="motdepasse" class="form-control" id="motdepasse" >
 							</div>
 						</div>
 					</div>
@@ -149,8 +149,8 @@
 						</c:otherwise>
 					</c:choose>	
 				</button>
-				<c:if test="${ not empty sessionScope.user }">
-					<a href="${ pageContext.request.contextPath }/supprimerUtilisateur" class="btn btn-danger m-1">Supprimer votre compte</a>	
+				<c:if test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(utilisateur.getPseudo()) }">
+					<a href="${ pageContext.request.contextPath }/utilisateur/supprimerUtilisateur" class="btn btn-danger m-1">Supprimer votre compte</a>	
 				</c:if>
 				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Retour</a>	
 			</div>

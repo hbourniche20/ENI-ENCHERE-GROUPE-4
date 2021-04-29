@@ -18,7 +18,7 @@
 			<h3 class="text-center my-4">Vendre un article</h3>
 	 	</c:if> 
 	 	<jsp:include page="error.jsp"></jsp:include>
-		<form action ="${pageContext.request.contextPath }/ajouterArticle" method="POST">		
+		<form action ="${pageContext.request.contextPath }/articles/ajouterArticle" method="POST">		
 			<jsp:include page="articleVenduForm.jsp"></jsp:include>				
 	</form>
 </div>

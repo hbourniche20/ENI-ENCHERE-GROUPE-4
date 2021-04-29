@@ -14,7 +14,7 @@ public class ArticleVendu {
 	private LocalDate dateFinEncheres;
 	private int miseAPrix;
 	private int prixVente;
-	private boolean etatVente;
+	private String etatVente;
 	private Categorie categorieArticle;
 	private Retrait lieuRetrait;
 	private Utilisateur vendeur;
@@ -23,7 +23,6 @@ public class ArticleVendu {
 	
 	
 	public ArticleVendu() {
-		this.etatVente = false;
 		this.encheres = new ArrayList<>();
 	}
 
@@ -35,7 +34,6 @@ public class ArticleVendu {
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.etatVente = etatVente;
 		this.categorieArticle = categorieArticle;
 		this.lieuRetrait = lieuRetrait;
 		this.vendeur = vendeur;
@@ -54,7 +52,6 @@ public class ArticleVendu {
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
 			LocalDate dateFinEncheres, int miseAPrix, Categorie categorieArticle, Retrait lieuRetrait,
 			Utilisateur vendeur) {
-		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -68,7 +65,6 @@ public class ArticleVendu {
 
 	public ArticleVendu(String nomArticleVendu, String descriptionArticleVendu, LocalDate dateDebut, LocalDate dateFin,
 			int miseAPrix2, Categorie c, Utilisateur u, Retrait r) {
-		// TODO Auto-generated constructor stub
 		this.nomArticle = nomArticleVendu;
 		this.description = descriptionArticleVendu;
 		this.dateDebutEncheres = dateDebut;
@@ -149,11 +145,11 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 	}
 
-	public boolean isEtatVente() {
+	public String getEtatVente() {
 		return etatVente;
 	}
 	
-	public void setEtatVente(boolean etatVente) {
+	public void setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
 	}
 

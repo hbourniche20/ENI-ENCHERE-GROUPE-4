@@ -21,7 +21,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class DetailVenteServlet
  */
-@WebServlet("/article")
+@WebServlet("/articles/visualiserArticle")
 public class DetailVenteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,21 +34,17 @@ public class DetailVenteServlet extends HttpServlet {
 		Integer noArticle = null;
 		
 		try {
-			if(request.getSession().getAttribute("user") != null) {
-				noArticle = Integer.parseInt(request.getParameter("noArticle"));
-				article = manager.recupererArticleVendu(noArticle);
-				if(article == null) {
-					throw new ArticleVenduException(ArticleVenduException.ARTICLE_NOT_FOUND);
-				}
-				request.setAttribute("article", article);
-				request.setAttribute("error", request.getSession().getAttribute("error"));
-				request.getSession().removeAttribute("error");
-				
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailArticle.jsp");
-				rd.forward(request, response);
-			} else {
-				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			article = manager.recupererArticleVendu(noArticle);
+			if(article == null) {
+				throw new ArticleVenduException(ArticleVenduException.ARTICLE_NOT_FOUND);
 			}
+			request.setAttribute("article", article);
+			request.setAttribute("error", request.getSession().getAttribute("error"));
+			request.getSession().removeAttribute("error");
+				
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/visualisationArticleVendu.jsp");
+			rd.forward(request, response);
 		} catch(NumberFormatException e) {
 			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
 			response.sendRedirect(request.getContextPath());
@@ -91,7 +87,7 @@ public class DetailVenteServlet extends HttpServlet {
 			request.getSession().setAttribute("error", e.getMessage());
 		}
 		request.setAttribute("noArticle", noArticle);
-		response.sendRedirect(request.getContextPath() + "/article?noArticle=" + noArticle);
+		response.sendRedirect(request.getContextPath() + "/articles/visualiserArticle?noArticle=" + noArticle);
 	}
 
 }

@@ -16,22 +16,18 @@ import fr.eni.enchere.exception.UtilisateurNotFoundException;
 /**
  * Servlet implementation class DeleteUserServlet
  */
-@WebServlet("/supprimerUtilisateur")
-public class DeleteUserServlet extends HttpServlet {
+@WebServlet("/utilisateur/supprimerUtilisateur")
+public class SupprimerUtilisateurServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UtilisateurManager manager = new UtilisateurManager();
 		try {
 			manager.supprimer((Utilisateur) request.getSession().getAttribute("user"));
-			request.getSession().setAttribute("user", null);
-			response.sendRedirect("index");
+			response.sendRedirect(request.getContextPath() + "/seDeconnecter");
 		} catch (UtilisateurNotFoundException e) {
 			request.setAttribute("error", e.getMessage());
-			System.out.println("error ! " + e.getMessage());
+			request.setAttribute("utilisateur", request.getSession().getAttribute("user"));
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
 			rd.forward(request, response);
 		}

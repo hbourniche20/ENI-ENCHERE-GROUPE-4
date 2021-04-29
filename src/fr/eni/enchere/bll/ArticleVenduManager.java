@@ -16,7 +16,7 @@ import fr.eni.enchere.dal.CategorieDao;
 import fr.eni.enchere.dal.ConnectionProvider;
 import fr.eni.enchere.dal.DaoFactory;
 import fr.eni.enchere.dal.UtilisateurDao;
-
+import fr.eni.enchere.exception.AddArticleException;
 import fr.eni.enchere.exception.ArticleVenduException;
 import fr.eni.enchere.exception.CategorieException;
 import fr.eni.enchere.exception.EnchereException;
@@ -55,13 +55,36 @@ public class ArticleVenduManager {
 			throw new ArticleVenduException(ArticleVenduException.ARTICLE_CATEGORIE_NOT_DEFINED);
 		}
 		
+		if( av.getMiseAPrix() <= 0) {
+			throw new ArticleVenduException(AddArticleException.WRONG_PRICE);
+		}
+		
 		
 		if(av.getDateDebutEncheres().isBefore(date)) {
 			throw new ArticleVenduException(EnchereException.WRONG_BEGIN_AUCTION);
 		}
 		
-		if(av.getDateFinEncheres().isBefore(date) || av.getDateFinEncheres().isBefore(av.getDateDebutEncheres())) {
+		
+		if(av.getDateFinEncheres().isBefore(date)) {
 			throw new ArticleVenduException(EnchereException.WRONG_END_AUCTION);
+		}
+		if(av.getDateFinEncheres().isBefore(av.getDateDebutEncheres())) {
+			throw new ArticleVenduException(AddArticleException.DATE_CONFLICT_END);
+		}
+		
+		if(av.getLieuRetrait().getRue().equals("")) {
+			throw new ArticleVenduException(AddArticleException.LOCATION_ROAD);
+		}
+		
+		if(av.getLieuRetrait().getCodePostal().equals("")) {
+			throw new ArticleVenduException(AddArticleException.LOCATION_CODE);
+		}
+		
+		if(av.getLieuRetrait().getVille().equals("")) {
+			throw new ArticleVenduException(AddArticleException.LOCATION_CITY);
+		}
+		if(av.getDateDebutEncheres().isEqual(av.getDateFinEncheres())) {
+			throw new ArticleVenduException(AddArticleException.SAME_DATE);
 		}
 	}
 

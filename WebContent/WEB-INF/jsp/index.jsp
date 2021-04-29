@@ -3,7 +3,6 @@
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,23 +97,33 @@
 								<div class="col">
 								  	<h6 class="card-title">
 								  		<c:choose>
-	    									<c:when test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(article.getVendeur().getPseudo()) && article.getDateDebutEncheres() > LocalDate.now() }">
-	    										<a href="${pageContext.request.contextPath }/modificationArticle?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+	    									<c:when test="${ article.getEtatVente().equals('Vente en attente') && not empty sessionScope.user }">
+	    										<a href="${pageContext.request.contextPath }/articles/modifierArticle?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
 								  			</c:when>
-								  			<c:when test="${ not empty sessionScope.user && article.getDateDebutEncheres() <= LocalDate.now()}">
-	    										<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+								  			<c:when test="${ (article.getEtatVente().equals('Vente en cours') || article.getEtatVente().equals('Vente terminée')) && not empty sessionScope.user }">
+	    										<a href="${pageContext.request.contextPath }/articles/visualiserArticle?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
 								  			</c:when>
 								  			<c:otherwise>
-								  				${ article.getNomArticle() }
-								  			</c:otherwise>	
+	    										${ article.getNomArticle() }
+								  			</c:otherwise>
 								  		</c:choose>	
 								  	</h6>
 								    <p class="card-text text-left mb-0">Prix : ${ article.getPrixVente() } points</p>
 								    <fmt:parseDate  value="${ article.getDateFinEncheres() }"  type="date" pattern="yyyy-MM-dd" var="parsedDate" />
 									<fmt:formatDate value="${ parsedDate }" type="date" pattern="dd/MM/yyyy" var="dateFinEncheres" />
 								    <p class="card-text ">Fin de l'enchère : ${ dateFinEncheres }</p>
-								    <p class="card-text">Vendeur : <c:if test="${ not empty sessionScope.user }"><a href="${pageContext.request.contextPath }/profile?pseudo=${ article.getVendeur().getPseudo()}" class="font-weight-bold"></c:if>${ article.getVendeur().getPseudo() }<c:if test="${ not empty sessionScope.user }"></a></c:if></p>
-								  </div>
+								    <p class="card-text">
+								    	Vendeur : 
+								    	<c:choose>
+	    									<c:when test="${ not empty sessionScope.user }">
+												<a href="${pageContext.request.contextPath }/utilisateur/profil?pseudo=${ article.getVendeur().getPseudo()}" class="font-weight-bold">${ article.getVendeur().getPseudo() }</a>
+								  			</c:when>
+								  			<c:otherwise>
+								  			${ article.getVendeur().getPseudo() }
+								  			</c:otherwise>
+								  		</c:choose>
+								  	</p>
+								</div>
 							</div>
 						</div>
 					</div>	

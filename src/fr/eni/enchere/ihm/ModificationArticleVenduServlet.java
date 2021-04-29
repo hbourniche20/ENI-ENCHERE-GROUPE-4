@@ -2,6 +2,7 @@ package fr.eni.enchere.ihm;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -22,23 +23,12 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class ModifArticleVenduServlet
  */
-@WebServlet("/modificationArticle")
-public class ModifArticleVenduServlet extends HttpServlet {
+@WebServlet("/articles/modifierArticle")
+public class ModificationArticleVenduServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-   
-    public ModifArticleVenduServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		ArticleVenduManager manager = new ArticleVenduManager();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	ArticleVenduManager manager = new ArticleVenduManager();
 		CategorieManager managerC = new CategorieManager();
 		Integer noArticle = null;
 		ArticleVendu article = null;
@@ -54,7 +44,7 @@ public class ModifArticleVenduServlet extends HttpServlet {
 				listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
 				request.setAttribute("categories", listeCategories);
 				
-				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/modifArticleVendu.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationArticleVendu.jsp");
 				rd.forward(request, response);
 				
 			} else {
@@ -66,20 +56,13 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		}
 		
 		
-	
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 		String nomArticleVendu = request.getParameter("nom");
 		String descriptionArticleVendu = request.getParameter("description");	
-		LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
-		LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
-		int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
+		
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
@@ -88,10 +71,12 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		int noRetrait = 0;
 		
 		try {
+			LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
+			LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
 			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 			noRetrait = Integer.parseInt(request.getParameter("noRetrait"));
 			noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
-			
+			int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 			Categorie c = new Categorie();
 			c.setNoCategorie(noCategorie);
 			
@@ -102,7 +87,12 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			
 			manager.modificationArticleVendu(av);
 			response.sendRedirect(request.getContextPath());		
-		}catch(NumberFormatException e){
+		}catch(DateTimeParseException e) {
+			e.printStackTrace();
+			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
+			doGet(request, response);
+		}
+		catch(NumberFormatException e){
 			e.printStackTrace();
 			request.setAttribute("error", "Impossible de récupérer le numéro");
 			doGet(request, response);
