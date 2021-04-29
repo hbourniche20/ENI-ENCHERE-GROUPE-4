@@ -35,21 +35,16 @@ public class ModificationArticleVenduServlet extends HttpServlet {
 		List<Categorie> listeCategories = null;
 		
 		try {
-			if(request.getSession().getAttribute("user") != null){
-				noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 						
-				article = manager.recupererArticleVendu(noArticle);
-				request.setAttribute("article", article);	
+			article = manager.recupererArticleVendu(noArticle);
+			request.setAttribute("article", article);	
 				
-				listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
-				request.setAttribute("categories", listeCategories);
+			listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
+			request.setAttribute("categories", listeCategories);
 				
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationArticleVendu.jsp");
-				rd.forward(request, response);
-				
-			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation de modifier cet article");
-			}		
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationArticleVendu.jsp");
+			rd.forward(request, response);		
 		} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
@@ -88,16 +83,15 @@ public class ModificationArticleVenduServlet extends HttpServlet {
 			manager.modificationArticleVendu(av);
 			request.getSession().setAttribute("success", "L'article a été modifié");
 			response.sendRedirect(request.getContextPath());		
-		}catch(DateTimeParseException e) {
+		} catch(DateTimeParseException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
 			doGet(request, response);
-		}
-		catch(NumberFormatException e){
+		} catch(NumberFormatException e){
 			e.printStackTrace();
 			request.setAttribute("error", "Impossible de récupérer le numéro");
 			doGet(request, response);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);

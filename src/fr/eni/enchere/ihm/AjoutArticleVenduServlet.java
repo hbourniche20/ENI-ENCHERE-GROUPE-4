@@ -75,16 +75,16 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			manager.enregistrerArticleVendu(a);
 			request.getSession().setAttribute("success", "L'article a été ajouté");
 			response.sendRedirect(request.getContextPath());			
-		}catch(DateTimeParseException e) {
+		} catch(DateTimeParseException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
 			doGet(request, response);
-		}catch(NumberFormatException e) {
+		} catch(NumberFormatException e) {
 			e.printStackTrace();	
 			request.setAttribute("error", "La catégorie n'est pas définie");			
 			doGet(request, response);
 
-		}catch(Exception e ) {
+		} catch(Exception e ) {
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 		}

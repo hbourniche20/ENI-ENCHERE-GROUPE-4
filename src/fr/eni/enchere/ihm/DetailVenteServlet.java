@@ -17,6 +17,7 @@ import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Enchere;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.ArticleVenduException;
+import fr.eni.enchere.util.TextInputUtil;
 
 /**
  * Servlet implementation class DetailVenteServlet
@@ -68,25 +69,21 @@ public class DetailVenteServlet extends HttpServlet {
 		Integer noArticle = 0;
 		Integer montantEnchere = 0;
 		try {
-			if(request.getSession().getAttribute("user") != null) {
-				Utilisateur encherisseur = (Utilisateur) request.getSession().getAttribute("user");
-				try {
-					noArticle = Integer.parseInt(request.getParameter("noArticle"));
-				} catch(NumberFormatException e) {
-					throw new Exception("Le numéro article doit être un nombre entier");
-				}
-				try {
-					montantEnchere = Integer.parseInt(request.getParameter("montantEnchere"));
-				} catch(NullPointerException e) {
-					throw new Exception("Le montant d'une enchère est obligatoire");
-				} catch(NumberFormatException e) {
-					throw new Exception("Le montant doit être un nombre entier");
-				}
-				manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
-				request.getSession().setAttribute("success", "Votre enchère sur cet article a été ajoutée");
-			} else {
-				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
+			Utilisateur encherisseur = (Utilisateur) request.getSession().getAttribute("user");
+			try {
+				noArticle = Integer.parseInt(TextInputUtil.getSafeParameter(request, "noArticle"));
+			} catch(NumberFormatException e) {
+				throw new Exception("Le numéro article doit être un nombre entier");
 			}
+			try {
+				montantEnchere = Integer.parseInt(TextInputUtil.getSafeParameter(request, "montantEnchere"));
+			} catch(NullPointerException e) {
+				throw new Exception("Le montant d'une enchère est obligatoire");
+			} catch(NumberFormatException e) {
+				throw new Exception("Le montant doit être un nombre entier");
+			}
+			manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
+			request.getSession().setAttribute("success", "Votre enchère sur cet article a été ajoutée");
 		} catch(Exception e) {
 			request.getSession().setAttribute("error", e.getMessage());
 		}
