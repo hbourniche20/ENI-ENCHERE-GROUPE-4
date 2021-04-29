@@ -3,6 +3,8 @@ package fr.eni.enchere.exception;
 public class UtilisateurException extends Exception {
 	private static final long serialVersionUID = 1L;
 
+	public static final String USER_EMPTY_FIELD = "Attention, il y a un champs qui est vide.";
+	
 	public static final String USER_WRONG_PHONE_FORMAT = "Le numéro de téléphone n'est pas au bon format.";
 	
 	public static final String USER_WRONG_POSTCODE_FORMAT = "Le code postal n'est pas au bon format";
@@ -21,6 +23,10 @@ public class UtilisateurException extends Exception {
 	
 	public static final String USER_MAIL_NOT_UNIQUE = "L'email est déjà utilisé.";
 
+	public static final String USER_MAIL_WRONG_FORMAT = "Votre email n'est pas au bon format.";
+
+	public static final String USER_DELETE = "Votre compte n'a pas pu être effacé, il semblerait que vous soyez en pleine enchère.";
+	
 	
 	public UtilisateurException(String message) {
 		super(message);
