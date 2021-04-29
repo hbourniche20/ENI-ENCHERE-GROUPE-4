@@ -98,15 +98,12 @@
 								<div class="col">
 								  	<h6 class="card-title">
 								  		<c:choose>
-	    									<c:when test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(article.getVendeur().getPseudo()) && article.getDateDebutEncheres() > LocalDate.now() }">
+	    									<c:when test="${ article.getEtatVente().equals('Vente en attente') }">
 	    										<a href="${pageContext.request.contextPath }/modificationArticle?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
 								  			</c:when>
-								  			<c:when test="${ not empty sessionScope.user && article.getDateDebutEncheres() <= LocalDate.now()}">
-	    										<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
-								  			</c:when>
 								  			<c:otherwise>
-								  				${ article.getNomArticle() }
-								  			</c:otherwise>	
+	    										<a href="${pageContext.request.contextPath }/article?noArticle=${ article.getNoArticle() }" class="text-dark">${ article.getNomArticle() }</a>
+								  			</c:otherwise>
 								  		</c:choose>	
 								  	</h6>
 								    <p class="card-text text-left mb-0">Prix : ${ article.getPrixVente() } points</p>
