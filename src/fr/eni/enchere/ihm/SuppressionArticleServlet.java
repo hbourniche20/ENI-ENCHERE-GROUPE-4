@@ -14,7 +14,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class SuppressionArticleVenduServlet
  */
-@WebServlet("/SuppressionArticleServlet")
+@WebServlet("/articles/supprimerArticle")
 public class SuppressionArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -22,15 +22,11 @@ public class SuppressionArticleServlet extends HttpServlet {
 		ArticleVenduManager manager = new ArticleVenduManager();
 		Integer noArticle = 0;
 		try {
-			if(request.getSession().getAttribute("user") != null) {
-				Utilisateur vendeur = (Utilisateur) request.getSession().getAttribute("user");
-				noArticle = Integer.parseInt(request.getParameter("noArticle"));
-				manager.supprimerArticleVendu(vendeur, noArticle);
-			} else {
-				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
-			}
-			request.getSession().setAttribute("success", "L'article a été supprimé avec succès");
+			Utilisateur vendeur = (Utilisateur) request.getSession().getAttribute("user");
+			noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			manager.supprimerArticleVendu(vendeur, noArticle);
 			
+			request.getSession().setAttribute("success", "L'article a été supprimé avec succès");
 		} catch(NumberFormatException e) {
 			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
 			

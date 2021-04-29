@@ -28,7 +28,7 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class AjoutArticleVenduServlet
  */
-@WebServlet("/ajouterArticle")
+@WebServlet("/articles/ajouterArticle")
 public class AjoutArticleVenduServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -37,19 +37,12 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		List<Categorie> listeCategories = null;
 		
 		try {
-			if(request.getSession().getAttribute("user") != null) {
-			
-				listeCategories = managerCategorie.recupererListeCategories();				
-				request.setAttribute("categories", listeCategories);
+			listeCategories = managerCategorie.recupererListeCategories();				
+			request.setAttribute("categories", listeCategories);
 				
-				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/ajoutArticleVendu.jsp");
-				rd.forward(request, response);
-						
-			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation de vendre un article");
-			}	
-	
-		}catch(Exception e) {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutArticleVendu.jsp");
+			rd.forward(request, response);
+		} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
 		}
@@ -76,13 +69,11 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
 			ArticleVenduManager manager = new ArticleVenduManager();
 			manager.enregistrerArticleVendu(a);
-			response.sendRedirect("index");
-		}catch(NumberFormatException e) {
-			e.printStackTrace();	
+			response.sendRedirect(request.getContextPath());
+		} catch(NumberFormatException e) {
 			request.setAttribute("error", "Impossible de récupérer le numéro");
 			doGet(request, response);
-		}catch(Exception e ) {
-			e.printStackTrace();
+		} catch(Exception e ) {
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 		}

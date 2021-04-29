@@ -149,8 +149,8 @@
 						</c:otherwise>
 					</c:choose>	
 				</button>
-				<c:if test="${ not empty sessionScope.user }">
-					<a href="${ pageContext.request.contextPath }/supprimerUtilisateur" class="btn btn-danger m-1">Supprimer votre compte</a>	
+				<c:if test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(utilisateur.getPseudo()) }">
+					<a href="${ pageContext.request.contextPath }/utilisateur/supprimerUtilisateur" class="btn btn-danger m-1">Supprimer votre compte</a>	
 				</c:if>
 				<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Retour</a>	
 			</div>

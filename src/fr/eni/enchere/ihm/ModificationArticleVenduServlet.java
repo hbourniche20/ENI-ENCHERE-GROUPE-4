@@ -22,22 +22,11 @@ import fr.eni.enchere.exception.ArticleVenduException;
 /**
  * Servlet implementation class ModifArticleVenduServlet
  */
-@WebServlet("/modificationArticle")
-public class ModifArticleVenduServlet extends HttpServlet {
+@WebServlet("/articles/modifierArticle")
+public class ModificationArticleVenduServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-   
-    public ModifArticleVenduServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArticleVenduManager manager = new ArticleVenduManager();
 		CategorieManager managerC = new CategorieManager();
 		Integer noArticle = null;
@@ -45,35 +34,23 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		List<Categorie> listeCategories = null;
 		
 		try {
-			if(request.getSession().getAttribute("user") != null){
-				noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 						
-				article = manager.recupererArticleVendu(noArticle);
-				request.setAttribute("article", article);	
+			article = manager.recupererArticleVendu(noArticle);
+			request.setAttribute("article", article);	
 				
-				listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
-				request.setAttribute("categories", listeCategories);
+			listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
+			request.setAttribute("categories", listeCategories);
 				
-				RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/modifArticleVendu.jsp");
-				rd.forward(request, response);
-				
-			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation de modifier cet article");
-			}		
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationArticleVendu.jsp");
+			rd.forward(request, response);	
 		} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
 		}
-		
-		
-	
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 		String nomArticleVendu = request.getParameter("nom");
 		String descriptionArticleVendu = request.getParameter("description");	
@@ -102,17 +79,13 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			
 			manager.modificationArticleVendu(av);
 			response.sendRedirect(request.getContextPath());		
-		}catch(NumberFormatException e){
-			e.printStackTrace();
+		} catch(NumberFormatException e){
 			request.setAttribute("error", "Impossible de récupérer le numéro");
 			doGet(request, response);
-		}catch(Exception e) {
-			e.printStackTrace();
+		} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
 		}
-		
-		
 	}
 
 }
