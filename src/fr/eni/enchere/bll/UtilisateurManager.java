@@ -41,12 +41,51 @@ public class UtilisateurManager {
 		return this.dao.getUtilisateur(pseudo);
 	}
 	
-	public void supprimer(Utilisateur u) throws UtilisateurNotFoundException {
+	public void supprimer(Utilisateur u) throws UtilisateurException {
 		this.dao.deleteUtilisateur(u);
 	}
 	
 	public boolean hasValidInformations(Utilisateur utilisateur) throws UtilisateurException {
+
+		if(utilisateur.getPseudo().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		if(utilisateur.getNom().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		if(utilisateur.getPrenom().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		if(utilisateur.getEmail().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
 		
+		if(utilisateur.getRue().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		if(utilisateur.getTelephone().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		if(utilisateur.getCodePostal().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		if(utilisateur.getVille().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
+
+		// Verify e-mail format
+		String email = utilisateur.getEmail();
+		if(!email.contains("@") && email.split("@").length != 2 
+				&& !email.split("@")[1].contains(".") && email.split("@")[1].split(".").length != 2) {
+			throw new UtilisateurException(UtilisateurException.USER_MAIL_WRONG_FORMAT);
+		}
+
 		// Verify phone number format (we are using the French format here)
 		if((utilisateur.getTelephone().length() == 12 && utilisateur.getTelephone().toCharArray()[0] == '+')) {
 			checkNumbers(utilisateur.getTelephone().substring(1), UtilisateurException.USER_INVALID_PHONE_CHAR);

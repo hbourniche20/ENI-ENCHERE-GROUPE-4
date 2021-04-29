@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
-import fr.eni.enchere.exception.UtilisateurNotFoundException;
+import fr.eni.enchere.exception.UtilisateurException;
 
 /**
  * Servlet implementation class DeleteUserServlet
@@ -25,7 +25,7 @@ public class SupprimerUtilisateurServlet extends HttpServlet {
 		try {
 			manager.supprimer((Utilisateur) request.getSession().getAttribute("user"));
 			response.sendRedirect(request.getContextPath() + "/seDeconnecter");
-		} catch (UtilisateurNotFoundException e) {
+		} catch (UtilisateurException e) {
 			request.setAttribute("error", e.getMessage());
 			request.setAttribute("utilisateur", request.getSession().getAttribute("user"));
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
