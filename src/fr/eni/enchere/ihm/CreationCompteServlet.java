@@ -13,84 +13,58 @@ import fr.eni.enchere.bll.UtilisateurManager;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.EmailNotUniqueException;
 import fr.eni.enchere.exception.PseudoNotUniqueException;
+import fr.eni.enchere.exception.UtilisateurException;
 import fr.eni.enchere.exception.WrongInputException;
+import fr.eni.enchere.util.TextInputUtil;
 
 /**
  * Servlet implementation class CreationCompteServlet
  */
 @WebServlet("/enregistrerUtilisateur")
-public class CreationCompteServlet extends HttpServlet {
+public class CreationCompteServlet extends UtilisateurServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd =request.getRequestDispatcher("WEB-INF/jsp/creationCompte.jsp");
-		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
-		if(utilisateur != null) {
-			request.setAttribute("utilisateur", utilisateur);
-		}
 		rd.forward(request, response);
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pseudo = request.getParameter("pseudo");
-		String nom = request.getParameter("nom");
-		String prenom = request.getParameter("prenom");
-		String email = request.getParameter("email");
-		String telephone = request.getParameter("telephone");
-		String rue = request.getParameter("rue");
-		String codepostal = request.getParameter("codepostal");
-		String ville = request.getParameter("ville");
-
-		// newly created password.
-		String nouveauMotdePasse = request.getParameter("newmotdepasse");
-		// Current password of the user id .
-		String motdepasse = request.getParameter("motdepasse");
-		// New password correspond to the newly created password.
-		String confirmationmdp = request.getParameter("confirmationmdp");
-		Utilisateur currentUtilisateur = (Utilisateur) request.getSession().getAttribute("user");
+		String pseudo = "", nom = "", prenom = "", email = "", telephone = "", rue = "", 
+				codepostal = "", ville = "", nouveauMotdePasse = "", confirmationmdp = "";
+		try {
+			pseudo = TextInputUtil.getSafeParameter(request, "pseudo");
+			nom = TextInputUtil.getSafeParameter(request, "nom");
+			prenom = TextInputUtil.getSafeParameter(request, "prenom");
+			email = TextInputUtil.getSafeParameter(request, "email");
+			telephone = TextInputUtil.getSafeParameter(request, "telephone");
+			rue = TextInputUtil.getSafeParameter(request, "rue");
+			codepostal = TextInputUtil.getSafeParameter(request, "codepostal");
+			ville = TextInputUtil.getSafeParameter(request, "ville");
+			// newly created password.
+			nouveauMotdePasse = TextInputUtil.getSafeParameter(request, "newmotdepasse");
+			// New password correspond to the newly created password.
+			confirmationmdp = TextInputUtil.getSafeParameter(request, "confirmationmdp");
+		} catch (WrongInputException e1) {
+			this.throwException(request, response, e1.getMessage());
+			return;
+		}
 		Utilisateur u = new Utilisateur(pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse);
 		request.setAttribute("utilisateur", u);
-
-		if(currentUtilisateur != null && !motdepasse.equals(currentUtilisateur.getMotDePasse())) {
-			this.throwException(request, response, "le mot de passe ne correspond pas");
+		UtilisateurManager manager = new UtilisateurManager();
+		try {
+			manager.enregistrer(u, confirmationmdp);
+			request.getSession().setAttribute("user", u); // update session
+			response.sendRedirect("index");
+		} catch (EmailNotUniqueException e){
+			this.throwException(request, response, e.getMessage());
+		} catch (PseudoNotUniqueException e) {
+			this.throwException(request, response, e.getMessage());
+		} catch (UtilisateurException e) {
+			this.throwException(request, response, e.getMessage());
 		}
-
-		if (confirmationmdp.equals(nouveauMotdePasse) || (currentUtilisateur != null && nouveauMotdePasse.equals(""))) {
-			if(nouveauMotdePasse.equals("")) {
-				u.setMotDePasse(motdepasse);
-			}
-			if(currentUtilisateur != null) {
-				u.setNoUtilisateur(currentUtilisateur.getNoUtilisateur());
-				u.setCredit(currentUtilisateur.getCredit());
-			}
-			UtilisateurManager manager = new UtilisateurManager();
-			try {
-				manager.enregistrer(u);
-				System.out.println("attribute user updated in the session");
-				request.getSession().setAttribute("user", u); // update session
-				System.out.println("redirection");
-				response.sendRedirect("index");
-			} catch (EmailNotUniqueException e){
-				this.throwException(request, response, e.getMessage());
-			} catch (PseudoNotUniqueException e) {
-				this.throwException(request, response, e.getMessage());
-			} catch (WrongInputException e) {
-				this.throwException(request, response, e.getMessage());
-			}
-		}
-		else {
-			this.throwException(request, response, "La confirmation du mot de passe doit être identique au mot de passe");
-		}
-	}
-	
-	private void throwException(HttpServletRequest request, HttpServletResponse response, String message) throws ServletException, IOException {
-		request.setAttribute("error", message);
-		System.out.println("error ! " + message);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
-		rd.forward(request, response);
 	}
 		
 }
-

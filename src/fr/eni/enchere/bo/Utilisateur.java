@@ -3,7 +3,7 @@ package fr.eni.enchere.bo;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.enchere.exception.WrongInputException;
+import fr.eni.enchere.exception.UtilisateurException;
 
 public class Utilisateur {
 	
@@ -167,38 +167,38 @@ public class Utilisateur {
 		this.encheres = encheres;
 	}
 
-	public boolean hasValidInformations() throws WrongInputException {
+	public boolean hasValidInformations() throws UtilisateurException {
 		
 		// Verify phone number format (we are using the French format here)
 		if((this.telephone.length() == 12 && this.telephone.toCharArray()[0] == '+')) {
-			checkNumbers(this.telephone.substring(1), WrongInputException.USER_INVALID_PHONE_CHAR);
+			checkNumbers(this.telephone.substring(1), UtilisateurException.USER_INVALID_PHONE_CHAR);
 		} else if (this.telephone.length() == 10) {
-			checkNumbers(this.telephone, WrongInputException.USER_INVALID_PHONE_CHAR);
+			checkNumbers(this.telephone, UtilisateurException.USER_INVALID_PHONE_CHAR);
 		} else {
-			throw new WrongInputException(WrongInputException.USER_WRONG_PHONE_FORMAT);
+			throw new UtilisateurException(UtilisateurException.USER_WRONG_PHONE_FORMAT);
 		}
 
 		// Verify postal code format (we are using the French format here)
 		if(this.codePostal.length() == 5) {
-			checkNumbers(this.codePostal, WrongInputException.USER_INVALID_POSTCODE_CHAR);
+			checkNumbers(this.codePostal, UtilisateurException.USER_INVALID_POSTCODE_CHAR);
 		} else {
-			throw new WrongInputException(WrongInputException.USER_WRONG_POSTCODE_FORMAT);
+			throw new UtilisateurException(UtilisateurException.USER_WRONG_POSTCODE_FORMAT);
 		}
 		
 		if(this.credit < 0) {
-			throw new WrongInputException(WrongInputException.USER_NEGATIVE_CREDITS);
+			throw new UtilisateurException(UtilisateurException.USER_NEGATIVE_CREDITS);
 		}
 		
 		return true;
 	}
 
-	public void checkNumbers(String toCheck, String errorMessage) throws WrongInputException {
+	public void checkNumbers(String toCheck, String errorMessage) throws UtilisateurException {
 		try {
 			for(char character: toCheck.toCharArray()) {
 				Integer.parseInt(character + "");
 			}
 		} catch(NumberFormatException e) {
-			throw new WrongInputException(errorMessage);
+			throw new UtilisateurException(errorMessage);
 		}
 	}
 

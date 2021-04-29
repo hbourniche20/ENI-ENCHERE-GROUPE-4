@@ -78,7 +78,7 @@
 						</div>
 					</div>
 					<div class="text-center mb-3">
-						<a href="${ pageContext.request.contextPath }/enregistrerUtilisateur" class="btn btn-primary">Modifier</a>
+						<a href="${ pageContext.request.contextPath }/updateProfile" class="btn btn-primary">Modifier</a>
 					</div>
 				</c:if>
 			</div>

@@ -12,7 +12,7 @@ import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.EmailNotUniqueException;
 import fr.eni.enchere.exception.PseudoNotUniqueException;
 import fr.eni.enchere.exception.UtilisateurNotFoundException;
-import fr.eni.enchere.exception.WrongInputException;
+import fr.eni.enchere.exception.UtilisateurException;
 
 /**
  * Servlet implementation class UpdateUserTestServlet
@@ -74,7 +74,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -95,7 +95,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -116,7 +116,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		} catch (UtilisateurNotFoundException e) {
 			printTestFail("Le pseudo n'a pas pu être changé");
@@ -139,7 +139,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -160,7 +160,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -181,7 +181,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -202,7 +202,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			System.out.println("Test passé");
 			utilisateur.setTelephone("0251478510");
 		}
@@ -224,7 +224,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			System.out.println("Test passé");
 			utilisateur.setTelephone("0251478510");
 		}
@@ -246,7 +246,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			System.out.println("Test passé");
 			utilisateur.setTelephone("0251478510");
 		}
@@ -268,7 +268,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -289,7 +289,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -310,7 +310,7 @@ public class UpdateUserTestServlet extends TestServlet {
 				printTestFail(e.getMessage());
 			} catch (EmailNotUniqueException e) {
 				printTestFail(e.getMessage());
-			} catch (WrongInputException e) {
+			} catch (UtilisateurException e) {
 				System.out.println("Test passé");
 				utilisateur.setCodePostal("85000");
 			}
@@ -332,7 +332,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			System.out.println("Test passé");
 			utilisateur.setCodePostal("85000");
 		}
@@ -354,7 +354,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -375,7 +375,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			printTestFail(e.getMessage());
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -397,7 +397,7 @@ public class UpdateUserTestServlet extends TestServlet {
 			utilisateur.setPseudo("Dupond85");
 		} catch (EmailNotUniqueException e) {
 			printTestFail(e.getMessage());
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
@@ -419,7 +419,7 @@ public class UpdateUserTestServlet extends TestServlet {
 		} catch (EmailNotUniqueException e) {
 			System.out.println("Test passé");
 			utilisateur.setEmail("dupond.jean@gmail.com");
-		} catch (WrongInputException e) {
+		} catch (UtilisateurException e) {
 			printTestFail(e.getMessage());
 		}
 	}
