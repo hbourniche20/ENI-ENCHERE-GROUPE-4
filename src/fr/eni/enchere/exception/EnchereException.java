@@ -4,6 +4,8 @@ public class EnchereException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String INSUFFICIENT_AMOUNT = "Le montant de l'enchère n'est pas suffisant";
+	
 	public static final String FINISHED_AUCTION = "Désolé, les enchères pour cet article sont déjà terminées";
 
 	public static final String NOT_BEGIN_AUCTION = "Veuillez patientez, l'article n'est pas encore proposé aux enchères";
