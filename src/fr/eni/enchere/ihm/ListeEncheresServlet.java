@@ -31,6 +31,10 @@ public class ListeEncheresServlet extends HttpServlet {
 		CategorieManager managerCategorie = new CategorieManager();
 		
 		try {
+			request.setAttribute("error", request.getSession().getAttribute("error"));
+			request.getSession().removeAttribute("error");	
+			request.setAttribute("success", request.getSession().getAttribute("success"));
+			request.getSession().removeAttribute("success");
 
 			List<Categorie> listeCategories = managerCategorie.recupererListeCategories();
 			List<ArticleVendu> listeArticles = manager.recupererListeArticles();
@@ -41,8 +45,7 @@ public class ListeEncheresServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 		}
 		
-		request.setAttribute("error", request.getSession().getAttribute("error"));
-		request.getSession().removeAttribute("error");		
+			
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		rd.forward(request, response);
 	}

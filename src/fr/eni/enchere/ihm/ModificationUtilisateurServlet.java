@@ -18,8 +18,8 @@ import fr.eni.enchere.util.TextInputUtil;
 /**
  * Servlet implementation class UpdateProfileServlet
  */
-@WebServlet("/utilisateur/modificationUtilisateur")
-public class UpdateProfileServlet extends HttpServlet {
+@WebServlet("/utilisateur/modifierUtilisateur")
+public class ModificationUtilisateurServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -64,6 +64,7 @@ public class UpdateProfileServlet extends HttpServlet {
 	
 			manager.updateUser(u, motdepasse, nouveauMotdePasse, confirmationmdp);
 			request.getSession().setAttribute("user", u); // update session
+			request.getSession().setAttribute("success", "Le compte utilisateur a été modifié");
 			response.sendRedirect(request.getContextPath());
 		} catch (UtilisateurException e) {
 			this.throwException(request, response, e.getMessage());

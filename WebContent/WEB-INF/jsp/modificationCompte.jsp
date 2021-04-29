@@ -12,8 +12,8 @@
 	
 		<div class="container pt-5">
 			<h3 class="text-center my-4">Changer mes informations</h3>
-			<jsp:include page="error.jsp"></jsp:include>
-			<form action ="${pageContext.request.contextPath }/utilisateur/modificationUtilisateur" method="POST">
+			<jsp:include page="alerts.jsp"></jsp:include>
+			<form action ="${pageContext.request.contextPath }/utilisateur/modifierUtilisateur" method="POST">
 				<jsp:include page="compteForm.jsp"></jsp:include>
 			</form>
 		</div>	

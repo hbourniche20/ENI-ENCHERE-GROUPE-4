@@ -150,7 +150,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 	}
 
 	@Override
-	public void deleteUtilisateur(Utilisateur u) throws UtilisateurNotFoundException {
+	public void deleteUtilisateur(Utilisateur u) throws UtilisateurException {
 		
 		try (Connection c = ConnectionProvider.getConnection()) {
 			PreparedStatement pstt = c.prepareStatement(DELETE_USER);
@@ -161,11 +161,11 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao {
 			System.out.println("User: " + u.getNoUtilisateur());
 			int response = pstt.executeUpdate();
 			if(response == 0) {
-				throw new UtilisateurNotFoundException();
+				throw new UtilisateurException(UtilisateurException.USER_DELETE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new UtilisateurNotFoundException();
+			throw new UtilisateurException(UtilisateurException.USER_DELETE);
 		}
 	}
 

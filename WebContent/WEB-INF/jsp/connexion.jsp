@@ -13,7 +13,7 @@
 
 	<div class="container pt-5">
 
-	<jsp:include page="error.jsp"></jsp:include>
+	<jsp:include page="alerts.jsp"></jsp:include>
 
 		<div class="row justify-content-md-center pt-2">
 			<form action="${ pageContext.request.contextPath }/seConnecter" method="post" class="col-lg-6 col-sm pt-5" >
@@ -35,7 +35,7 @@
 					<label for="rememberMe" class="">Se souvenir de moi</label>
 				</div>
 				<div class="form-group text-center my-3">
-					<a href="${ pageContext.request.contextPath }/enregistrerUtilisateur" class="btn btn-primary">Créer un compte</a>
+					<a href="${ pageContext.request.contextPath }/creerCompte" class="btn btn-primary">Créer un compte</a>
 				</div>
 			</form>
 		</div>

@@ -29,7 +29,7 @@
 			</c:choose>
 		</h3>
 		
-		<jsp:include page="error.jsp"></jsp:include>
+		<jsp:include page="alerts.jsp"></jsp:include>
 		
 		<form action="${pageContext.request.contextPath }/articles/visualiserArticle" method="POST">
 			<input type="hidden" name="noArticle" value="${ article.getNoArticle() }"/>

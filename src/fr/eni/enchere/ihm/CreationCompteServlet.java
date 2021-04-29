@@ -18,12 +18,12 @@ import fr.eni.enchere.util.TextInputUtil;
 /**
  * Servlet implementation class CreationCompteServlet
  */
-@WebServlet("/creationCompte")
+@WebServlet("/creerCompte")
 public class CreationCompteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd =request.getRequestDispatcher("WEB-INF/jsp/creationCompte.jsp");
+		RequestDispatcher rd =request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
 		rd.forward(request, response);
 	}
 

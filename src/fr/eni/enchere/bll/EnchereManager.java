@@ -66,7 +66,7 @@ public class EnchereManager {
 						// Débiter le crédit de l'enchérisseur
 						credit = enchere.getEncherisseur().getCredit() - enchere.getMontantEnchere();
 						utilisateurDao.updateCredit(con, encherisseur.getNoUtilisateur(), credit);
-						
+						encherisseur.setCredit(credit);
 						con.commit();
 					} catch(SQLException e) {
 						con.rollback();

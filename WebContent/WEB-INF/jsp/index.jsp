@@ -13,7 +13,7 @@
 
 	<div class="container pt-5">
 		<h3 class="text-center my-4">Liste des enchères</h3>
-		<jsp:include page="error.jsp"></jsp:include>
+		<jsp:include page="alerts.jsp"></jsp:include>
 		<h5 class="text-danger my-3">Filtres : </h5>
 		
 		<form method="POST">

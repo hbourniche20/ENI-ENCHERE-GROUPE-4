@@ -18,7 +18,7 @@
  		<c:if test="${not empty sessionScope.user && article.getNoArticle() == null }">
 			<h3 class="text-center my-4">Vendre un article</h3>
 	 	</c:if> 
-	 	<jsp:include page="error.jsp"></jsp:include>
+	 	<jsp:include page="alerts.jsp"></jsp:include>
 		<form action ="${pageContext.request.contextPath }/articles/modifierArticle" method="POST">
 			<input type="hidden" name="noArticle" value="${ article.getNoArticle() }"/>
 			<input type ="hidden" name="noRetrait" value="${article.getLieuRetrait().getNoRetrait() }"/>

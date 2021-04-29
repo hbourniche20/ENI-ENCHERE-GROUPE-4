@@ -17,7 +17,7 @@
  		<c:if test="${not empty sessionScope.user && article.getNoArticle() == null }">
 			<h3 class="text-center my-4">Vendre un article</h3>
 	 	</c:if> 
-	 	<jsp:include page="error.jsp"></jsp:include>
+	 	<jsp:include page="alerts.jsp"></jsp:include>
 		<form action ="${pageContext.request.contextPath }/articles/ajouterArticle" method="POST">		
 			<jsp:include page="articleVenduForm.jsp"></jsp:include>				
 	</form>

@@ -5,3 +5,8 @@
 			${ error } 
 	</div>
 </c:if>
+<c:if test="${ not empty success }">
+	<div class="alert alert-success text-center my-5" role="alert">
+			${ success } 
+	</div>
+</c:if>

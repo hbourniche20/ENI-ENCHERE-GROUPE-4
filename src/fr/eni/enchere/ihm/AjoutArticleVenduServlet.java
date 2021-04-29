@@ -73,7 +73,7 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			ArticleVendu a = new ArticleVendu(nomArticleVendu,descriptionArticleVendu,dateDebut,dateFin,miseAPrix,c,utilisateur,r);
 			ArticleVenduManager manager = new ArticleVenduManager();
 			manager.enregistrerArticleVendu(a);
-
+			request.getSession().setAttribute("success", "L'article a été ajouté");
 			response.sendRedirect(request.getContextPath());			
 		}catch(DateTimeParseException e) {
 			e.printStackTrace();

@@ -86,6 +86,7 @@ public class ModificationArticleVenduServlet extends HttpServlet {
 			ArticleVenduManager manager = new ArticleVenduManager();
 			
 			manager.modificationArticleVendu(av);
+			request.getSession().setAttribute("success", "L'article a été modifié");
 			response.sendRedirect(request.getContextPath());		
 		}catch(DateTimeParseException e) {
 			e.printStackTrace();

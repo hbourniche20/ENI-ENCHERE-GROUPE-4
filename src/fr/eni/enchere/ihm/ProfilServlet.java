@@ -17,7 +17,7 @@ import fr.eni.enchere.exception.UtilisateurNotFoundException;
  * Servlet implementation class ProfileServlet
  */
 @WebServlet("/utilisateur/profil")
-public class ProfileServlet extends HttpServlet {
+public class ProfilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class ProfileServlet extends HttpServlet {
 			request.setAttribute("error", e.getMessage());
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp");
 		rd.forward(request, response);
 	}
 }

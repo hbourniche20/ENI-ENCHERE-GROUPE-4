@@ -42,7 +42,7 @@ public class FiltreSession implements javax.servlet.Filter {
 		String url = httpRequest.getServletPath().toLowerCase();
 		if ((url.contains("/articles/") || url.contains("/utilisateur/") || url.contains("/seDeconnecter")) && httpRequest.getSession().getAttribute("user") == null) {
 			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
-		} else if ((url.contains("/creationCompte") || url.contains("/seConnecter")) && httpRequest.getSession().getAttribute("user") != null) {
+		} else if ((url.contains("/creerCompte") || url.contains("/seConnecter")) && httpRequest.getSession().getAttribute("user") != null) {
 			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
 		} else {
 			chain.doFilter(request, response);

@@ -34,14 +34,17 @@ public class DetailVenteServlet extends HttpServlet {
 		Integer noArticle = null;
 		
 		try {
+			request.setAttribute("error", request.getSession().getAttribute("error"));
+			request.getSession().removeAttribute("error");	
+			request.setAttribute("success", request.getSession().getAttribute("success"));
+			request.getSession().removeAttribute("success");
+			
 			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 			article = manager.recupererArticleVendu(noArticle);
 			if(article == null) {
 				throw new ArticleVenduException(ArticleVenduException.ARTICLE_NOT_FOUND);
 			}
 			request.setAttribute("article", article);
-			request.setAttribute("error", request.getSession().getAttribute("error"));
-			request.getSession().removeAttribute("error");
 				
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/visualisationArticleVendu.jsp");
 			rd.forward(request, response);
@@ -80,6 +83,7 @@ public class DetailVenteServlet extends HttpServlet {
 					throw new Exception("Le montant doit être un nombre entier");
 				}
 				manager.ajouterEnchere(noArticle, encherisseur, montantEnchere);
+				request.getSession().setAttribute("success", "Votre enchère sur cet article a été ajoutée");
 			} else {
 				throw new ArticleVenduException(ArticleVenduException.USER_FORBIDDEN);
 			}

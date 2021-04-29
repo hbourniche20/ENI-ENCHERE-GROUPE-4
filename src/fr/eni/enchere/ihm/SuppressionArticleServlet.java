@@ -25,8 +25,7 @@ public class SuppressionArticleServlet extends HttpServlet {
 			Utilisateur vendeur = (Utilisateur) request.getSession().getAttribute("user");
 			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 			manager.supprimerArticleVendu(vendeur, noArticle);
-			
-			request.getSession().setAttribute("success", "L'article a été supprimé avec succès");
+			request.getSession().setAttribute("success", "L'article a été supprimé");
 		} catch(NumberFormatException e) {
 			request.getSession().setAttribute("error", "Le numéro article doit être un nombre entier");
 			
