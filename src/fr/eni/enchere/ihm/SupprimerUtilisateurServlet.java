@@ -24,10 +24,10 @@ public class SupprimerUtilisateurServlet extends HttpServlet {
 		UtilisateurManager manager = new UtilisateurManager();
 		try {
 			manager.supprimer((Utilisateur) request.getSession().getAttribute("user"));
-			request.getSession().setAttribute("user", null);
-			response.sendRedirect("index");
+			response.sendRedirect(request.getContextPath() + "/seDeconnecter");
 		} catch (UtilisateurNotFoundException e) {
 			request.setAttribute("error", e.getMessage());
+			request.setAttribute("utilisateur", request.getSession().getAttribute("user"));
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/creationCompte.jsp");
 			rd.forward(request, response);
 		}
