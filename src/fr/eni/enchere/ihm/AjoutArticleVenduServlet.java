@@ -3,9 +3,11 @@ package fr.eni.enchere.ihm;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -59,16 +61,17 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 		String nomArticleVendu = request.getParameter("nom");
-		String descriptionArticleVendu = request.getParameter("description");	
-		LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
-		LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
+		String descriptionArticleVendu = request.getParameter("description");
 		int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
 		int nocategorie = 0;
 		
-		try {			
+		try {	
+			
+			LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
+			LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
 			nocategorie = Integer.parseInt(request.getParameter("noCategorie"));
 			Categorie c = new Categorie();
 			c.setNoCategorie(nocategorie);
@@ -77,9 +80,15 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			ArticleVenduManager manager = new ArticleVenduManager();
 			manager.enregistrerArticleVendu(a);
 			response.sendRedirect("index");
-		}catch(NumberFormatException e) {
+			
+		}catch(DateTimeParseException e) {
+			e.printStackTrace();
+			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
+			doGet(request, response);
+		}
+		catch(NumberFormatException e) {
 			e.printStackTrace();	
-			request.setAttribute("error", "Impossible de récupérer le numéro");
+			request.setAttribute("error", "La catégorie n'est pas définie");
 			doGet(request, response);
 		}catch(Exception e ) {
 			e.printStackTrace();

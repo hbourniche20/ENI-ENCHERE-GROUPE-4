@@ -2,6 +2,7 @@ package fr.eni.enchere.ihm;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -77,8 +78,6 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 		String nomArticleVendu = request.getParameter("nom");
 		String descriptionArticleVendu = request.getParameter("description");	
-		LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
-		LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
 		int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
@@ -88,6 +87,8 @@ public class ModifArticleVenduServlet extends HttpServlet {
 		int noRetrait = 0;
 		
 		try {
+			LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
+			LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
 			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 			noRetrait = Integer.parseInt(request.getParameter("noRetrait"));
 			noCategorie = Integer.parseInt(request.getParameter("noCategorie"));
@@ -102,7 +103,12 @@ public class ModifArticleVenduServlet extends HttpServlet {
 			
 			manager.modificationArticleVendu(av);
 			response.sendRedirect(request.getContextPath());		
-		}catch(NumberFormatException e){
+		}catch(DateTimeParseException e) {
+			e.printStackTrace();
+			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
+			doGet(request, response);
+		}
+		catch(NumberFormatException e){
 			e.printStackTrace();
 			request.setAttribute("error", "Impossible de récupérer le numéro");
 			doGet(request, response);

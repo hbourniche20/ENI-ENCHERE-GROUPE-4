@@ -20,7 +20,7 @@
 					<div class="form-group row">
 					   	<label for="noCategorie" class="col-sm-3 col-form-label">Catégorie :</label>
 					   	<div class="col-sm-9">
-					   	  	<select name="noCategorie" class="custom-select" required>
+					   	  	<select name="noCategorie" class="custom-select" >
 								<option selected value ="${ article.getCategorieArticle().getNoCategorie() }" > ${ article.getCategorieArticle().getLibelle() }</option>
 								<c:forEach var="categorie" items="${ categories }" begin="0">
 									<option value="${ categorie.noCategorie }">${ categorie.libelle }</option>
@@ -31,13 +31,13 @@
 					<div class="form-group row">
 					   	<label for="miseAPrix" class="col-sm-3 col-form-label">Mise à prix :</label>
 					   	<div class="col-sm-9">
-					      	<input type="number" name="miseAPrix" class="form-control" id="miseAPrix" value="${ article.getMiseAPrix() }" min=0>
+					      	<input type="number" name="miseAPrix" class="form-control" id="miseAPrix" value="${ article.getMiseAPrix() }" required>
 					   	</div>
 					</div>
 					<div class="form-group row">
 					   	<label for="dateDebut" class="col-sm-3 col-form-label">Début de l'enchère : </label>
 					   	<div class="col-sm-9">
-					      	<input type="date" name="dateDebut" class="form-control" id="dateDebut" value="${ article.getDateDebutEncheres() }"required>
+					      	<input type="date" name="dateDebut" class="form-control" id="dateDebut" value="${ article.getDateDebutEncheres() }" required>
 					   	</div>
 					</div>
 					<div class="form-group row">
@@ -61,7 +61,7 @@
 					<div class="form-group row">
 					   	<label for="codePostal" class="col-sm-3 col-form-label">Code postal : </label>
 					   	<div class="col-sm-9">
-					      	<input type="text" name="codePostal" class="form-control" id="codePostal" value ="${article.getLieuRetrait().getCodePostal() == null ? sessionScope.user.getCodePostal() : article.getLieuRetrait().getCodePostal()} "required>
+					      	<input type="text" name="codePostal" class="form-control" id="codePostal" value ="${article.getLieuRetrait().getCodePostal() == null ? sessionScope.user.getCodePostal() : article.getLieuRetrait().getCodePostal()} " required>
 					   	</div>
 					</div>
 					<div class="form-group row">
