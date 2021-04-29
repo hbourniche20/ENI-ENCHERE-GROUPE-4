@@ -27,14 +27,16 @@ public class UtilisateurManager {
 		if(!confirmPassword.equals(utilisateur.getMotDePasse())) {
 			throw new UtilisateurException(UtilisateurException.USER_WRONG_PASSWORD);
 		}
-		
 		if(!newPassword.equals("")) {
 			utilisateur.setMotDePasse(newPassword);
 		} else {
 			confirmNewPassword = confirmPassword;
 		}
-		
 		this.enregistrer(utilisateur, confirmNewPassword);
+	}
+	
+	public void updateUser(Utilisateur utilisateur, String confirmPassword) throws UtilisateurException {
+		this.updateUser(utilisateur, confirmPassword, "", "");
 	}
 
 	public Utilisateur recuperer(String pseudo) throws UtilisateurNotFoundException {
@@ -81,8 +83,9 @@ public class UtilisateurManager {
 
 		// Verify e-mail format
 		String email = utilisateur.getEmail();
-		if(!email.contains("@") && email.split("@").length != 2 
-				&& !email.split("@")[1].contains(".") && email.split("@")[1].split(".").length != 2) {
+		if(!email.contains("@") || email.split("@").length != 2 || email.split("@")[0].isEmpty()
+				|| !email.split("@")[1].contains(".") || email.split("@")[1].split("\\.").length != 2 
+				|| email.split("@")[1].split("\\.")[0].isEmpty()) {
 			throw new UtilisateurException(UtilisateurException.USER_MAIL_WRONG_FORMAT);
 		}
 
