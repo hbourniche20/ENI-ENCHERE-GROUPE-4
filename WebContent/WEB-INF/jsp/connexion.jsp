@@ -26,7 +26,7 @@
 				<div class="form-group row">
 					<label for="password" class="col-sm col-form-label">Mot de passe :</label>
 					<div class="col-sm">
-						<input type="password" name="password" class="form-control" id="password" value="${ userPassword }">
+						<input type="password" name="password" class="form-control" id="password">
 					</div>
 				</div>
 				<div class="text-center my-3">
