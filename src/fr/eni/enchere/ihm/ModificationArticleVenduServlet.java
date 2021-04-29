@@ -19,6 +19,7 @@ import fr.eni.enchere.bo.Categorie;
 import fr.eni.enchere.bo.Retrait;
 import fr.eni.enchere.bo.Utilisateur;
 import fr.eni.enchere.exception.ArticleVenduException;
+import fr.eni.enchere.util.TextInputUtil;
 
 /**
  * Servlet implementation class ModifArticleVenduServlet
@@ -35,21 +36,16 @@ public class ModificationArticleVenduServlet extends HttpServlet {
 		List<Categorie> listeCategories = null;
 		
 		try {
-			if(request.getSession().getAttribute("user") != null){
-				noArticle = Integer.parseInt(request.getParameter("noArticle"));
+			noArticle = Integer.parseInt(request.getParameter("noArticle"));
 						
-				article = manager.recupererArticleVendu(noArticle);
-				request.setAttribute("article", article);	
+			article = manager.recupererArticleVendu(noArticle);
+			request.setAttribute("article", article);	
 				
-				listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
-				request.setAttribute("categories", listeCategories);
+			listeCategories = managerC.recupererAutresCategories(article.getCategorieArticle().getNoCategorie());
+			request.setAttribute("categories", listeCategories);
 				
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationArticleVendu.jsp");
-				rd.forward(request, response);
-				
-			} else {
-				throw new ArticleVenduException("Vous n'avez pas l'autorisation de modifier cet article");
-			}		
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/modificationArticleVendu.jsp");
+			rd.forward(request, response);		
 		} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
@@ -59,18 +55,19 @@ public class ModificationArticleVenduServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
-		String nomArticleVendu = request.getParameter("nom");
-		String descriptionArticleVendu = request.getParameter("description");	
 		
-		String rue = request.getParameter("rue");
-		String codePostal = request.getParameter("codePostal");
-		String ville = request.getParameter("ville");
 		int noCategorie = 0;
 		int noArticle =0;
 		int noRetrait = 0;
 		
 		try {
+			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+			String nomArticleVendu = TextInputUtil.getSafeParameter(request, "nom");
+			String descriptionArticleVendu = TextInputUtil.getSafeParameter(request, "description");
+			
+			String rue = TextInputUtil.getSafeParameter(request, "rue");
+			String codePostal = TextInputUtil.getSafeParameter(request, "codePostal");;
+			String ville = TextInputUtil.getSafeParameter(request, "ville");
 			LocalDate dateDebut = LocalDate.parse(request.getParameter("dateDebut"));
 			LocalDate dateFin = LocalDate.parse(request.getParameter("dateFin"));
 			noArticle = Integer.parseInt(request.getParameter("noArticle"));
@@ -88,16 +85,15 @@ public class ModificationArticleVenduServlet extends HttpServlet {
 			manager.modificationArticleVendu(av);
 			request.getSession().setAttribute("success", "L'article a été modifié");
 			response.sendRedirect(request.getContextPath());		
-		}catch(DateTimeParseException e) {
+		} catch(DateTimeParseException e) {
 			e.printStackTrace();
-			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
+			request.setAttribute("error", "Les dates d'enchères doivent être renseignées");
 			doGet(request, response);
-		}
-		catch(NumberFormatException e){
+		} catch(NumberFormatException e){
 			e.printStackTrace();
 			request.setAttribute("error", "Impossible de récupérer le numéro");
 			doGet(request, response);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
