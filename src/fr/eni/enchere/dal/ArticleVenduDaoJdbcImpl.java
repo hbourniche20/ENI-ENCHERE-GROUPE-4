@@ -45,9 +45,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 		// TODO Auto-generated method stub
 		
 		try(Connection c = ConnectionProvider.getConnection()){
-			
-			
-			
+						
 			try {
 			c.setAutoCommit(false);
 			
@@ -64,10 +62,10 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			
 			if(rs.next()){
 			
-			a.getLieuRetrait().setNoRetrait(rs.getInt(1));
+				a.getLieuRetrait().setNoRetrait(rs.getInt(1));
 			
-			rs.close();
-			pstt.close();
+				rs.close();
+				pstt.close();
 			}
 			
 			
@@ -89,12 +87,12 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			
 			}catch (Exception e ){
 				c.rollback();
-				throw e;
-				
+				throw e;			
 			}
-		}catch(SQLException s) {
-			s.printStackTrace();
-		}	
+			
+			}catch(SQLException s) {
+				s.printStackTrace();
+			}	
 	}
 	
 
@@ -179,8 +177,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			c.setAutoCommit(false);
 			
 			PreparedStatement pstt = c.prepareStatement(UPDATE_RETRAIT);
-		
-			
+				
 			pstt.setString(1, a.getLieuRetrait().getRue());
 			pstt.setString(2, a.getLieuRetrait().getCodePostal());
 			pstt.setString(3, a.getLieuRetrait().getVille());
@@ -206,13 +203,12 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao {
 			
 			}catch (Exception e ){
 				c.rollback();
-				throw e;
-				
+				throw e;			
 			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}	
 			
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}			
 		}
 	}
 

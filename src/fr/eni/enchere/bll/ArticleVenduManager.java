@@ -26,11 +26,10 @@ import fr.eni.enchere.exception.WrongInputException;
 public class ArticleVenduManager {
 	
 	private ArticleVenduDao dao;
-	private CategorieDao daoC;
+	
 	
 	public ArticleVenduManager() {
 		dao = DaoFactory.getArticleVenduDao();
-		daoC= DaoFactory.getCategorieDao();
 	}
 
 	public void enregistrerArticleVendu(ArticleVendu a) throws ArticleVenduException{

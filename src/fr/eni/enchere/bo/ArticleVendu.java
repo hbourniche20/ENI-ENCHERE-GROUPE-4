@@ -44,8 +44,7 @@ public class ArticleVendu {
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
-		
+		this.miseAPrix = miseAPrix;	
 	}
 
 		
@@ -72,8 +71,7 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix2;
 		this.categorieArticle = c;
 		this.vendeur = u;
-		this.lieuRetrait = r;
-		
+		this.lieuRetrait = r;		
 	}
 	
 	public ArticleVendu(String nomArticleVendu, String descriptionArticleVendu, LocalDate dateDebut, LocalDate dateFin,
@@ -85,8 +83,7 @@ public class ArticleVendu {
 		this.dateFinEncheres = dateFin;
 		this.miseAPrix = miseAPrix2;
 		this.categorieArticle = c;
-		this.vendeur = u;
-		
+		this.vendeur = u;	
 	}
 
 	public int getNoArticle() {
