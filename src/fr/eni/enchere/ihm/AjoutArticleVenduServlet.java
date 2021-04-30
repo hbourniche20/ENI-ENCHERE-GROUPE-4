@@ -40,15 +40,16 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		List<Categorie> listeCategories = null;
 		
 		try {
+			//récupération toutes les catégories
 			listeCategories = managerCategorie.recupererListeCategories();				
 			request.setAttribute("categories", listeCategories);
 				
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/ajoutArticleVendu.jsp");
 			rd.forward(request, response);
-		} catch(Exception e) {
+			} catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath());
-		}
+			}
 	}
 
 	
@@ -57,6 +58,7 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 		int nocategorie = 0;
 		
 		try {	
+			//test de tout les champs empêchant les caractères alphanumériques plus gestion des erreurs 
 			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 			String nomArticleVendu = TextInputUtil.getSafeParameter(request, "nom");
 			String descriptionArticleVendu = TextInputUtil.getSafeParameter(request, "description");
@@ -75,20 +77,22 @@ public class AjoutArticleVenduServlet extends HttpServlet {
 			ArticleVenduManager manager = new ArticleVenduManager();
 			manager.enregistrerArticleVendu(a);
 			request.getSession().setAttribute("success", "L'article a été ajouté");
-			response.sendRedirect(request.getContextPath());			
-		} catch(DateTimeParseException e) {
+			response.sendRedirect(request.getContextPath());
+			
+			} catch(DateTimeParseException e) {
 			e.printStackTrace();
 			request.setAttribute("error", "Les dates d'enchère doivent être renseignées");
 			doGet(request, response);
-		} catch(NumberFormatException e) {
+			
+			} catch(NumberFormatException e) {
 			e.printStackTrace();	
 			request.setAttribute("error", "La catégorie n'est pas définie");			
 			doGet(request, response);
 
-		} catch(Exception e ) {
+			} catch(Exception e ) {
 			request.setAttribute("error", e.getMessage());
 			doGet(request, response);
-		}
+			}
 	}
 
 }
