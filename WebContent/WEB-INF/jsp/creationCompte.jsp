@@ -13,7 +13,7 @@
 		<div class="container pt-5">
 			<h3 class="text-center my-4">Créer un compte</h3>
 			<jsp:include page="alerts.jsp"></jsp:include>
-			<form action ="${pageContext.request.contextPath }/creationCompte" method="POST">
+			<form action ="${pageContext.request.contextPath }/creerCompte" method="POST">
 				<jsp:include page="compteForm.jsp"></jsp:include>
 			</form>
 		</div>
