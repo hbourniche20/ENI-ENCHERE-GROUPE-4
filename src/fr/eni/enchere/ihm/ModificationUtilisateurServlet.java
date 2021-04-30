@@ -47,10 +47,10 @@ public class ModificationUtilisateurServlet extends HttpServlet {
 			rue = TextInputUtil.getSafeParameter(request, "rue");
 			codepostal = TextInputUtil.getSafeParameter(request, "codepostal");
 			ville = TextInputUtil.getSafeParameter(request, "ville");
-			// newly created password.
-			nouveauMotdePasse = TextInputUtil.getSafeParameter(request, "newmotdepasse");
 			// Current password of the user id .
 			motdepasse = TextInputUtil.getSafeParameter(request, "motdepasse");
+			// newly created password.
+			nouveauMotdePasse = TextInputUtil.getSafeParameter(request, "newmotdepasse");
 			// New password correspond to the newly created password.
 			confirmationmdp = TextInputUtil.getSafeParameter(request, "confirmationmdp");
 

@@ -9,7 +9,7 @@
 		<div class="form-group row">
 		   	<label for="pseudo" class="col-sm-3 col-form-label">Pseudo</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="pseudo" class="form-control" id="pseudo" value="${utilisateur.getPseudo()}" >
+		      	<input type="text" name="pseudo" class="form-control" id="pseudo" value="${utilisateur.getPseudo()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 		<div class="form-group row">
 		   	<label for="nom" class="col-sm-3 col-form-label">Nom</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="nom" class="form-control" id="nom" value="${utilisateur.getNom()}" >
+		      	<input type="text" name="nom" class="form-control" id="nom" value="${utilisateur.getNom()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -27,7 +27,7 @@
 		<div class="form-group row">
 		   	<label for="prenom" class="col-sm-3 col-form-label">Prénom</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="prenom" class="form-control" id="prenom" value="${utilisateur.getPrenom()}" >
+		      	<input type="text" name="prenom" class="form-control" id="prenom" value="${utilisateur.getPrenom()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 		<div class="form-group row">
 		   	<label for="email" class="col-sm-3 col-form-label">Email</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="email" class="form-control" id="email" value="${utilisateur.getEmail()}" >
+		      	<input type="email" name="email" class="form-control" id="email" value="${utilisateur.getEmail()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -45,7 +45,7 @@
 		<div class="form-group row">
 		   	<label for="telephone" class="col-sm-3 col-form-label">Téléphone</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="telephone" class="form-control" id="telephone" value="${utilisateur.getTelephone()}" >
+		      	<input type="text" name="telephone" class="form-control" id="telephone" value="${utilisateur.getTelephone()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -53,7 +53,7 @@
 		<div class="form-group row">
 		   	<label for="rue" class="col-sm-3 col-form-label">Rue</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="rue" class="form-control" id="rue" value="${utilisateur.getRue()}" >
+		      	<input type="text" name="rue" class="form-control" id="rue" value="${utilisateur.getRue()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -63,7 +63,7 @@
 		<div class="form-group row">
 		   	<label for="codepostal" class="col-sm-3 col-form-label">Code Postal</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="codepostal" class="form-control" id="codepostal" value="${utilisateur.getCodePostal()}" >
+		      	<input type="text" name="codepostal" class="form-control" id="codepostal" value="${utilisateur.getCodePostal()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -71,7 +71,7 @@
 		<div class="form-group row">
 		   	<label for="ville" class="col-sm-3 col-form-label">Ville</label>
 		   	<div class="col-sm-9">
-		      	<input type="text" name="ville" class="form-control" id="ville" value="${utilisateur.getVille()}" >
+		      	<input type="text" name="ville" class="form-control" id="ville" value="${utilisateur.getVille()}" required>
 		   	</div>
 		</div>
 	</div>
@@ -82,7 +82,7 @@
 			<div class="form-group row my-auto">
 				<label for="motdepasse" class="col-sm-3 col-form-label">Mot de passe actuel</label>
 				<div class="col-sm-9">
-					<input type="password" name="motdepasse" class="form-control" id="motdepasse" >
+					<input type="password" name="motdepasse" class="form-control" id="motdepasse" required>
 				</div>
 			</div>
 		</div>

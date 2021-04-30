@@ -81,6 +81,9 @@ public class UtilisateurManager {
 			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
 		}
 
+		if(utilisateur.getMotDePasse().equals("")) {
+			throw new UtilisateurException(UtilisateurException.USER_EMPTY_FIELD);
+		}
 		// Verify e-mail format
 		String email = utilisateur.getEmail();
 		if(!email.contains("@") || email.split("@").length != 2 || email.split("@")[0].isEmpty()
