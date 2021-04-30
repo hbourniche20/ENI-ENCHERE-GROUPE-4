@@ -110,8 +110,8 @@ INSERT INTO RETRAITS (no_retrait, rue, code_postal, ville) VALUES
 
 INSERT INTO ARTICLES_VENDUS(no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_retrait) VALUES
 (1, 'Fauteuil vintage', 'Fauteuil jaune canard années 70 en très bon état', DATE '2021-03-15', DATE '2021-04-01', 180, 300, 2, 2, 1),      
-(2, 'Smartphone Apple Iphone', 'Apple Iphone XR Bleu ciel 64 Go (2018), présence de quelques rayures sur la coque', DATE '2021-03-22', DATE '2021-04-25', 620, NULL, 6, 1, 4),      
-(3, 'Veste tendance', 'Veste blazer homme taille L gris avec coudière marron', DATE '2021-04-10', DATE '2021-04-30', 109, NULL, 5, 3, 2),      
+(2, 'Smartphone Apple Iphone', 'Apple Iphone XR Bleu ciel 64 Go (2018), présence de quelques rayures sur la coque', DATE '2021-03-22', DATE '2021-05-01', 620, NULL, 6, 1, 4),      
+(3, 'Veste tendance', 'Veste blazer homme taille L gris avec coudière marron', DATE '2021-04-10', DATE '2021-05-02', 109, NULL, 5, 3, 2),      
 (4, 'Vélo eletrique', 'Vélo eletrique femme 14 vitesses à assistance electrique (batterie avec autonomie de 12h)', DATE '2021-04-08', DATE '2021-04-20', 149, 200, 5, 4, 3),      
 (5, 'Frigo américain', 'Frigo américain Samsung 2/3 frigo 1/3 congélateur avec distributeur eau & glaçons', DATE '2021-04-17', DATE '2021-05-02', 889, NULL, 6, 2, 4),      
 (6, 'PC Asus', 'PC Asus comprenant une tour avec watercooling, ecran 24" et accessoires pour un usage gaming', DATE '2021-04-23', DATE '2021-05-05', 729, NULL, 2, 1, 1);     
