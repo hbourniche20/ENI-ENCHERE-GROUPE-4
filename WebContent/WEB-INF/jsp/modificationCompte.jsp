@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-			<jsp:include page="head.jsp"></jsp:include>
+		<jsp:include page="head.jsp"></jsp:include>
 	</head>
 	<body>
 		<jsp:include page="header.jsp"></jsp:include>

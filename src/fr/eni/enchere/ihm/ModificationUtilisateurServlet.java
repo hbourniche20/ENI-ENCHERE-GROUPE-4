@@ -36,8 +36,7 @@ public class ModificationUtilisateurServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String pseudo = "", nom = "", prenom = "", email = "", telephone = "", rue = "", 
-				codepostal = "", ville = "", nouveauMotdePasse = "", motdepasse = "", confirmationmdp = "";
+		String pseudo, nom, prenom, email, telephone, rue, codepostal, ville, nouveauMotdePasse, motdepasse, confirmationmdp;
 		try {
 			pseudo = TextInputUtil.getSafeParameter(request, "pseudo");
 			nom = TextInputUtil.getSafeParameter(request, "nom");
@@ -69,6 +68,7 @@ public class ModificationUtilisateurServlet extends HttpServlet {
 		} catch (UtilisateurException e) {
 			this.throwException(request, response, e.getMessage());
 		} catch (WrongInputException e1) {
+			request.setAttribute("utilisateur", request.getSession().getAttribute("user"));
 			this.throwException(request, response, e1.getMessage());
 		}
 	}
