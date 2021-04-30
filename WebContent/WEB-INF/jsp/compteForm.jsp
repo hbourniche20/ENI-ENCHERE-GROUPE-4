@@ -35,7 +35,7 @@
 		<div class="form-group row">
 		   	<label for="email" class="col-sm-3 col-form-label">Email</label>
 		   	<div class="col-sm-9">
-		      	<input type="email" name="email" class="form-control" id="email" value="${utilisateur.getEmail()}" >
+		      	<input type="text" name="email" class="form-control" id="email" value="${utilisateur.getEmail()}" >
 		   	</div>
 		</div>
 	</div>
@@ -130,7 +130,7 @@
 			</c:otherwise>
 		</c:choose>	
 	</button>
-	<c:if test="${ not empty sessionScope.user && sessionScope.user.getPseudo().equals(utilisateur.getPseudo()) }">
+	<c:if test="${ not empty sessionScope.user && sessionScope.user.getNoUtilisateur() == utilisateur.getNoUtilisateur() }">
 		<a href="${ pageContext.request.contextPath }/utilisateur/supprimerUtilisateur" class="btn btn-danger m-1">Supprimer votre compte</a>	
 	</c:if>
 	<a href="${ pageContext.request.contextPath }" class="btn btn-primary m-1">Retour</a>	
